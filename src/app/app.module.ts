@@ -14,7 +14,6 @@ import { MovieDashboardModule } from './components/features/movieDashboard/movie
     AppRoutingModule,
     MovieDashboardModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
