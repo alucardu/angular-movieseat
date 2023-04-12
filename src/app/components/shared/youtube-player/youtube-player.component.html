@@ -1,7 +1,10 @@
-<youtube-player
-  [width]="393"
-  [height]="225"
-  [playerVars]="{ controls: 1, modestbranding: 1 }"
-  videoId="uDph9wSeWvY"
-  (stateChange)="playerStateChanged($event)">
-</youtube-player>
+<div class="youtubePlayer" [ngClass]="{ isPlaying: playerIsPlaying }" #youtubePlayer>
+  <youtube-player
+    #player
+    [playerVars]="{ playsinline: 0, fs: 0 }"
+    [width]="playerWidth"
+    [height]="playerHeight"
+    videoId="uDph9wSeWvY"
+    (stateChange)="playerStateChanged($event)">
+  </youtube-player>
+</div>

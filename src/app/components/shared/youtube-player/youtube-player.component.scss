@@ -1,0 +1,16 @@
+.youtubePlayer {
+  display: flex;
+  justify-content: center;
+}
+
+.isPlaying {
+  position: fixed;
+  background: #000;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
