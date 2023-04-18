@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { YouTubePlayer, YouTubePlayerModule } from '@angular/youtube-player';
 import { StatusBar } from '@capacitor/status-bar';
@@ -19,6 +19,8 @@ export class YoutubePlayerComponent implements AfterViewChecked, AfterViewInit {
   public playerWidth = 1;
   public playerHeight = 1;
 
+  public constructor(private cd: ChangeDetectorRef) {}
+
   public ngAfterViewInit(): void {
     CapacitorApp.addListener('backButton', () => {
       window.screen.orientation.lock('portrait');
@@ -31,6 +33,8 @@ export class YoutubePlayerComponent implements AfterViewChecked, AfterViewInit {
   public ngAfterViewChecked(): void {
     this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * 0.9;
     this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.47;
+
+    this.cd.detectChanges()
   }
 
   public playerStateChanged(event: YT.OnStateChangeEvent): void {

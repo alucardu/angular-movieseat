@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ChildrenOutletContexts, OutletContext } from '@angular/router';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { App as CapacitorApp } from '@capacitor/app';
+import { MatSidenavContent } from '@angular/material/sidenav';
+import { ScrollService } from 'src/app/services/scroll.service';
 import { slideInAnimation } from 'src/app/animations';
 
 @Component({
@@ -10,10 +12,15 @@ import { slideInAnimation } from 'src/app/animations';
   styleUrls: ['./drawer.component.scss'],
   animations: [slideInAnimation],
 })
-export class DrawerComponent implements OnInit {
-  private showRouteAnimation = false;
+export class DrawerComponent implements OnInit, AfterViewInit {
+  @ViewChild('mainContent', { static: false }) private mainContent!: MatSidenavContent
+  private deviceIsMobile = false;
 
-  public constructor(private breakpointObserver: BreakpointObserver, private contexts: ChildrenOutletContexts) {}
+  public constructor(
+    private breakpointObserver: BreakpointObserver,
+    private contexts: ChildrenOutletContexts,
+    private scrollService: ScrollService,
+  ) {}
 
   public ngOnInit(): void {
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
@@ -22,15 +29,15 @@ export class DrawerComponent implements OnInit {
     });
 
     this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.Small]).subscribe((state: BreakpointState) => {
-      this.showRouteAnimation = state.matches;
+      this.deviceIsMobile = state.matches;
     });
   }
 
-  public getRouteAnimationData(): OutletContext | null {
-    if (this.showRouteAnimation) {
-      return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
-    } else {
-      return null;
+    public ngAfterViewInit(): void {
+      this.scrollService.scrollToHistory(this.mainContent, this.deviceIsMobile);
     }
+
+  public getRouteAnimationData(): OutletContext | null {
+    return this.deviceIsMobile ? this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'] : null;
   }
 }
