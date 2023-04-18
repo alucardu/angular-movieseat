@@ -4,6 +4,11 @@ import { MovieDashboardComponent } from './components/features/movieDashboard/mo
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'watchlist',
+    pathMatch: 'full'
+  },
+  {
     path: 'watchlist',
     component: MovieDashboardComponent,
     data: { animation: 'watchList' },
