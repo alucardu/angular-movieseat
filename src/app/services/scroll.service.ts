@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSidenavContent } from '@angular/material/sidenav';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { NavigationEnd, NavigationSkipped, NavigationStart, Router } from '@angular/router';
+import { BehaviorSubject, filter } from 'rxjs';
+import { DeviceService } from './device.service';
 
 interface IScrollTop {
   id: number
@@ -12,28 +13,36 @@ interface IScrollTop {
   providedIn: 'root'
 })
 export class ScrollService {
-  public routeEvents: Array<IScrollTop> = []
+  public activeRoutesSubject$ = new BehaviorSubject<Array<IScrollTop>>([]);
 
-  public constructor(private router: Router) {}
+  public constructor(
+    private deviceService: DeviceService,
+    private router: Router) {}
 
-    public scrollToHistory(mainContent: MatSidenavContent, deviceIsMobile: boolean): void {
+    public scrollToHistory(mainContent: MatSidenavContent): void {
       this.router.events.pipe(
         filter(
-          (event): event is NavigationStart | NavigationEnd => event instanceof NavigationStart || event instanceof NavigationEnd,
+          (event): event is NavigationStart | NavigationEnd => event instanceof NavigationStart || event instanceof NavigationEnd || event instanceof NavigationSkipped,
         ),
       ).subscribe({
         next: (data) => {
-          if (data instanceof NavigationStart) {
-            this.routeEvents.push({id: data.id, position: mainContent.measureScrollOffset('top')})
+          if (data instanceof NavigationStart && data.id !== 1) {
+            const previousRoute = this.activeRoutesSubject$.getValue().find((route) => route.id === data.restoredState?.navigationId)
 
-            const previousRoute = this.routeEvents.find((route) => data.restoredState !== undefined && data.restoredState !== null && route.id === data.restoredState.navigationId + 1)
+            if (previousRoute) {
+              const activeRoutes = [...this.activeRoutesSubject$.getValue()]
+              activeRoutes.pop()
+              this.activeRoutesSubject$.next(activeRoutes)
+            } else {
+              this.activeRoutesSubject$.next([...this.activeRoutesSubject$.getValue(), {id: data.id - 1, position: mainContent.measureScrollOffset('top')}])
+            }
 
             setTimeout(() => {
               mainContent.scrollTo({
                 top: previousRoute ? previousRoute.position : 0
               })
               // setTimeout is required for mobile animation
-            }, deviceIsMobile ? 25 : 0)
+            }, this.deviceService.deviceIsMobile$ ? 25 : 0)
           }
         }
       });

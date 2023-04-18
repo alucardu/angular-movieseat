@@ -2,14 +2,13 @@
   <mat-sidenav #drawer mode="over">
     <mat-list>
       <mat-list-item>
-        <button>
-          <a (click)="drawer.toggle()" routerLink="/watchlist">Movie Dashboard</a>
-        </button>
+        <button (click)="drawer.toggle()" routerLink="/watchlist" [disabled]="isRouteActive('/watchlist')">Movie Dashboard</button>
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content #mainContent>
     <button class="toggleBtn" (click)="drawer.toggle()">Toggle Menu</button>
+    <app-navigate-back></app-navigate-back>
     <main [@routeAnimations]="getRouteAnimationData()">
       <router-outlet></router-outlet>
     </main>
