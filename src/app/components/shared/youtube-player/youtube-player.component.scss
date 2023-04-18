@@ -5,6 +5,7 @@
 
 .isPlaying {
   position: fixed;
+  z-index: 3;
   background: #000;
   height: 100vh;
   width: 100vw;

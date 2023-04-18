@@ -8,10 +8,10 @@
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content #mainContent>
     <button class="toggleBtn" (click)="drawer.toggle()">Toggle Menu</button>
-    <div class="routerEl" [@routeAnimations]="getRouteAnimationData()">
+    <main [@routeAnimations]="getRouteAnimationData()">
       <router-outlet></router-outlet>
-    </div>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
