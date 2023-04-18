@@ -7,10 +7,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { MovieDashboardModule } from './components/features/movieDashboard/movie-dashboard.module';
 import { MaterialModule } from './material.module';
 import { DrawerComponent } from './components/UI/drawer/drawer.component';
+import { NavigateBackComponent } from './components/UI/navigate-back/navigate-back.component'
 
 @NgModule({
   declarations: [AppComponent, DrawerComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, MaterialModule, AppRoutingModule, MovieDashboardModule],
+  imports: [BrowserModule, BrowserAnimationsModule, MaterialModule, AppRoutingModule, MovieDashboardModule, NavigateBackComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { ChildrenOutletContexts, OutletContext } from '@angular/router';
-import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
+import { ChildrenOutletContexts, OutletContext, } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { MatSidenavContent } from '@angular/material/sidenav';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { slideInAnimation } from 'src/app/animations';
+import { Location } from '@angular/common';
+import { DeviceService } from 'src/app/services/device.service';
 
 @Component({
   selector: 'app-drawer',
@@ -14,12 +15,12 @@ import { slideInAnimation } from 'src/app/animations';
 })
 export class DrawerComponent implements OnInit, AfterViewInit {
   @ViewChild('mainContent', { static: false }) private mainContent!: MatSidenavContent
-  private deviceIsMobile = false;
 
   public constructor(
-    private breakpointObserver: BreakpointObserver,
     private contexts: ChildrenOutletContexts,
     private scrollService: ScrollService,
+    private deviceService: DeviceService,
+    private location: Location,
   ) {}
 
   public ngOnInit(): void {
@@ -27,17 +28,17 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       if (window.screen.orientation.type === 'landscape-primary') return;
       canGoBack ? window.history.back() : CapacitorApp.exitApp();
     });
-
-    this.breakpointObserver.observe([Breakpoints.HandsetPortrait, Breakpoints.Small]).subscribe((state: BreakpointState) => {
-      this.deviceIsMobile = state.matches;
-    });
   }
 
-    public ngAfterViewInit(): void {
-      this.scrollService.scrollToHistory(this.mainContent, this.deviceIsMobile);
-    }
+  public ngAfterViewInit(): void {
+    this.scrollService.scrollToHistory(this.mainContent);
+  }
 
   public getRouteAnimationData(): OutletContext | null {
-    return this.deviceIsMobile ? this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'] : null;
+    return this.deviceService.deviceIsMobile$ ? this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'] : null;
+  }
+
+  public isRouteActive(route: string): boolean {
+    return this.location.path() === route
   }
 }
