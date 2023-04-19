@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { MatSidenavContent } from '@angular/material/sidenav';
 import { NavigationEnd, NavigationSkipped, NavigationStart, Router } from '@angular/router';
-import { BehaviorSubject, filter } from 'rxjs';
+import { BehaviorSubject, Subscription, filter } from 'rxjs';
 import { DeviceService } from './device.service';
 
 interface IScrollTop {
@@ -12,15 +12,16 @@ interface IScrollTop {
 @Injectable({
   providedIn: 'root'
 })
-export class ScrollService {
+export class ScrollService implements OnDestroy {
   public activeRoutesSubject$ = new BehaviorSubject<Array<IScrollTop>>([]);
+  private routeSubscription$ = new Subscription;
 
   public constructor(
     private deviceService: DeviceService,
     private router: Router) {}
 
     public scrollToHistory(mainContent: MatSidenavContent): void {
-      this.router.events.pipe(
+      this.routeSubscription$ = this.router.events.pipe(
         filter(
           (event): event is NavigationStart | NavigationEnd => event instanceof NavigationStart || event instanceof NavigationEnd || event instanceof NavigationSkipped,
         ),
@@ -46,5 +47,9 @@ export class ScrollService {
           }
         }
       });
+    }
+
+    public ngOnDestroy(): void {
+      this.routeSubscription$.unsubscribe();
     }
 }
