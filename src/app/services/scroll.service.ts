@@ -1,12 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { MatSidenavContent } from '@angular/material/sidenav';
-import { NavigationEnd, NavigationSkipped, NavigationStart, Router } from '@angular/router';
-import { BehaviorSubject, Subscription, filter } from 'rxjs';
-import { DeviceService } from './device.service';
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { BehaviorSubject, Subscription, delay, filter, first, map, switchMap } from 'rxjs';
 
 interface IScrollTop {
   id: number
-  position: number
+  scrollPosition: number
 }
 
 @Injectable({
@@ -14,39 +12,41 @@ interface IScrollTop {
 })
 export class ScrollService implements OnDestroy {
   public activeRoutesSubject$ = new BehaviorSubject<Array<IScrollTop>>([]);
+  public activeRoutes$ = this.activeRoutesSubject$.asObservable();
   private routeSubscription$ = new Subscription;
 
   public constructor(
-    private deviceService: DeviceService,
     private router: Router) {}
 
-    public scrollToHistory(mainContent: MatSidenavContent): void {
+    public scrollPositionHistory(mainContent: ElementRef<HTMLElement>): void {
       this.routeSubscription$ = this.router.events.pipe(
-        filter(
-          (event): event is NavigationStart | NavigationEnd => event instanceof NavigationStart || event instanceof NavigationEnd || event instanceof NavigationSkipped,
-        ),
-      ).subscribe({
-        next: (data) => {
-          if (data instanceof NavigationStart && data.id !== 1) {
-            const previousRoute = this.activeRoutesSubject$.getValue().find((route) => route.id === data.restoredState?.navigationId)
+        filter((event): event is NavigationStart => event instanceof NavigationStart),
+        switchMap((navigationStart) => {
+          return this.activeRoutes$.pipe(
+            // wait for animation containers to spawn
+            delay(0),
+            first(),
+            map((activeRoutes) => {
+              const scrollPosition = activeRoutes.find((route) => route.id === navigationStart.restoredState?.navigationId)?.scrollPosition || 0;
+              const updatedRoutes = this.getUpdatedRoutes(activeRoutes, navigationStart, mainContent);
 
-            if (previousRoute) {
-              const activeRoutes = [...this.activeRoutesSubject$.getValue()]
-              activeRoutes.pop()
-              this.activeRoutesSubject$.next(activeRoutes)
-            } else {
-              this.activeRoutesSubject$.next([...this.activeRoutesSubject$.getValue(), {id: data.id - 1, position: mainContent.measureScrollOffset('top')}])
-            }
-
-            setTimeout(() => {
-              mainContent.scrollTo({
-                top: previousRoute ? previousRoute.position : 0
-              })
-              // setTimeout is required for mobile animation
-            }, this.deviceService.deviceIsMobile$ ? 25 : 0)
-          }
-        }
+              return { scrollPosition, updatedRoutes };
+            })
+          );
+        })
+      ).subscribe(({ scrollPosition, updatedRoutes }) => {
+        this.activeRoutesSubject$.next(updatedRoutes);
+        mainContent.nativeElement.children[2]?.scrollTo({ top: scrollPosition });
       });
+    }
+
+    private getUpdatedRoutes(activeRoutes: Array<IScrollTop>, navigationStart: NavigationStart, mainContent: ElementRef<HTMLElement>): Array<IScrollTop> {
+      if (navigationStart.navigationTrigger === 'popstate') {
+        return activeRoutes.filter((route) => route.id !== navigationStart.restoredState?.navigationId)
+      } else {
+        const newRoute = { id: navigationStart.id - 1, scrollPosition: mainContent.nativeElement.children[1]?.scrollTop }
+        return [...activeRoutes, newRoute]
+      };
     }
 
     public ngOnDestroy(): void {

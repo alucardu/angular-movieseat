@@ -1,5 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DeviceService } from 'src/app/services/device.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 
@@ -11,7 +12,8 @@ import { ScrollService } from 'src/app/services/scroll.service';
   styleUrls: ['./navigate-back.component.scss']
 })
 
-export class NavigateBackComponent implements OnInit {
+export class NavigateBackComponent implements OnInit, OnDestroy {
+  private activeRoutesSubject$!: Subscription
   public backBtnActive = false;
   public deviceIsMobile$ = this.deviceService.deviceIsMobile$
 
@@ -19,15 +21,23 @@ export class NavigateBackComponent implements OnInit {
     private location: Location,
     private scrollService: ScrollService,
     private deviceService: DeviceService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
-    this.scrollService.activeRoutesSubject$.subscribe({
-      next: (data) => this.backBtnActive = data.length > 0
+    this.activeRoutesSubject$ = this.scrollService.activeRoutesSubject$.subscribe({
+      next: (routes) => {
+        this.backBtnActive = routes.length > 1
+        this.changeDetectorRef.detectChanges();
+      }
     })
   }
 
   public navigateBack(): void {
     this.location.back();
+  }
+
+  public ngOnDestroy(): void {
+    this.activeRoutesSubject$.unsubscribe();
   }
 }

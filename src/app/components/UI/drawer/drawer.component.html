@@ -6,10 +6,10 @@
       </mat-list-item>
     </mat-list>
   </mat-sidenav>
-  <mat-sidenav-content #mainContent>
+  <mat-sidenav-content>
     <button class="toggleBtn" (click)="drawer.toggle()">Toggle Menu</button>
     <app-navigate-back></app-navigate-back>
-    <main [@routeAnimations]="getRouteAnimationData()">
+    <main #mainContent [@routeAnimations]="getRouteAnimationData()">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>

@@ -1,3 +1,5 @@
+// be careful for style leaking, encapsulation: ViewEncapsulation.None
+
 .mat-drawer-container {
   height: 100%;
 }
@@ -7,4 +9,14 @@
   z-index: 2;
   top: 0;
   right: 0;
+}
+
+main {
+  overflow: hidden;
+  height: 100%;
+  & > *:not(router-outlet) {
+    display: block;
+    height: 100%;
+    overflow: scroll;
+  }
 }

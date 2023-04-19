@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ChildrenOutletContexts, OutletContext, } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
-import { MatSidenavContent } from '@angular/material/sidenav';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { slideInAnimation } from 'src/app/animations';
 import { Location } from '@angular/common';
@@ -12,9 +11,10 @@ import { DeviceService } from 'src/app/services/device.service';
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss'],
   animations: [slideInAnimation],
+  encapsulation: ViewEncapsulation.None
 })
 export class DrawerComponent implements OnInit, AfterViewInit {
-  @ViewChild('mainContent', { static: false }) private mainContent!: MatSidenavContent
+  @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
 
   public constructor(
     private contexts: ChildrenOutletContexts,
@@ -31,7 +31,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.scrollService.scrollToHistory(this.mainContent);
+    this.scrollService.scrollPositionHistory(this.mainContent);
   }
 
   public getRouteAnimationData(): OutletContext | null {
