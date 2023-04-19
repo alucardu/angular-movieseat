@@ -20,3 +20,20 @@ main {
     overflow: scroll;
   }
 }
+
+.exitModal {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: green;
+  button {
+    padding: 2rem;
+    font-size: 3rem;
+  }
+}

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ChildrenOutletContexts, OutletContext, } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { ScrollService } from 'src/app/services/scroll.service';
@@ -15,19 +15,34 @@ import { DeviceService } from 'src/app/services/device.service';
 })
 export class DrawerComponent implements OnInit, AfterViewInit {
   @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
+  public exitConfirmation = false;
 
   public constructor(
     private contexts: ChildrenOutletContexts,
     private scrollService: ScrollService,
     private deviceService: DeviceService,
     private location: Location,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
-      if (window.screen.orientation.type === 'landscape-primary') return;
-      canGoBack ? window.history.back() : CapacitorApp.exitApp();
+      if (canGoBack) {
+        window.history.back()
+      } else {
+        this.exitConfirmation = true;
+        this.changeDetectorRef.detectChanges();
+      };
     });
+  }
+
+  public exitApp(state: string): void {
+    if (state === 'exit') {
+      CapacitorApp.exitApp()
+    } else {
+      this.exitConfirmation = false;
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   public ngAfterViewInit(): void {

@@ -1,3 +1,8 @@
+<div class="exitModal" *ngIf="exitConfirmation">
+  <button (click)="exitApp('stay')">Stay</button>
+  <button (click)="exitApp('exit')">Exit</button>
+</div>
+
 <mat-sidenav-container hasBackdrop="true">
   <mat-sidenav #drawer mode="over">
     <mat-list>
