@@ -1,8 +1,9 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { YouTubePlayer, YouTubePlayerModule } from '@angular/youtube-player';
 import { StatusBar } from '@capacitor/status-bar';
 import { App as CapacitorApp } from '@capacitor/app';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -11,13 +12,16 @@ import { App as CapacitorApp } from '@capacitor/app';
   templateUrl: './youtube-player.component.html',
   styleUrls: ['./youtube-player.component.scss'],
 })
-export class YoutubePlayerComponent implements AfterViewChecked, AfterViewInit {
+export class YoutubePlayerComponent implements AfterViewInit, OnDestroy {
   @ViewChild('youtubePlayer') private youtubePlayer!: ElementRef<HTMLElement>;
   @ViewChild('player', { static: true }) public player!: YouTubePlayer;
+
+  private playerSubscription$ = new Subscription
 
   public playerIsPlaying = false;
   public playerWidth = 1;
   public playerHeight = 1;
+  public loading = true;
 
   public constructor(private cd: ChangeDetectorRef) {}
 
@@ -28,11 +32,13 @@ export class YoutubePlayerComponent implements AfterViewChecked, AfterViewInit {
       this.playerIsPlaying = false;
       this.player.pauseVideo();
     });
-  }
 
-  public ngAfterViewChecked(): void {
     this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * 0.9;
-    this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.47;
+    this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.5;
+
+    this.playerSubscription$ = this.player.ready.subscribe({
+      next: () => this.loading = false
+    })
 
     this.cd.detectChanges()
   }
@@ -54,5 +60,9 @@ export class YoutubePlayerComponent implements AfterViewChecked, AfterViewInit {
       window.screen.orientation.lock('portrait');
       StatusBar.show();
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.playerSubscription$.unsubscribe()
   }
 }
