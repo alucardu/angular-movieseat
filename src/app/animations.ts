@@ -7,7 +7,7 @@ import {
   trigger,
 } from '@angular/animations';
 
-const animationTime = 125
+const animationTime = 175
 
 export const slideInAnimation = trigger('routeAnimations', [
   transition('watchList => movieDetail', [

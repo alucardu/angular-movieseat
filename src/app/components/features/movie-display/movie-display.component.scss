@@ -1,0 +1,22 @@
+:host {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  line-height: 0;
+  width: calc(50% - 4px);
+  display: block;
+  user-select: none;;
+  img {
+    width: 100%;
+  }
+  .overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+

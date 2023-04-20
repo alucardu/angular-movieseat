@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MovieDashboardModule } from './components/features/movieDashboard/movie-dashboard.module';
+import { MovieDashboardModule } from './components/features/movie-dashboard/movie-dashboard.module';
 import { MaterialModule } from './material.module';
 import { DrawerComponent } from './components/UI/drawer/drawer.component';
 import { NavigateBackComponent } from './components/UI/navigate-back/navigate-back.component'

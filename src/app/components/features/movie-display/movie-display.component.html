@@ -1,0 +1,6 @@
+<div (appIsTouching)="toggleDisplay()">
+  <div @fadeAnimation class="overlay" *ngIf="showDetails" (click)="hideDetails()">
+    <span>{{ movie.release_date }}</span>
+  </div>
+  <img src="{{ movie.poster }}" [routerLink]="['/movie', 'moonrise-kingdom']" />
+</div>

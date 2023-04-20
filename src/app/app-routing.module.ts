@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MovieDashboardComponent } from './components/features/movieDashboard/movie-dashboard/movie-dashboard.component';
+import { MovieDashboardComponent } from './components/features/movie-dashboard/movie-dashboard/movie-dashboard.component';
 
 const routes: Routes = [
   {
