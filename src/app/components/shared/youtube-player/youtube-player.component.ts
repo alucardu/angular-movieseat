@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { YouTubePlayer, YouTubePlayerModule } from '@angular/youtube-player';
 import { StatusBar } from '@capacitor/status-bar';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './youtube-player.component.html',
   styleUrls: ['./youtube-player.component.scss'],
 })
-export class YoutubePlayerComponent implements AfterViewInit, OnDestroy {
+export class YoutubePlayerComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('youtubePlayer') private youtubePlayer!: ElementRef<HTMLElement>;
   @ViewChild('player', { static: true }) public player!: YouTubePlayer;
 
@@ -37,12 +37,14 @@ export class YoutubePlayerComponent implements AfterViewInit, OnDestroy {
       this.player.pauseVideo();
     });
 
-    this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * 0.9;
-    this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.5;
-
     this.playerSubscription$ = this.player.ready.subscribe({
       next: () => this.loading = false
     })
+  }
+
+  public ngAfterViewChecked(): void {
+    this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * 0.9;
+    this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.5;
 
     this.cd.detectChanges()
   }

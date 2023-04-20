@@ -27,6 +27,8 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+      if (window.screen.orientation.type === 'landscape-primary') return;
+
       if (canGoBack) {
         window.history.back()
       } else {

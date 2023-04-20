@@ -1,4 +1,11 @@
 <div class="youtubePlayer" [ngClass]="{ isPlaying: playerIsPlaying }" #youtubePlayer>
   <div *ngIf="loading">Loading</div>
-  <youtube-player #player [width]="playerWidth" [height]="playerHeight" videoId="uDph9wSeWvY" (stateChange)="playerStateChanged($event)"> </youtube-player>
+  <youtube-player
+    #player
+    [playerVars]="{ fs: 0, modestbranding: 1 }"
+    [width]="playerWidth"
+    [height]="playerHeight"
+    videoId="uDph9wSeWvY"
+    (stateChange)="playerStateChanged($event)">
+  </youtube-player>
 </div>
