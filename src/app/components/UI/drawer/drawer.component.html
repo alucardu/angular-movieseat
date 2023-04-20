@@ -2,17 +2,16 @@
   <button (click)="exitApp('stay')">Stay</button>
   <button (click)="exitApp('exit')">Exit</button>
 </div>
-
 <mat-sidenav-container hasBackdrop="true">
-  <mat-sidenav #drawer mode="over">
+  <mat-sidenav #drawer mode="over" autoFocus="false">
     <mat-list>
-      <mat-list-item>
-        <button (click)="drawer.toggle()" routerLink="/watchlist" [disabled]="isRouteActive('/watchlist')">Movie Dashboard</button>
-      </mat-list-item>
+      <app-drawer-menu [drawer]="drawer"></app-drawer-menu>
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <button class="toggleBtn" (click)="drawer.toggle()">Toggle Menu</button>
+    <button mat-mini-fab color="accent" (click)="drawer.toggle()" onclick="this.blur()" class="menuToggleBtn">
+      <mat-icon>menu</mat-icon>
+    </button>
     <app-navigate-back></app-navigate-back>
     <main #mainContent [@routeAnimations]="getRouteAnimationData()">
       <router-outlet></router-outlet>

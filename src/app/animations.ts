@@ -7,7 +7,7 @@ import {
   trigger,
 } from '@angular/animations';
 
-const animationTime = 0.125
+const animationTime = 125
 
 export const slideInAnimation = trigger('routeAnimations', [
   transition('watchList => movieDetail', [
@@ -24,8 +24,8 @@ export const slideInAnimation = trigger('routeAnimations', [
     query(':enter', [style({ right: '-100%', opacity: 0, position: 'fixed' })]),
 
     group([
-      query(':leave', [animate(`${animationTime}s ease-out`, style({ right: '100%', opacity: 0 }))]),
-      query(':enter', [animate(`${animationTime}s ease-out`, style({ right: '0%', opacity: 1, }))])
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ right: '100%', opacity: 0 }))]),
+      query(':enter', [animate(`${animationTime}ms ease-out`, style({ right: '0%', opacity: 1, }))])
      ]),
   ]),
 
@@ -44,8 +44,18 @@ export const slideInAnimation = trigger('routeAnimations', [
     query(':leave', [style({ position: 'fixed' })]),
 
     group([
-      query(':leave', [animate(`${animationTime}s ease-out`, style({ opacity: 0 }))]),
-      query(':enter', [animate(`${animationTime}s ease-out`, style({ left: '0%', opacity: 1 }))])
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ opacity: 0 }))]),
+      query(':enter', [animate(`${animationTime}ms ease-out`, style({ left: '0%', opacity: 1 }))])
      ]),
    ])
 ]);
+
+export const fadeAnimation = trigger('fadeAnimation', [
+  transition(':enter', [
+    style({ opacity: 0 }),
+    animate(`${animationTime}ms ease-out`, style({ opacity: 1 })),
+  ]),
+  transition(':leave', [
+    animate(`${animationTime}ms ease-out`, style({ opacity: 0 }))
+  ])
+])

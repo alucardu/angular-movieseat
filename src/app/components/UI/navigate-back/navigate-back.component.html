@@ -1,1 +1,3 @@
-<button *ngIf="(deviceIsMobile$ | async) && backBtnActive" class="backBtn" (click)="navigateBack()">Back</button>
+<button @fadeAnimation mat-mini-fab color="accent" *ngIf="(deviceIsMobile$ | async) && backBtnActive" class="backBtn" (click)="navigateBack()">
+  <mat-icon>arrow_back</mat-icon>
+</button>

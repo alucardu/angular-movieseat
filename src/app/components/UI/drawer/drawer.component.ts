@@ -3,7 +3,6 @@ import { ChildrenOutletContexts, OutletContext, } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { slideInAnimation } from 'src/app/animations';
-import { Location } from '@angular/common';
 import { DeviceService } from 'src/app/services/device.service';
 
 @Component({
@@ -21,7 +20,6 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     private contexts: ChildrenOutletContexts,
     private scrollService: ScrollService,
     private deviceService: DeviceService,
-    private location: Location,
     private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
@@ -53,9 +51,5 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   public getRouteAnimationData(): OutletContext | null {
     return this.deviceService.deviceIsMobile$ ? this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'] : null;
-  }
-
-  public isRouteActive(route: string): boolean {
-    return this.location.path() === route
   }
 }
