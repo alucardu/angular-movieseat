@@ -7,7 +7,9 @@ import { DeviceService } from './services/device.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public constructor(private deviceService: DeviceService) {
+  public constructor(
+    private deviceService: DeviceService
+  ) {
     this.deviceService.detectDevice();
   }
 }

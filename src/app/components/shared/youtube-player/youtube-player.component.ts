@@ -27,8 +27,12 @@ export class YoutubePlayerComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     CapacitorApp.addListener('backButton', () => {
-      window.screen.orientation.lock('portrait');
-      StatusBar.show();
+      window.screen.orientation.lock('portrait').catch(() => {
+        // error
+      })
+      StatusBar.show().catch(() => {
+        // error
+      })
       this.playerIsPlaying = false;
       this.player.pauseVideo();
     });
@@ -54,11 +58,19 @@ export class YoutubePlayerComponent implements AfterViewInit, OnDestroy {
     this.playerIsPlaying = event.data === YT.PlayerState.PLAYING;
 
     if (this.playerIsPlaying) {
-      window.screen.orientation.lock('landscape');
-      StatusBar.hide();
+      window.screen.orientation.lock('landscape').catch(() => {
+        // error
+      });
+      StatusBar.hide().catch(() => {
+        // error
+      });
     } else {
-      window.screen.orientation.lock('portrait');
-      StatusBar.show();
+      window.screen.orientation.lock('portrait').catch(() => {
+        // error
+      });
+      StatusBar.show().catch(() => {
+        // error
+      });
     }
   }
 
