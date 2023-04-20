@@ -22,7 +22,7 @@ export class DeviceService {
   }
 
   private styleStatusBar(): void {
-    StatusBar.setBackgroundColor({color: '#303030'}).catch(() => {
+    StatusBar.setBackgroundColor({color: '#280028'}).catch(() => {
       // error //
     });
   }
