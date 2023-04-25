@@ -1,0 +1,38 @@
+
+.reviewRating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  p {
+    font-size: 0.7rem;
+    color: #a9a9a9;
+    margin: 0 0 0 8px;
+  }
+}
+
+.review {
+  text-align: justify;
+}
+
+.reviewNavigation {
+  margin-left: auto;
+  display: flex;
+}
+
+.previousReview, .nextReview {
+  background: #69f0ae;
+  border-radius: 100%;
+  color: #000;
+  margin-left: 8px;
+}
+
+mat-form-field.reviewSort {
+  margin-left: 8px;
+  width: 60%;
+  &::ng-deep {
+    .mat-mdc-form-field-infix {
+      min-height: 32px;
+      padding: 4px 0 0 0;
+    }
+  }
+}
