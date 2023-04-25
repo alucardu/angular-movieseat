@@ -45,6 +45,9 @@ youtube-player {
     transform: translate(-50%,-50%);
     position: absolute;
   }
+}
+
+.video-play-btn {
   svg {
     position: absolute;
     top: 42.5%;
@@ -66,4 +69,22 @@ youtube-player {
   border-radius: 12px;
   overflow: hidden;
   position: absolute;
+}
+
+.skeleton {
+  width: 5%;
+  height: 200%;
+  display: block;
+  background: rgb(114, 114, 114);
+  animation: skeleton-loading 2s linear infinite;
+  filter: blur(2rem);
+}
+
+@keyframes skeleton-loading {
+  from {
+    transform: translateY(-25%) translateX(-600%) rotate(45deg);
+  }
+  to {
+    transform: translateY(-25%) translateX(3000%) rotate(45deg);
+  }
 }
