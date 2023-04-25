@@ -1,0 +1,10 @@
+:host {
+  margin: 8px 0 8px 0;
+  position: relative;
+  display: flex;
+  overflow: scroll;
+  app-youtube-player {
+    min-width: 100%;
+    margin-right: 8px;
+  }
+}

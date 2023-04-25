@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   templateUrl: './movie-details.component.html',
@@ -7,6 +8,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 export class MovieDetailsComponent implements OnInit {
   @ViewChild('youtubeContainer', { static: true}) private youtubeContainer!: ElementRef<HTMLElement>
   private apiLoaded = false;
+
+  public reviewSorting = new FormControl('populair');
 
   public ngOnInit(): void {
     if (!this.apiLoaded) {
