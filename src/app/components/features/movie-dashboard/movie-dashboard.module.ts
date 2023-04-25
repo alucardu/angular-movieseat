@@ -8,9 +8,9 @@ import { YoutubePlayerComponent } from '../../shared/youtube-player/youtube-play
 import { MovieDisplayComponent } from '../movie-display/movie-display.component';
 import { MaterialModule } from 'src/app/material.module';
 import { ClipsContainerComponent } from '../movie-details/clips-container/clips-container.component';
-import { MovieReviewsComponent } from '../movie-display/movie-reviews/movie-reviews.component';
-import { MovieReviewComponent } from '../movie-display/movie-reviews/movie-review/movie-review.component';
 import { ImageSliderComponent } from '../movie-details/image-slider/image-slider.component';
+import { MovieReviewsComponent } from '../movie-details/movie-reviews/movie-reviews.component';
+import { MovieReviewComponent } from '../movie-details/movie-reviews/movie-review/movie-review.component';
 
 @NgModule({
   declarations: [
