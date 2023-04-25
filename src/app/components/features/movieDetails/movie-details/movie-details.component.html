@@ -1,56 +1,113 @@
 <div #youtubeContainer>
-  <app-youtube-player></app-youtube-player>
+  <app-youtube-player [showThumbnail]="true" videoId="RBCRe73dZb0"></app-youtube-player>
 </div>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
-<p>movie-details works!</p>
+
+<h2 class="titleContainer">
+  <span class="title">Moonrise Kingdom</span>
+  <span class="releaseDate">(1986)</span>
+</h2>
+<p class="tagline">A tormenting and surprising story of children and adults during the stormy days of the summer of 1965.</p>
+
+<p class="overview">
+  Set on an island off the coast of New England in the summer of 1965, Moonrise Kingdom tells the story of two twelve-year-olds who fall in love, make a secret
+  pact, and run away together into the wilderness. As various authorities try to hunt them down, a violent storm is brewing off-shore – and the peaceful island
+  community is turned upside down in more ways than anyone can handle.
+</p>
+
+<mat-chip-set class="genres">
+  <mat-chip>Comedy</mat-chip>
+  <mat-chip>Drama</mat-chip>
+  <mat-chip>Romance</mat-chip>
+</mat-chip-set>
+
+<mat-card>
+  <mat-card-content>
+    <div class="infoContainer">
+      <div class="age">12+</div>
+      <span>29-10-1986 (NL) | 1h 34m </span>
+      <span class="rating">
+        <mat-icon class="filled">star</mat-icon>
+        <mat-icon class="filled">star</mat-icon>
+        <mat-icon class="filled">star</mat-icon>
+        <mat-icon class="filled">star</mat-icon>
+        <mat-icon>star</mat-icon>
+      </span>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div class="directorWriterInfo">
+  <span>
+    <p>Director:</p>
+    Wes Anderson
+  </span>
+  <span>
+    <p>Writers:</p>
+    Wes Anderson, Roman Coppola
+  </span>
+</div>
+
+<div class="imageSlider">
+  <div class="imageContainer">
+    <div class="image">
+      <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/wyUao77IKN0YtDHHXLSihOj8l8v.jpg" alt="some guy" />
+    </div>
+    <p class="realName">Jaren Gilman</p>
+    <p class="characterName">Sam</p>
+  </div>
+
+  <div class="imageContainer">
+    <div class="image">
+      <img src="https://www.themoviedb.org/t/p/w120_and_h133_face/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg" alt="some guy" />
+    </div>
+    <p class="realName">Edward Norton</p>
+    <p class="characterName">Sam</p>
+  </div>
+
+  <div class="imageContainer">
+    <div class="image">
+      <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/caX3KtMU42EP3VLRFFBwqIIrch5.jpg" alt="some guy" />
+    </div>
+    <p class="realName">Bruce Willis</p>
+    <p class="characterName">Sam</p>
+  </div>
+
+  <div class="imageContainer">
+    <div class="image">
+      <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/wyUao77IKN0YtDHHXLSihOj8l8v.jpg" alt="some guy" />
+    </div>
+    <p class="realName">Jaren Gilman</p>
+    <p class="characterName">Sam</p>
+  </div>
+</div>
+
+<app-clips-container></app-clips-container>
+
+<div class="reviewsContainer">
+  <mat-card>
+    <mat-card-content>
+      <span class="reviewRating">
+        <mat-icon>thumb_up</mat-icon>
+        <p>(126)</p>
+        <mat-form-field appearance="outline" class="reviewSort" subscriptSizing="dynamic" color="accent">
+          <mat-select [formControl]="reviewSorting">
+            <mat-option value="populair">Populair</mat-option>
+            <mat-option value="newest">Newest</mat-option>
+            <mat-option value="oldest">Oldest</mat-option>
+            <mat-option value="friends">Friends</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="reviewNavigation">
+          <mat-icon class="previousReview">chevron_left</mat-icon>
+          <mat-icon class="nextReview">chevron_right</mat-icon>
+        </div>
+      </span>
+      <p class="review">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel,
+        egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat.
+        Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales.
+      </p>
+      <p>Written by Christopher Walken</p>
+    </mat-card-content>
+  </mat-card>
+</div>
