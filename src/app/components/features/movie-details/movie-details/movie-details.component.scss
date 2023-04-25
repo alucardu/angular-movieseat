@@ -41,20 +41,6 @@
   margin-right: 8px;
 }
 
-.rating {
-  margin-left: auto;
-  display: inline-flex;
-  mat-icon {
-    font-size: 1rem;
-    height: 16px;
-    width: 16px;
-    margin-right: 2px;
-    &.filled {
-      color: yellow;
-    }
-  }
-}
-
 .infoContainer {
   display: flex;
   align-items: center;
