@@ -82,32 +82,4 @@
 </div>
 
 <app-clips-container></app-clips-container>
-
-<div class="reviewsContainer">
-  <mat-card>
-    <mat-card-content>
-      <span class="reviewRating">
-        <mat-icon>thumb_up</mat-icon>
-        <p>(126)</p>
-        <mat-form-field appearance="outline" class="reviewSort" subscriptSizing="dynamic" color="accent">
-          <mat-select [formControl]="reviewSorting">
-            <mat-option value="populair">Populair</mat-option>
-            <mat-option value="newest">Newest</mat-option>
-            <mat-option value="oldest">Oldest</mat-option>
-            <mat-option value="friends">Friends</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div class="reviewNavigation">
-          <mat-icon class="previousReview">chevron_left</mat-icon>
-          <mat-icon class="nextReview">chevron_right</mat-icon>
-        </div>
-      </span>
-      <p class="review">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel,
-        egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat.
-        Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales.
-      </p>
-      <p>Written by Christopher Walken</p>
-    </mat-card-content>
-  </mat-card>
-</div>
+<app-movie-reviews></app-movie-reviews>
