@@ -10,7 +10,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { ClipsContainerComponent } from '../movie-details/clips-container/clips-container.component';
 import { ImageSliderComponent } from '../movie-details/image-slider/image-slider.component';
 import { MovieReviewsComponent } from '../movie-details/movie-reviews/movie-reviews.component';
-import { MovieReviewComponent } from '../movie-details/movie-reviews/movie-review/movie-review.component';
+import { CreateReviewDialogComponent, FullReviewDialogComponent, MovieReviewComponent } from '../movie-details/movie-reviews/movie-review/movie-review.component';
 import { MovieRatingComponent } from '../movie-details/movie-rating/movie-rating.component';
 import { SpeedDialFabComponent } from '../../UI/speed-dial-fab/speed-dial-fab.component';
 
@@ -24,7 +24,9 @@ import { SpeedDialFabComponent } from '../../UI/speed-dial-fab/speed-dial-fab.co
     MovieReviewComponent,
     ImageSliderComponent,
     MovieRatingComponent,
-    SpeedDialFabComponent
+    SpeedDialFabComponent,
+    FullReviewDialogComponent,
+    CreateReviewDialogComponent
   ],
   imports: [
     BrowserModule,

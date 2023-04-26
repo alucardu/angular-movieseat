@@ -36,21 +36,6 @@
   margin-left: 8px;
 }
 
-mat-form-field.reviewInput {
-  &::ng-deep {
-    .mat-mdc-form-field-flex {
-      height: 100%;
-    }
-    .mat-mdc-form-field-infix {
-      height: 100%;
-      textarea {
-        min-height: 100%;
-        max-height: 100%;
-      }
-    }
-  }
-}
-
 mat-form-field.reviewSort {
   margin-left: 8px;
   width: 60%;
@@ -103,27 +88,6 @@ mat-form-field.reviewSort {
   }
 }
 
-.fullReview {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  background: #424242;
-  overflow: scroll;
-  padding: 8px;
-  box-sizing: border-box;
-
-  .footer {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .ellipsis {
   text-overflow:ellipsis;
   overflow:hidden;
@@ -132,3 +96,4 @@ mat-form-field.reviewSort {
   -webkit-box-orient: vertical;
   white-space: normal;
 }
+
