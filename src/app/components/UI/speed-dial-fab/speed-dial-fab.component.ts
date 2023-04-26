@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { fadeAnimation } from 'src/app/animations';
 
 @Component({

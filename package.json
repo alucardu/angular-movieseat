@@ -11,11 +11,6 @@
     "sync": "ng build && npx cap sync android",
     "android": "npx cap open android"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit\""
-    }
-  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.1.0",
