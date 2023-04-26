@@ -1,4 +1,4 @@
-<mat-card class="reviewsContainer" *ngIf="!createReview" @fadeAnimation>
+<mat-card class="reviewsContainer" @fadeAnimation>
   <mat-card-content>
     <span class="reviewRating">
       <div class="likesSorting">
@@ -35,12 +35,10 @@
       <button mat-flat-button color="primary" (click)="showEntireReview = !showEntireReview">Back</button>
     </div>
   </mat-card-content>
-</mat-card>
 
-<mat-card class="reviewContainer" *ngIf="createReview" @fadeAnimation>
-  <mat-card-content>
-    <mat-form-field appearance="fill">
-      <textarea cdkTextareaAutosize cdkAutosizeMaxRows="10" placeholder="Your review..." matInput [formControl]="reviewInput"></textarea>
+  <mat-card-content class="createReviewContainer" *ngIf="createReview" @fadeAnimation>
+    <mat-form-field appearance="fill" class="reviewInput">
+      <textarea placeholder="Your review..." matInput [formControl]="reviewInput"></textarea>
     </mat-form-field>
     <div class="footer">
       <app-movie-rating></app-movie-rating>
