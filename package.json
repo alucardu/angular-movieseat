@@ -7,9 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint",
     "sync": "ng build && npx cap sync android",
-    "android": "npx cap open android"
+    "android": "npx cap open android",
+    "lint": "ng lint",
+    "watchLint": "nodemon -e ts -x yarn eslint ./src"
   },
   "private": true,
   "dependencies": {
