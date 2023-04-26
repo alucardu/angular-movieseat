@@ -15,7 +15,7 @@
       </div>
       <div class="reviewNavigation">
         <app-speed-dial-fab>
-          <button mat-mini-fab color="accent" (click)="createReviewFn()">
+          <button mat-mini-fab color="accent" (click)="createReviewDialog()">
             <mat-icon color="primary">add</mat-icon>
           </button>
         </app-speed-dial-fab>
@@ -24,28 +24,7 @@
     <p class="review" [ngClass]="reviewText.length > 380 ? 'ellipsis' : ''">
       {{ reviewText }}
     </p>
-    <a target="#" (click)="showEntireReview = !showEntireReview" *ngIf="reviewText.length > 380">...continue</a>
+    <a target="#" (click)="fullReviewDialog()" *ngIf="reviewText.length > 380">...continue</a>
     <p class="author">By Christopher Walken <app-movie-rating></app-movie-rating></p>
-  </mat-card-content>
-
-  <mat-card-content class="fullReview" *ngIf="showEntireReview" @fadeAnimation>
-    <p>{{ reviewText }}</p>
-    <div class="footer">
-      <p class="author">By Christopher Walken <app-movie-rating></app-movie-rating></p>
-      <button mat-flat-button color="primary" (click)="showEntireReview = !showEntireReview">Back</button>
-    </div>
-  </mat-card-content>
-
-  <mat-card-content class="createReviewContainer" *ngIf="createReview" @fadeAnimation>
-    <mat-form-field appearance="fill" class="reviewInput">
-      <textarea placeholder="Your review..." matInput [formControl]="reviewInput"></textarea>
-    </mat-form-field>
-    <div class="footer">
-      <app-movie-rating></app-movie-rating>
-      <div class="containerButtons">
-        <button mat-flat-button color="primary" (click)="closeCreateReview()">Submit</button>
-        <button mat-flat-button color="accent" (click)="closeCreateReview()">Cancel</button>
-      </div>
-    </div>
   </mat-card-content>
 </mat-card>
