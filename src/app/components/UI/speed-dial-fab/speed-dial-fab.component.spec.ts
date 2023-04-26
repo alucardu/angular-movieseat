@@ -1,21 +1,21 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MovieReviewComponent } from './movie-review.component';
+import { SpeedDialFabComponent } from './speed-dial-fab.component';
 
-describe('MovieReviewComponent', () => {
-  let component: MovieReviewComponent;
-  let fixture: ComponentFixture<MovieReviewComponent>;
+describe('SpeedDialFabComponent', () => {
+  let component: SpeedDialFabComponent;
+  let fixture: ComponentFixture<SpeedDialFabComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MovieReviewComponent ]
+      declarations: [ SpeedDialFabComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovieReviewComponent);
+    fixture = TestBed.createComponent(SpeedDialFabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

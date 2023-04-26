@@ -1,0 +1,27 @@
+.fab-container {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  position: relative;
+
+  button {
+    width: 32px;
+    height:32px;
+  }
+
+  .options {
+    position: absolute;
+    bottom: 28px;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-bottom: 5px;
+
+    button {
+      margin-bottom: 12px;
+    }
+  }
+}

@@ -12,6 +12,7 @@ import { ImageSliderComponent } from '../movie-details/image-slider/image-slider
 import { MovieReviewsComponent } from '../movie-details/movie-reviews/movie-reviews.component';
 import { MovieReviewComponent } from '../movie-details/movie-reviews/movie-review/movie-review.component';
 import { MovieRatingComponent } from '../movie-details/movie-rating/movie-rating.component';
+import { SpeedDialFabComponent } from '../../UI/speed-dial-fab/speed-dial-fab.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MovieRatingComponent } from '../movie-details/movie-rating/movie-rating
     MovieReviewsComponent,
     MovieReviewComponent,
     ImageSliderComponent,
-    MovieRatingComponent
+    MovieRatingComponent,
+    SpeedDialFabComponent
   ],
   imports: [
     BrowserModule,
