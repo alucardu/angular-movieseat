@@ -14,7 +14,7 @@ import { DrawerMenuComponent } from './components/UI/drawer-menu/drawer-menu.com
   declarations: [
     AppComponent,
     DrawerComponent,
-    DrawerMenuComponent
+    DrawerMenuComponent,
   ],
   imports: [
     BrowserModule,

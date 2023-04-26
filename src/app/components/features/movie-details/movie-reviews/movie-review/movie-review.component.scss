@@ -39,8 +39,27 @@ mat-form-field.reviewSort {
 
 .author {
   display: flex;
+  app-movie-rating {
+    margin-left: auto;
+  }
 }
 
-app-movie-rating {
-  margin-left: auto;
+.reviewContainer {
+  mat-form-field {
+    width: 100%;
+    min-height: 176px;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+  }
+
+  .containerButtons {
+    margin-left: auto;
+  }
+
+  button {
+    margin-right: 8px;
+  }
 }

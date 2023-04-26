@@ -1,0 +1,8 @@
+<div class="fab-container">
+  <button mat-mini-fab color="primary" class="optionsBtn" (click)="onToggleFab()">
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <div class="options" *ngIf="fabTogglerState" @fadeAnimation>
+    <ng-content></ng-content>
+  </div>
+</div>
