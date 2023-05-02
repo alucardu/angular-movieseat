@@ -7,7 +7,7 @@ import {
   trigger,
 } from '@angular/animations';
 
-const animationTime = 175
+const animationTime = 225
 
 export const slideInAnimation = trigger('routeAnimations', [
   transition('watchList => movieDetail', [
@@ -16,16 +16,15 @@ export const slideInAnimation = trigger('routeAnimations', [
       style({
         position: 'absolute',
         top: 0,
-        right: 0,
         width: '100%'
       })
     ]),
 
-    query(':enter', [style({ right: '-100%', opacity: 0, position: 'fixed' })]),
+    query(':enter', [style({ transform: 'translateX(100%)', opacity: 1, position: 'fixed' })]),
 
     group([
-      query(':leave', [animate(`${animationTime}ms ease-out`, style({ right: '100%', opacity: 0 }))]),
-      query(':enter', [animate(`${animationTime}ms ease-out`, style({ right: '0%', opacity: 1, }))])
+      query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(0%)', opacity: 1, }))]),
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(-100%)', opacity: 1 }))]),
      ]),
   ]),
 
@@ -35,17 +34,16 @@ export const slideInAnimation = trigger('routeAnimations', [
       style({
         position: 'absolute',
         top: 0,
-        left: 0,
         width: '100%'
       })
     ]),
 
-    query(':enter', [style({ left: '-100%', opacity: 0 })]),
-    query(':leave', [style({ position: 'fixed' })]),
+    query(':enter', [style({ transform: 'translateX(-100%)', opacity: 0 })]),
+    query(':leave', [style({ transform: 'translateX(0%)' })]),
 
     group([
-      query(':leave', [animate(`${animationTime}ms ease-out`, style({ opacity: 0 }))]),
-      query(':enter', [animate(`${animationTime}ms ease-out`, style({ left: '0%', opacity: 1 }))])
+      query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(0%)', opacity: 1 }))]),
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(100%)', opacity: 0 }))]),
      ]),
    ])
 ]);

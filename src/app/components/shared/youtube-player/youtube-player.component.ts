@@ -1,10 +1,12 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { YouTubePlayer, YouTubePlayerModule } from '@angular/youtube-player';
 import { StatusBar } from '@capacitor/status-bar';
 import { App as CapacitorApp } from '@capacitor/app';
-import { Subscription, delay } from 'rxjs';
+import { delay, first } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
+import { DomSanitizer } from '@angular/platform-browser';
+import { PluginListenerHandle } from '@capacitor/core';
 
 @Component({
   standalone: true,
@@ -14,51 +16,92 @@ import { fadeAnimation } from 'src/app/animations';
   styleUrls: ['./youtube-player.component.scss'],
   animations: [fadeAnimation]
 })
-export class YoutubePlayerComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('youtubePlayer') private youtubePlayer!: ElementRef<HTMLElement>;
-  @ViewChild('player', { static: true }) public player!: YouTubePlayer;
+  @ViewChild('player', { static: false }) private set playerInitial(player: YouTubePlayer) {
+    if (player) {
+      this.player = player
+      this.setPlayerConfig();
+    }
+  }
+  private player?: YouTubePlayer
+  private backButtonListener?: PluginListenerHandle
 
   @Input() public videoId!: string
   @Input() public showThumbnail = false;
-
-  private playerSubscription$ = new Subscription
 
   public playerIsPlaying = false;
   public playerWidth = 1;
   public playerHeight = 1;
   public loading = true;
   public thumbnailUrl?: string;
+  public showPlayer = false;
 
-  public constructor(private cd: ChangeDetectorRef) {}
+  public constructor(private cd: ChangeDetectorRef, private sanitizer: DomSanitizer) {
+    window.addEventListener("orientationchange", () => {
+      let currentWidth = this.youtubePlayer.nativeElement.offsetWidth
+      let nextWidth = 0;
+
+      const widthCheck = setInterval(() => {
+        nextWidth = this.youtubePlayer.nativeElement.offsetWidth
+        if (nextWidth > currentWidth) {
+          this.setPlayerDimensions();
+          currentWidth = this.youtubePlayer.nativeElement.offsetWidth
+          window.clearInterval(widthCheck)
+        }
+
+        if (nextWidth < currentWidth) {
+          this.setPlayerDimensions();
+          window.clearInterval(widthCheck)
+        }
+      }, 1)
+    });
+  }
 
   public async ngOnInit(): Promise<void> {
-    this.thumbnailUrl = await this.returnHighestQualityImage();
+    if (this.showThumbnail) {
+      this.thumbnailUrl = await this.returnHighestQualityImage()
+    }
+  }
+
+  private setPlayerDimensions(): void {
+    this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * (this.playerIsPlaying ? 0.9 : 1);
+    this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.48;
   }
 
   public ngAfterViewInit(): void {
-    CapacitorApp.addListener('backButton', () => {
-      window.screen.orientation.lock('portrait').catch(() => {
-        // error
-      })
-      StatusBar.show().catch(() => {
-        // error
-      })
-      this.playerIsPlaying = false;
-      this.player.pauseVideo();
-    });
-
-    this.playerSubscription$ = this.player.ready.pipe(
-      delay(800)
-    ).subscribe({
-      next: () => this.loading = false
-    })
-  }
-
-  public ngAfterViewChecked(): void {
+    // wait for route animation to end
+    setTimeout(() => {
+      this.showPlayer = true;
+    }, 225)
     this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * (this.playerIsPlaying ? 0.9 : 1);
     this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.48;
+  }
 
-    this.cd.detectChanges();
+  private async setPlayerConfig(): Promise<void> {
+    this.backButtonListener = await CapacitorApp.addListener('backButton', () => {
+      if (this.playerIsPlaying) {
+        window.screen.orientation.lock('portrait-primary').catch(() => {
+          // error
+        })
+        StatusBar.show().catch(() => {
+          // error
+        })
+
+        this.playerIsPlaying = false;
+        this.player?.pauseVideo();
+      }
+    });
+
+    if (this.player) {
+      this.player.ready.pipe(
+        first(),
+        delay(800)
+      ).subscribe({
+        next: () => {
+          this.loading = false}
+      })
+    }
   }
 
   public async returnHighestQualityImage(): Promise<string | undefined> {
@@ -92,10 +135,10 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, AfterViewC
   }
 
   public startVideo(): void {
-    this.player.playVideo();
+    this.player?.playVideo();
   }
 
-  public playerStateChanged(event: YT.OnStateChangeEvent): void {
+  public async playerStateChanged(event: YT.OnStateChangeEvent): Promise<void> {
     const isPaused = event.data === YT.PlayerState.PAUSED;
     const isBuffering = event.data === YT.PlayerState.BUFFERING;
 
@@ -106,23 +149,27 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, AfterViewC
     this.playerIsPlaying = event.data === YT.PlayerState.PLAYING;
 
     if (this.playerIsPlaying) {
-      window.screen.orientation.lock('landscape').catch(() => {
+      await StatusBar.hide().catch(() => {
         // error
       });
-      StatusBar.hide().catch(() => {
+
+      window.screen.orientation.lock('landscape-primary').catch(() => {
         // error
       });
+
     } else {
-      window.screen.orientation.lock('portrait').catch(() => {
-        // error
-      });
-      StatusBar.show().catch(() => {
-        // error
-      });
+      if (window.screen.orientation.type === 'landscape-primary') {
+        window.screen.orientation.lock('portrait-primary').catch(() => {
+          // error
+        });
+        StatusBar.show().catch(() => {
+          // error
+        });
+      }
     }
   }
 
   public ngOnDestroy(): void {
-    this.playerSubscription$.unsubscribe()
+    this.backButtonListener?.remove();
   }
 }
