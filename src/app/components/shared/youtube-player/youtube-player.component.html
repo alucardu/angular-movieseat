@@ -1,5 +1,6 @@
-<div class="youtubePlayer" [ngClass]="{ isPlaying: playerIsPlaying }" #youtubePlayer>
+<div class="youtubePlayer" #youtubePlayer [ngClass]="{ isPlaying: playerIsPlaying }">
   <youtube-player
+    *ngIf="showPlayer"
     #player
     [playerVars]="{ fs: 0, modestbranding: 1 }"
     [width]="playerWidth"
