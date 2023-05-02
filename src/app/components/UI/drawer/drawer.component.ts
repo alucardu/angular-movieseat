@@ -34,6 +34,11 @@ export class DrawerComponent implements OnInit, AfterViewInit {
         this.changeDetectorRef.detectChanges();
       };
     });
+
+  }
+
+  public ngAfterViewInit(): void {
+    this.scrollService.detectScrollElement(this.mainContent)
   }
 
   public exitApp(state: string): void {
@@ -43,10 +48,6 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       this.exitConfirmation = false;
       this.changeDetectorRef.detectChanges();
     }
-  }
-
-  public ngAfterViewInit(): void {
-    this.scrollService.scrollPositionHistory(this.mainContent);
   }
 
   public getRouteAnimationData(): OutletContext | null {
