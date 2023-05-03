@@ -9,6 +9,7 @@ import { MaterialModule } from './material.module';
 import { DrawerComponent } from './components/UI/drawer/drawer.component';
 import { NavigateBackComponent } from './components/UI/navigate-back/navigate-back.component'
 import { DrawerMenuComponent } from './components/UI/drawer-menu/drawer-menu.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DrawerMenuComponent } from './components/UI/drawer-menu/drawer-menu.com
     MaterialModule,
     AppRoutingModule,
     MovieDashboardModule,
-    NavigateBackComponent
+    NavigateBackComponent,
+    HttpClientModule,
   ],
   bootstrap: [AppComponent],
 })
