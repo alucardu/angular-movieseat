@@ -1,11 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { YouTubePlayer, YouTubePlayerModule } from '@angular/youtube-player';
 import { StatusBar } from '@capacitor/status-bar';
 import { App as CapacitorApp } from '@capacitor/app';
-import { delay, first } from 'rxjs';
+import { take } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
-import { DomSanitizer } from '@angular/platform-browser';
 import { PluginListenerHandle } from '@capacitor/core';
 
 @Component({
@@ -21,7 +20,13 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('player', { static: false }) private set playerInitial(player: YouTubePlayer) {
     if (player) {
       this.player = player
-      this.setPlayerConfig();
+
+      player.ready.pipe(
+        take(1)
+      ).subscribe({
+        next: () => {
+          this.loading = false}
+      })
     }
   }
   private player?: YouTubePlayer
@@ -37,7 +42,7 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
   public thumbnailUrl?: string;
   public showPlayer = false;
 
-  public constructor(private cd: ChangeDetectorRef, private sanitizer: DomSanitizer) {
+  public constructor() {
     window.addEventListener("orientationchange", () => {
       let currentWidth = this.youtubePlayer.nativeElement.offsetWidth
       let nextWidth = 0;
@@ -78,7 +83,7 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
     this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.48;
   }
 
-  private async setPlayerConfig(): Promise<void> {
+  private async initializeBackButtonListener(): Promise<void> {
     this.backButtonListener = await CapacitorApp.addListener('backButton', () => {
       if (this.playerIsPlaying) {
         window.screen.orientation.lock('portrait-primary').catch(() => {
@@ -90,18 +95,9 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
 
         this.playerIsPlaying = false;
         this.player?.pauseVideo();
+        this.backButtonListener?.remove();
       }
     });
-
-    if (this.player) {
-      this.player.ready.pipe(
-        first(),
-        delay(800)
-      ).subscribe({
-        next: () => {
-          this.loading = false}
-      })
-    }
   }
 
   public async returnHighestQualityImage(): Promise<string | undefined> {
@@ -156,6 +152,8 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
       window.screen.orientation.lock('landscape-primary').catch(() => {
         // error
       });
+
+      this.initializeBackButtonListener();
 
     } else {
       if (window.screen.orientation.type === 'landscape-primary') {
