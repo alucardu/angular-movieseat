@@ -27,7 +27,9 @@ export class ScrollService implements OnDestroy {
       this.router.events.pipe(
         filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       ).subscribe({
-        next: () => this.detectScrollPosition(mainContent)
+        next: () => {
+          this.detectScrollPosition(mainContent)
+        }
       })
     }
 
@@ -62,10 +64,14 @@ export class ScrollService implements OnDestroy {
             })
           );
         })
-      ).subscribe(({ scrollPosition, updatedRoutes }) => {
-        this.activeRoutesSubject$.next(updatedRoutes);
-        mainContent.nativeElement.children[2]?.scrollTo({ top: scrollPosition });
-      });
+      ).subscribe({
+        next: ({scrollPosition, updatedRoutes}) => {
+          this.activeRoutesSubject$.next(updatedRoutes);
+          mainContent.nativeElement.children[2]?.scrollTo({ top: scrollPosition });
+        }
+      })
+
+      ;
     }
 
     private getUpdatedRoutes(activeRoutes: Array<IScrollTop>, navigationStart: NavigationStart): Array<IScrollTop> {

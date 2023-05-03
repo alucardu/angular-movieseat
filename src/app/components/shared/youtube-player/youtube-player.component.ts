@@ -6,6 +6,7 @@ import { App as CapacitorApp } from '@capacitor/app';
 import { take } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
 import { PluginListenerHandle } from '@capacitor/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -18,8 +19,9 @@ import { PluginListenerHandle } from '@capacitor/core';
 export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('youtubePlayer') private youtubePlayer!: ElementRef<HTMLElement>;
   @ViewChild('player', { static: false }) private set playerInitial(player: YouTubePlayer) {
-    if (player) {
+    if (player && !this.player) {
       this.player = player
+      this.player.playVideo();
 
       player.ready.pipe(
         take(1)
@@ -29,20 +31,23 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
       })
     }
   }
+
   private player?: YouTubePlayer
   private backButtonListener?: PluginListenerHandle
 
   @Input() public videoId!: string
   @Input() public showThumbnail = false;
 
+  public title?: string;
   public playerIsPlaying = false;
   public playerWidth = 1;
   public playerHeight = 1;
-  public loading = true;
+  public loading = false;
   public thumbnailUrl?: string;
   public showPlayer = false;
+  public showBackground = false;
 
-  public constructor() {
+  public constructor(private http: HttpClient) {
     window.addEventListener("orientationchange", () => {
       let currentWidth = this.youtubePlayer.nativeElement.offsetWidth
       let nextWidth = 0;
@@ -64,9 +69,14 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   public async ngOnInit(): Promise<void> {
-    if (this.showThumbnail) {
-      this.thumbnailUrl = await this.returnHighestQualityImage()
-    }
+    this.thumbnailUrl = await this.returnHighestQualityImage()
+
+    const url = `https://www.youtube.com/watch?v=${this.videoId}`;
+    this.http.get<{title: string}>('https://noembed.com/embed', {
+      params: { format: 'json', url: url
+    }}).subscribe({
+      next: (data) => this.title = data.title
+    })
   }
 
   private setPlayerDimensions(): void {
@@ -76,9 +86,6 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
 
   public ngAfterViewInit(): void {
     // wait for route animation to end
-    setTimeout(() => {
-      this.showPlayer = true;
-    }, 225)
     this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * (this.playerIsPlaying ? 0.9 : 1);
     this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.48;
   }
@@ -131,7 +138,13 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   public startVideo(): void {
+    this.showPlayer = true;
     this.player?.playVideo();
+
+    if (!this.player) {
+      this.loading = true;
+      this.showBackground = true;
+    }
   }
 
   public async playerStateChanged(event: YT.OnStateChangeEvent): Promise<void> {
