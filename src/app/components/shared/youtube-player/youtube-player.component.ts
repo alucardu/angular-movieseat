@@ -45,7 +45,7 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
   public loading = false;
   public thumbnailUrl?: string;
   public showPlayer = false;
-  public showBackground = false;
+  public playerIsLoaded = true;
 
   public constructor(private http: HttpClient) {
     window.addEventListener("orientationchange", () => {
@@ -92,6 +92,7 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private async initializeBackButtonListener(): Promise<void> {
     this.backButtonListener = await CapacitorApp.addListener('backButton', () => {
+      this.playerIsLoaded = true;
       if (this.playerIsPlaying) {
         window.screen.orientation.lock('portrait-primary').catch(() => {
           // error
@@ -143,7 +144,6 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
 
     if (!this.player) {
       this.loading = true;
-      this.showBackground = true;
     }
   }
 
@@ -166,17 +166,11 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
         // error
       });
 
-      this.initializeBackButtonListener();
+      setTimeout(() => {
+        this.playerIsLoaded = false;
+      }, 24)
 
-    } else {
-      if (window.screen.orientation.type === 'landscape-primary') {
-        window.screen.orientation.lock('portrait-primary').catch(() => {
-          // error
-        });
-        StatusBar.show().catch(() => {
-          // error
-        });
-      }
+      this.initializeBackButtonListener();
     }
   }
 
