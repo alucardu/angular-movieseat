@@ -11,17 +11,13 @@
 
   .options {
     position: absolute;
-    bottom: 28px;
+    z-index: 999;
   }
 
   > div {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    margin-bottom: 5px;
-
-    button {
-      margin-bottom: 12px;
-    }
+    margin-bottom: 48px;
   }
 }
