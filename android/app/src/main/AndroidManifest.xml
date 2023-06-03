@@ -24,9 +24,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="http"
-                  android:host="www.example.com"
-                  android:pathPrefix="/gizmos" />
+                <data android:scheme="https"
+                  android:host="www.moviese.at" />
             </intent-filter>
         </activity>
 

@@ -38,7 +38,7 @@ export class MovieDisplayComponent {
     await Share.share({
       title: 'Moonrise Kingdom',
       text: 'Movie details',
-      url: 'http://www.example.com/gizmos',
+      url: 'https://www.moviese.at',
       dialogTitle: 'Share with buddies',
     });
   }
