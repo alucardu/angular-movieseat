@@ -30,3 +30,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 Run `npm run android` to start the project in android studio
 Run `npm run sync` to build the application and sync the dist folder with the android folder
+
+# Deep link testing
+
+Run `adb shell am start -W -a android.intent.action.VIEW -d "http://www.example.com/gizmos" com.movieseat.app` to initiate deep link simulation
+
+# To create icosn
+
+Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgroundColorDark '#280028' --android`

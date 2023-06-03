@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Movieseat</string>
+    <string name="title_activity_main">Movieseat</string>
+    <string name="package_name">com.movieseat.app</string>
+    <string name="custom_url_scheme">com.movieseat.app</string>
+</resources>

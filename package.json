@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "startOnline": "ng serve --host=0.0.0.0 --disable-host-check",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -30,6 +31,7 @@
     "@capacitor/app": "^4.1.1",
     "@capacitor/core": "4.7.3",
     "@capacitor/ios": "^4.7.3",
+    "@capacitor/share": "^5.0.1",
     "@capacitor/status-bar": "^4.1.1",
     "cordova-plugin-screen-orientation": "^3.0.3",
     "es6-promise-plugin": "^4.2.2",

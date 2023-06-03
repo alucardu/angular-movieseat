@@ -1434,6 +1434,11 @@
   resolved "https://registry.npmjs.org/@capacitor/ios/-/ios-4.7.3.tgz"
   integrity sha512-CXVvEzg9WWyhGdLSZsWfa69RyNlKH03g4OKpWh9OW0A7uL4aYA8Z7m4jE4mCu/2TTWDEgUPp0BrWEDPaj73eow==
 
+"@capacitor/share@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/share/-/share-5.0.1.tgz#e78aaa3113b37cc3f832767a510171f5b0b59f5c"
+  integrity sha512-tFZbxnE6QmgLZL4tSm1vXjTEePXzBkT+2D+UxWPMPz1DoOTCJKsWwXgiPRCJarnP1x+xvuXbyOdVghAYq2ohow==
+
 "@capacitor/splash-screen@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@capacitor/splash-screen/-/splash-screen-4.2.0.tgz#027b545c03d2bebe039fb43ee46e2a48e8424f3a"

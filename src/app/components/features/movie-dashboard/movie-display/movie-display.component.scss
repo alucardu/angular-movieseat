@@ -17,6 +17,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    mat-list {
+      text-align: center;
+      span {
+        line-height: 20px;
+        font-weight: 100;
+        font-style: italic;
+      }
+      .releaseDate {
+        font-size: 0.8rem;
+      }
+    }
   }
 }
 
+.actionsContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
