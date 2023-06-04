@@ -34,15 +34,14 @@ export class MovieDisplayComponent {
   }
 
   public async shareInfo(e: Event): Promise<void> {
-    console.log(this.convertTitleToLink(this.movie.title))
     e.preventDefault();
     await Share.share({
       text: `Check out this movie: ${this.movie.title}`,
-      url: this.convertTitleToLink(this.movie.title),
+      url: this.generateLink(this.movie.title),
     });
   }
 
-  private convertTitleToLink(title: string): string {
+  private generateLink(title: string): string {
     title = title.replaceAll(' ', '-').toLowerCase();
     return `https://www.moviese.at/movie/${title}`;
   }
