@@ -1,0 +1,10 @@
+[
+  {
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : {
+    "namespace": "android_app",
+    "package_name": "com.movieseat.app",
+    "sha256_cert_fingerprints": ["0A:56:EC:73:64:1A:1E:D1:32:34:D6:09:E8:81:CD:14:23:E5:B3:15:39:9B:75:C5:A3:12:9E:FD:2B:BF:71:35"] }
+  }
+]
+

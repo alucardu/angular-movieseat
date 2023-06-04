@@ -12,6 +12,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   exports: [
@@ -27,7 +28,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     TextFieldModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule
   ],
 })
 export class MaterialModule {}

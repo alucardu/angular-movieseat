@@ -6,12 +6,17 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'watchlist',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: {
+      title: 'test'
+    }
   },
   {
     path: 'watchlist',
     component: MovieDashboardComponent,
-    data: { animation: 'watchList' },
+    data: {
+      title: 'Watchlist',
+      animation: 'watchList' },
   },
 ];
 

@@ -1,4 +1,4 @@
-# AngularMovieseat
+# Movieseat
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
 
@@ -30,3 +30,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 Run `npm run android` to start the project in android studio
 Run `npm run sync` to build the application and sync the dist folder with the android folder
+
+# Deep link testing
+
+Run `adb shell am start -W -a android.intent.action.VIEW -d "https://www.moviese.at/movie/moonrise-kingdom" com.movieseat.app` to initiate deep link simulation
+
+# To create icons
+
+Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgroundColorDark '#280028' --android`

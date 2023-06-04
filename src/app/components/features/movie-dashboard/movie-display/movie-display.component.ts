@@ -2,7 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 import { fadeAnimation } from 'src/app/animations';
 import { IsTouchingDirective } from 'src/app/directives/is-touching.directive';
 
-interface IMovie {
+export interface IMovie {
   title: string
   poster: string
   release_date: string
