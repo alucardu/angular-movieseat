@@ -12,7 +12,7 @@ const routes: Routes = [
     path: 'watchlist',
     component: MovieDashboardComponent,
     data: {
-      title: 'Moviese.at',
+      title: 'Watchlist',
       animation: 'watchList' },
   },
 ];
