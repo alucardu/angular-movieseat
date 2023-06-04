@@ -34,12 +34,16 @@ export class MovieDisplayComponent {
   }
 
   public async shareInfo(e: Event): Promise<void> {
+    console.log(this.convertTitleToLink(this.movie.title))
     e.preventDefault();
     await Share.share({
-      title: 'Moonrise Kingdom',
-      text: 'Movie details',
-      url: 'https://www.moviese.at',
-      dialogTitle: 'Share with buddies',
+      text: `Check out this movie: ${this.movie.title}`,
+      url: this.convertTitleToLink(this.movie.title),
     });
+  }
+
+  private convertTitleToLink(title: string): string {
+    title = title.replaceAll(' ', '-').toLowerCase();
+    return `https://www.moviese.at/movie/${title}`;
   }
 }

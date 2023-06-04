@@ -19,20 +19,12 @@ export class AppComponent {
   }
 
   private initializeApp():void {
-    console.log(1)
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
         this.zone.run(() => {
-          console.log('test')
-            // Example url: https://beerswift.app/tabs/tab2
-            // slug = /tabs/tab2
-            console.log(event.url)
-            const slug = event.url.split(".com").pop();
-            console.log(slug)
-            // if (slug) {
-            //     this.router.navigateByUrl(slug);
-            // }
-            // If no match, do nothing - let regular routing
-            // logic take over
+            const slug = event.url.split(".at").pop();
+            if (slug) {
+                this.router.navigateByUrl(slug);
+            }
         });
     });
 }

@@ -33,7 +33,7 @@ Run `npm run sync` to build the application and sync the dist folder with the an
 
 # Deep link testing
 
-Run `adb shell am start -W -a android.intent.action.VIEW -d "https://www.moviese.at" com.movieseat.app` to initiate deep link simulation
+Run `adb shell am start -W -a android.intent.action.VIEW -d "https://www.moviese.at/movie/moonrise-kingdom" com.movieseat.app` to initiate deep link simulation
 
 # To create icons
 
