@@ -1,9 +1,8 @@
 import { Component, Input, inject } from '@angular/core';
 import { fadeAnimation } from 'src/app/animations';
 import { IsTouchingDirective } from 'src/app/directives/is-touching.directive';
-import { Share } from '@capacitor/share';
 
-interface IMovie {
+export interface IMovie {
   title: string
   poster: string
   release_date: string
@@ -31,20 +30,5 @@ export class MovieDisplayComponent {
 
   public toggleDisplay(): void {
     this.showDetails = !this.showDetails
-  }
-
-  public async shareInfo(e: Event): Promise<void> {
-    e.preventDefault();
-    await Share.share({
-      text: `Check out this movie: ${this.movie.title}`,
-      url: this.generateLink(this.movie.title),
-      title: 'Check out this movie',
-      dialogTitle: 'Check out this movie'
-    });
-  }
-
-  private generateLink(title: string): string {
-    title = title.replaceAll(' ', '-').toLowerCase();
-    return `https://www.moviese.at/movie/${title}`;
   }
 }

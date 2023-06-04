@@ -9,7 +9,7 @@ const routes: Routes = [
         path: ':title',
         component: MovieDetailsComponent,
         data: {
-          title: 'Moonrise Kingdome',
+          title: 'Moonrise Kingdom',
           animation: 'movieDetail',
         },
       },

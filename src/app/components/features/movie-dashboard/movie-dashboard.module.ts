@@ -13,6 +13,7 @@ import { MovieReviewsComponent } from '../movie-details/movie-reviews/movie-revi
 import { CreateReviewDialogComponent, FullReviewDialogComponent, MovieReviewComponent } from '../movie-details/movie-reviews/movie-review/movie-review.component';
 import { MovieRatingComponent } from '../movie-details/movie-rating/movie-rating.component';
 import { SpeedDialFabComponent } from '../../UI/speed-dial-fab/speed-dial-fab.component';
+import { ShareSocialComponent } from '../../shared/share-social/share-social.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { SpeedDialFabComponent } from '../../UI/speed-dial-fab/speed-dial-fab.co
     BrowserModule,
     MovieDashboardRoutes,
     YoutubePlayerComponent,
+    ShareSocialComponent,
     MaterialModule
   ],
 })
