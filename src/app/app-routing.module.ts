@@ -6,7 +6,10 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'watchlist',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: {
+      title: 'test'
+    }
   },
   {
     path: 'watchlist',
