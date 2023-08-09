@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { watchlist } from 'src/app/mock/watchlist.json';
 import { MovieDisplayComponent } from '../movie-display/movie-display.component';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
+import { MovieSearchComponent } from '../../movie-search/movie-search.component';
+import { WatchlistComponent } from '../../watchlist/watchlist.component';
 
 @Component({
   templateUrl: './movie-dashboard.component.html',
   styleUrls: ['./movie-dashboard.component.scss'],
   standalone: true,
-  imports: [CommonModule, MaterialModule, MovieDisplayComponent]
+  imports: [CommonModule, MaterialModule, MovieDisplayComponent, MovieSearchComponent, WatchlistComponent]
 })
 export class MovieDashboardComponent {
-  public watchlist = watchlist
 }

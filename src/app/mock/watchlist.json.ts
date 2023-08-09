@@ -1,4 +1,10 @@
-export const watchlist = [
+interface IMovie {
+  title: string,
+  poster: string,
+  release_date: string
+}
+
+export const watchlist: IMovie[] = [
   {
     title: "Moonrise Kingdom",
     poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg",

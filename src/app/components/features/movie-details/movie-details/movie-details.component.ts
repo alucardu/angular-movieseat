@@ -3,10 +3,10 @@ import { IMovie } from '../../movie-dashboard/movie-display/movie-display.compon
 import { MaterialModule } from 'src/app/material.module';
 import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player/youtube-player.component';
 import { ShareSocialComponent } from 'src/app/components/shared/share-social/share-social.component';
-import { MovieRatingComponent } from '../movie-rating/movie-rating.component';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
 import { ClipsContainerComponent } from '../clips-container/clips-container.component';
 import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
+import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
 
 @Component({
   templateUrl: './movie-details.component.html',

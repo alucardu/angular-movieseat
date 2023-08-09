@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SpeedDialFabComponent } from 'src/app/components/UI/speed-dial-fab/speed-dial-fab.component';
 import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewComponent } from './movie-review/movie-review.component';
-import { MovieRatingComponent } from '../movie-rating/movie-rating.component';
+import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
 
 
 @Component({
