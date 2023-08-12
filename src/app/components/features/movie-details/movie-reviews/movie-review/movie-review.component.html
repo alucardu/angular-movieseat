@@ -4,21 +4,6 @@
       <div class="likesSorting">
         <mat-icon>thumb_up</mat-icon>
         <p>(126)</p>
-        <mat-form-field appearance="outline" class="reviewSort" subscriptSizing="dynamic" color="accent">
-          <mat-select [formControl]="reviewSorting">
-            <mat-option value="populair">Populair</mat-option>
-            <mat-option value="newest">Newest</mat-option>
-            <mat-option value="oldest">Oldest</mat-option>
-            <mat-option value="friends">Friends</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="reviewNavigation">
-        <app-speed-dial-fab>
-          <button mat-mini-fab color="accent" (click)="createReviewDialog()">
-            <mat-icon color="primary">add</mat-icon>
-          </button>
-        </app-speed-dial-fab>
       </div>
     </span>
     <p class="review" [ngClass]="reviewText.length > 380 ? 'ellipsis' : ''">

@@ -25,7 +25,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     group([
       query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(0%)', opacity: 1, }))]),
       query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(-100%)', opacity: 1 }))]),
-     ]),
+    ]),
   ]),
 
   transition('movieDetail => watchList', [
@@ -44,8 +44,8 @@ export const slideInAnimation = trigger('routeAnimations', [
     group([
       query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(0%)', opacity: 1 }))]),
       query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(100%)', opacity: 0 }))]),
-     ]),
-   ])
+    ]),
+  ])
 ]);
 
 export const fadeAnimation = trigger('fadeAnimation', [

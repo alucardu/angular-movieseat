@@ -3,7 +3,7 @@ import { MovieDetailsComponent } from '../movie-details/movie-details/movie-deta
 
 const routes: Routes = [
   {
-    path: 'movie',
+    path: '',
     children: [
       {
         path: ':title',

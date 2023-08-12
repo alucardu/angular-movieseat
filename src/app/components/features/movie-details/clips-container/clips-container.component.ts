@@ -1,9 +1,12 @@
 import { AfterViewChecked, Component, ElementRef, HostListener } from '@angular/core';
+import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player/youtube-player.component';
 
 @Component({
   selector: 'app-clips-container',
   templateUrl: './clips-container.component.html',
-  styleUrls: ['./clips-container.component.scss']
+  styleUrls: ['./clips-container.component.scss'],
+  standalone: true,
+  imports: [YoutubePlayerComponent]
 })
 export class ClipsContainerComponent implements AfterViewChecked {
   private youtubePlayerWidth = 0;
