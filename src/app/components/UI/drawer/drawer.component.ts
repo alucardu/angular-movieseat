@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, NgZone, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ChildrenOutletContexts, OutletContext, RouterModule, } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { ScrollService } from 'src/app/services/scroll.service';
