@@ -18,6 +18,10 @@ const routes: Routes = [
       title: 'Watchlist',
       animation: 'watchList' },
   },
+  {
+    path: 'movie',
+    loadChildren: () => import('./components/features/movie-dashboard/movie-dashboard.module').then(m => m.MovieDashboardModule)
+  },
 ];
 
 @NgModule({

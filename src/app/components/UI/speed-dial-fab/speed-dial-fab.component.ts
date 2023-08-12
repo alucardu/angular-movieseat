@@ -1,12 +1,15 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, ElementRef, HostListener } from '@angular/core';
 import { fadeAnimation } from 'src/app/animations';
+import { MaterialModule } from 'src/app/material.module';
 
 @Component({
   selector: 'app-speed-dial-fab',
   templateUrl: './speed-dial-fab.component.html',
   styleUrls: ['./speed-dial-fab.component.scss'],
   animations: [fadeAnimation],
-  encapsulation: ViewEncapsulation.None
+  standalone: true,
+  imports: [CommonModule, MaterialModule]
 })
 export class SpeedDialFabComponent  {
   @HostListener('window:touchstart', ['$event', '$event.target']) public handleClick = (_event: Event, targetElement: HTMLElement):void => {
@@ -30,5 +33,6 @@ export class SpeedDialFabComponent  {
 
   public onToggleFab(): void {
     this.fabTogglerState ? this.hideItems() : this.showItems();
+    this.cd.detectChanges();
   }
 }
