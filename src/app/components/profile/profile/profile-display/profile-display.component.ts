@@ -24,7 +24,8 @@ export class ProfileDisplayComponent implements OnInit {
   }
 
   public toggleEdit(): void {
-    this.profileForm.disabled ? this.profileForm.enable() : this.profileForm.disable()
+    this.profileForm.disabled ? this.profileForm.enable() : this.profileForm.disable();
+    this.profileForm.reset();
   }
 
   public resetForm(): void {
