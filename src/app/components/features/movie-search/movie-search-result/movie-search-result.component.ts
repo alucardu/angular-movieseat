@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { searchResults } from '../../../../mock/movie-search-results.json';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MaterialModule } from 'src/app/material.module';
 import { RatingCircleComponent } from 'src/app/components/UI/rating-circle/rating-circle.component';
 import { CommonModule } from '@angular/common';
+import { toggleSearchResult } from 'src/app/animations';
 
 @Component({
   selector: 'app-movie-search-result',
@@ -11,22 +11,18 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./movie-search-result.component.scss'],
   standalone: true,
   imports: [CommonModule, MaterialModule, RatingCircleComponent],
-  animations: [
-    trigger('bodyExpansion', [
-      state('collapsed, void', style({ height: '0px', visibility: 'hidden' })),
-      state('expanded', style({ height: '*', visibility: 'visible' })),
-      transition(
-        'expanded <=> collapsed, void => collapsed, void => expanded',
-        animate('225ms ease-in-out')
-      ),
-    ]),
-  ],
+  animations: [toggleSearchResult],
 })
-export class MovieSearchResultComponent {
+export class MovieSearchResultComponent implements OnInit {
   public searchResults = searchResults;
   public openedIndex!: number | null;
+  public animating = true
 
   public toggleOpened(index: number): void {
     this.openedIndex = (this.openedIndex === index ? null : index)
+  }
+
+  public ngOnInit(): void {
+    setTimeout(() => this.animating = false, 300)
   }
 }

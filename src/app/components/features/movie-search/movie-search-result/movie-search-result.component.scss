@@ -1,7 +1,6 @@
 .example-card {
   background-color: black;
   margin-bottom: 8px;
-  height: 100%;
 }
 
 .poster {
@@ -56,4 +55,7 @@ mat-card-subtitle {
 mat-card-content {
   overflow: hidden;
   padding-bottom: 0px!important;
+  &.animationFix {
+    height: 0px;
+  }
 }
