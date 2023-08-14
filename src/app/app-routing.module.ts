@@ -1,29 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MovieDashboardComponent } from './components/features/movie-dashboard/movie-dashboard/movie-dashboard.component';
-import { MovieSearchComponent } from './components/features/movie-search/movie-search.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'watchlist',
     pathMatch: 'full',
-    data: {
-      title: 'test'
-    }
   },
   {
     path: 'movie-search',
-    component: MovieSearchComponent,
+    loadComponent: () => import('./components/features/movie-search/movie-search.component').then(c => c.MovieSearchComponent),
     data: {
       animation: 'movieSearch'
     }
   },
   {
     path: 'watchlist',
-    component: MovieDashboardComponent,
+    loadComponent: () => import('./components/features/movie-dashboard/movie-dashboard/movie-dashboard.component').then(c => c.MovieDashboardComponent),
     data: {
-      title: 'Watchlist',
       animation: 'watchList'
     },
   },
@@ -31,6 +25,13 @@ const routes: Routes = [
     path: 'movie',
     loadChildren: () => import('./components/features/movie-dashboard/movie-dashboard.module').then(m => m.MovieDashboardModule)
   },
+  {
+    path: 'profile',
+    loadComponent: () => import('./components/profile/profile/profile.component').then(c => c.ProfileComponent),
+    data: {
+      animation: 'profile'
+    }
+  }
 ];
 
 @NgModule({

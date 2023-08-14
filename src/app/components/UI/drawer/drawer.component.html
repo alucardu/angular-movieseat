@@ -4,9 +4,7 @@
 </div>
 <mat-sidenav-container hasBackdrop="true">
   <mat-sidenav #drawer mode="over" autoFocus="false">
-    <mat-list>
-      <app-drawer-menu [drawer]="drawer"></app-drawer-menu>
-    </mat-list>
+    <app-drawer-menu [drawer]="drawer"></app-drawer-menu>
   </mat-sidenav>
   <mat-sidenav-content>
     <button mat-mini-fab color="accent" (click)="drawer.toggle()" onclick="this.blur()" class="menuToggleBtn">
