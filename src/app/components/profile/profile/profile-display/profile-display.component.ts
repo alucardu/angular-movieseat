@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 
@@ -10,11 +10,13 @@ import { MaterialModule } from 'src/app/material.module';
   standalone: true,
   imports: [MaterialModule, CommonModule]
 })
-export class ProfileDisplayComponent {
-  public profileForm: FormGroup;
+export class ProfileDisplayComponent implements OnInit {
+  public profileForm!: FormGroup;
 
-  public constructor(private formBuilder: FormBuilder) {
-    this.profileForm = this.formBuilder.group({
+  public constructor(private formBuilder: FormBuilder) {}
+
+  public ngOnInit(): void {
+    this.profileForm = this.formBuilder.nonNullable.group({
       firstName: [{ value: 'Peter', disabled: true }, Validators.required],
       lastName: [{ value: 'Boomsma', disabled: true }, Validators.required],
       age: [{ value: 36, disabled: true }, Validators.required],
@@ -23,6 +25,11 @@ export class ProfileDisplayComponent {
 
   public toggleEdit(): void {
     this.profileForm.disabled ? this.profileForm.enable() : this.profileForm.disable()
+  }
+
+  public resetForm(): void {
+    this.profileForm.reset();
+    this.profileForm.disable();
   }
 
   public submitForm(): void {
