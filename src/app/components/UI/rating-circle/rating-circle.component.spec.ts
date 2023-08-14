@@ -1,21 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RatingCircleComponent } from './rating-circle.component';
 
-import { NavigateBackComponent } from './navigate-back.component';
-
-describe('NavigateBackComponent', () => {
-  let component: NavigateBackComponent;
-  let fixture: ComponentFixture<NavigateBackComponent>;
+describe('RatingCircleComponent', () => {
+  let component: RatingCircleComponent;
+  let fixture: ComponentFixture<RatingCircleComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavigateBackComponent ]
+      declarations: [ RatingCircleComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NavigateBackComponent);
+    fixture = TestBed.createComponent(RatingCircleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

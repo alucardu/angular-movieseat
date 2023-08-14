@@ -1,0 +1,61 @@
+.example-card {
+  background-color: black;
+  margin-bottom: 8px;
+}
+
+.poster {
+  max-height: 20vh;
+}
+
+.poster {
+  height: 300px;
+  overflow: hidden;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center; /* This centers the image within the container */
+}
+
+.mat-mdc-card-header {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+}
+
+.mat-mdc-card-avatar {
+  margin-right: 8px;
+}
+
+.description {
+  padding-top: 8px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+mat-card-actions {
+  padding: 0;
+  min-height: auto;
+  padding-bottom: 16px;
+  button {
+    margin-right: 8px;
+  }
+}
+
+mat-card-title {
+  font-size: 1rem;
+}
+
+mat-card-subtitle {
+  font-size: 0.75rem;
+}
+
+mat-card-content {
+  overflow: hidden;
+  padding-bottom: 0px!important;
+  &.animationFix {
+    height: 0px;
+  }
+}

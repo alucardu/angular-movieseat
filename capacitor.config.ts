@@ -4,7 +4,6 @@ const config: CapacitorConfig = {
   appId: 'com.movieseat.app',
   appName: 'Movieseat',
   webDir: 'dist/angular-movieseat',
-  bundledWebRuntime: false,
   plugins: {
     SplashScreen: {
       launchShowDuration: 600,

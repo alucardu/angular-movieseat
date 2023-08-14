@@ -1,10 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, NgZone } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SpeedDialFabComponent } from 'src/app/components/UI/speed-dial-fab/speed-dial-fab.component';
 import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewComponent } from './movie-review/movie-review.component';
-import { MovieRatingComponent } from '../movie-rating/movie-rating.component';
+import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { MovieRatingComponent } from '../movie-rating/movie-rating.component';
   templateUrl: './movie-reviews.component.html',
   styleUrls: ['./movie-reviews.component.scss'],
   standalone: true,
-  imports: [MaterialModule, SpeedDialFabComponent, MovieReviewComponent]
+  imports: [CommonModule, MaterialModule, SpeedDialFabComponent, MovieReviewComponent]
 })
 export class MovieReviewsComponent {
   public reviewSorting = new FormControl('oldest');
@@ -21,15 +22,18 @@ export class MovieReviewsComponent {
 
   public constructor(
     private dialog: MatDialog,
+    private ngZone: NgZone
   ) {}
 
   public createReviewDialog(): void {
-    this.dialog.open(CreateReviewDialogComponent, {
-      data: {
-        reviewInput: this.reviewInput,
-      },
-      height: '98vh',
-      minWidth: '95vw',
+    this.ngZone.run(() => {
+      this.dialog.open(CreateReviewDialogComponent, {
+        data: {
+          reviewInput: this.reviewInput,
+        },
+        height: '98vh',
+        minWidth: '95vw',
+      })
     })
   }
 

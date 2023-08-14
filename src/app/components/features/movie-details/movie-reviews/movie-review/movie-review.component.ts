@@ -3,7 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { fadeAnimation } from 'src/app/animations';
 import { MaterialModule } from 'src/app/material.module';
-import { MovieRatingComponent } from '../../movie-rating/movie-rating.component';
+import { MovieRatingComponent } from '../../rating-stars/movie-rating.component';
 
 @Component({
   selector: 'app-movie-review',

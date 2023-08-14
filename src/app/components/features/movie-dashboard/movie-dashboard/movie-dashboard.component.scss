@@ -1,5 +1,5 @@
-:host {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.openMovieSearchBtn {
+  position: sticky;
+  bottom: 8px;
+  left: calc(50% - 20px);
 }

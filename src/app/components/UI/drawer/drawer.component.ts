@@ -5,7 +5,6 @@ import { ScrollService } from 'src/app/services/scroll.service';
 import { slideInAnimation } from 'src/app/animations';
 import { DeviceService } from 'src/app/services/device.service';
 import { Observable, map } from 'rxjs';
-import { NavigateBackComponent } from '../navigate-back/navigate-back.component';
 import { MaterialModule } from 'src/app/material.module';
 import { DrawerMenuComponent } from '../drawer-menu/drawer-menu.component';
 import { CommonModule } from '@angular/common';
@@ -17,7 +16,7 @@ import { CommonModule } from '@angular/common';
   animations: [slideInAnimation],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MaterialModule, CommonModule, RouterModule, DrawerMenuComponent, NavigateBackComponent]
+  imports: [MaterialModule, CommonModule, RouterModule, DrawerMenuComponent]
 })
 export class DrawerComponent implements OnInit, AfterViewInit {
   @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
@@ -43,7 +42,6 @@ export class DrawerComponent implements OnInit, AfterViewInit {
         this.exitConfirmation = true;
       };
     });
-
   }
 
   public ngAfterViewInit(): void {

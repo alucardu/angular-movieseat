@@ -12,8 +12,7 @@
     <button mat-mini-fab color="accent" (click)="drawer.toggle()" onclick="this.blur()" class="menuToggleBtn">
       <mat-icon>menu</mat-icon>
     </button>
-    <app-navigate-back></app-navigate-back>
-    <main #mainContent [@routeAnimations]="getRouteAnimationData()">
+    <main #mainContent [@routeAnimations]="getRouteAnimationData() | async">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>

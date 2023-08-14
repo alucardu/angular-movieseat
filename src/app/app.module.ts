@@ -8,6 +8,8 @@ import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DrawerComponent } from './components/UI/drawer/drawer.component';
 
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +21,7 @@ import { DrawerComponent } from './components/UI/drawer/drawer.component';
     AppRoutingModule,
     HttpClientModule,
     DrawerComponent,
+    NgCircleProgressModule.forRoot({})
   ],
   providers: [Title],
   bootstrap: [AppComponent],

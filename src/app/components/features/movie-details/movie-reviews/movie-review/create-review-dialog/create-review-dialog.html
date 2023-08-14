@@ -1,0 +1,13 @@
+<mat-dialog-content>
+  <mat-form-field appearance="fill" class="reviewInput">
+    <textarea placeholder="Your review..." matInput [formControl]="data.reviewInput"></textarea>
+  </mat-form-field>
+  <div class="footer">
+    <app-movie-rating></app-movie-rating>
+    <div class="containerButtons"></div>
+  </div>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close color="primary">Submit</button>
+  <button mat-flat-button mat-dialog-close color="accent">Cancel</button>
+</div>

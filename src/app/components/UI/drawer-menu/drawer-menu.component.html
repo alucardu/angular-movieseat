@@ -1,5 +1,5 @@
 <mat-list-item>
-  <button mat-flat-button color="primary" (click)="drawer.toggle()" routerLink="/watchlist" [disabled]="isRouteActive('/watchlist')">
+  <button mat-flat-button color="primary" (click)="drawer.toggle()" [routerLink]="['/watchlist']" [disabled]="isRouteActive('/watchlist')">
     <mat-icon>theaters</mat-icon> Watchlist
   </button>
 </mat-list-item>
