@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { searchResults } from '../../../../mock/movie-search-results.json';
 import { MaterialModule } from 'src/app/material.module';
 import { RatingCircleComponent } from 'src/app/components/UI/rating-circle/rating-circle.component';
@@ -13,16 +13,12 @@ import { toggleSearchResult } from 'src/app/animations';
   imports: [CommonModule, MaterialModule, RatingCircleComponent],
   animations: [toggleSearchResult],
 })
-export class MovieSearchResultComponent implements OnInit {
+export class MovieSearchResultComponent {
   public searchResults = searchResults;
   public openedIndex!: number | null;
   public animating = true
 
   public toggleOpened(index: number): void {
     this.openedIndex = (this.openedIndex === index ? null : index)
-  }
-
-  public ngOnInit(): void {
-    setTimeout(() => this.animating = false, 300)
   }
 }

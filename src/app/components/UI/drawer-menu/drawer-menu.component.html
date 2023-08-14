@@ -1,5 +1,12 @@
-<mat-list-item>
-  <button mat-flat-button color="primary" (click)="drawer.toggle()" [routerLink]="['/watchlist']" [disabled]="isRouteActive('/watchlist')">
-    <mat-icon>theaters</mat-icon> Watchlist
-  </button>
-</mat-list-item>
+<mat-list>
+  <mat-list-item>
+    <button mat-flat-button color="primary" (click)="drawer.toggle()" [routerLink]="['/profile']" [disabled]="isRouteActive('/profile')">
+      <mat-icon>person</mat-icon> Profile
+    </button>
+  </mat-list-item>
+  <mat-list-item>
+    <button mat-flat-button color="primary" (click)="drawer.toggle()" [routerLink]="['/watchlist']" [disabled]="isRouteActive('/watchlist')">
+      <mat-icon>theaters</mat-icon> Watchlist
+    </button>
+  </mat-list-item>
+</mat-list>
