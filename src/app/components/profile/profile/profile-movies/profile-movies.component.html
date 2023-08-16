@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Movies</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="moviesContainer">
+    <div class="kpi">
+      <span class="key">added</span>
+      <span class="value">{{ getAddedMovies() }}</span>
+    </div>
+    <div class="kpi">
+      <span class="key">watched</span>
+      <span class="value">{{ getWatchedMovies() }}</span>
+    </div>
+    <div class="kpi">
+      <span class="key">reviewed</span>
+      <span class="value">{{ getRevievedMovies() }}</span>
+    </div>
+    <div class="kpi">
+      <span class="key">suggested</span>
+      <span class="value">{{ getSuggestedMovies() }}</span>
+    </div>
+  </mat-card-content>
+</mat-card>
