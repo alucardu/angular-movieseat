@@ -36,6 +36,7 @@ export class IsTouchingDirective {
 
   private handleTouchMove = ():void => {
     this.touching = false;
+    this.isTouchingSubject$.next(false)
   }
 
   private handleTouchStart = (event: TouchEvent): void => {
