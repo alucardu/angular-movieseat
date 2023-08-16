@@ -1,24 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-profile-display',
-  templateUrl: './profile-display.component.html',
-  styleUrls: ['./profile-display.component.scss'],
+  selector: 'app-user-info',
+  templateUrl: './user-info.component.html',
+  styleUrls: ['./user-info.component.scss'],
   standalone: true,
-  imports: [MaterialModule, CommonModule]
+  imports: [CommonModule, MaterialModule]
 })
-export class ProfileDisplayComponent implements OnInit {
+export class UserInfoComponent implements OnInit {
   public profileForm!: FormGroup;
 
-  public constructor(private formBuilder: FormBuilder) {}
+  public constructor(private formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
+    this.setProfileForm();
+  }
+
+  private setProfileForm(): void {
     this.profileForm = this.formBuilder.nonNullable.group({
-      firstName: [{ value: 'Peter', disabled: true }, Validators.required],
-      lastName: [{ value: 'Boomsma', disabled: true }, Validators.required],
+      userName: [{ value: 'alucardu', disabled: true }, Validators.required],
       age: [{ value: 36, disabled: true }, Validators.required],
     });
   }
