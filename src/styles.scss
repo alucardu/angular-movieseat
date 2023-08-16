@@ -10,3 +10,7 @@ a {
 mat-form-field {
   width: 100%;
 }
+
+* {
+  user-select: none;
+}

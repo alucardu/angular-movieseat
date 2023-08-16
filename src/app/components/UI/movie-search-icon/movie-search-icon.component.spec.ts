@@ -1,21 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MovieSearchIconComponent } from './movie-search-icon.component';
 
-import { DrawerMenuComponent } from './drawer-menu.component';
-
-describe('DrawerMenuComponent', () => {
-  let component: DrawerMenuComponent;
-  let fixture: ComponentFixture<DrawerMenuComponent>;
+describe('MovieSearchIconComponent', () => {
+  let component: MovieSearchIconComponent;
+  let fixture: ComponentFixture<MovieSearchIconComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DrawerMenuComponent ]
+      declarations: [ MovieSearchIconComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DrawerMenuComponent);
+    fixture = TestBed.createComponent(MovieSearchIconComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

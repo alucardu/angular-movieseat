@@ -1,22 +1,20 @@
 import { Location } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-drawer-menu',
-  templateUrl: './drawer-menu.component.html',
-  styleUrls: ['./drawer-menu.component.scss'],
+  selector: 'app-drawer-sidenav',
+  templateUrl: './drawer-sidenav.component.html',
+  styleUrls: ['./drawer-sidenav.component.scss'],
   standalone: true,
   imports: [MaterialModule, RouterModule]
 })
-export class DrawerMenuComponent {
-  @Input() public drawer!: MatSidenav
+export class DrawerSidenavComponent {
+  private location = inject(Location)
 
-  public constructor(
-    private location: Location,
-  ) {}
+  @Input() public drawer!: MatSidenav
 
   public isRouteActive(route: string): boolean {
     return this.location.path() === route

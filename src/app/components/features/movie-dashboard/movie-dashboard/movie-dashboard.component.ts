@@ -5,14 +5,14 @@ import { MaterialModule } from 'src/app/material.module';
 import { MovieSearchComponent } from '../../movie-search/movie-search.component';
 import { WatchlistComponent } from '../../watchlist/watchlist.component';
 import { RouterModule } from '@angular/router';
-import { fadeAnimation } from 'src/app/animations';
+import { MovieSearchIconComponent } from 'src/app/components/UI/movie-search-icon/movie-search-icon.component';
 
 @Component({
   templateUrl: './movie-dashboard.component.html',
   styleUrls: ['./movie-dashboard.component.scss'],
   standalone: true,
-  imports: [CommonModule, MaterialModule, MovieDisplayComponent, MovieSearchComponent, WatchlistComponent, RouterModule],
-  animations: [fadeAnimation]
+  imports: [CommonModule, MaterialModule, MovieDisplayComponent, MovieSearchComponent, WatchlistComponent, RouterModule, MovieSearchIconComponent],
 })
 export class MovieDashboardComponent {
+
 }

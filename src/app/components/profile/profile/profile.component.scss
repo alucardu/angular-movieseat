@@ -1,11 +1,16 @@
+:host {
+  > *:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
 form {
   display: flex;
   flex-direction: column;
-}
-
-.mat-mdc-card-header {
-  align-items: center;
-  padding-top: 0px;
 }
 
 mat-card-actions {
@@ -14,15 +19,5 @@ mat-card-actions {
   min-height: auto;
   button {
     margin-right: 8px;
-  }
-}
-
-:host {
-  > *:not(:last-child) {
-    margin-bottom: 12px;
-  }
-
-  > :last-child {
-    margin-bottom: 0;
   }
 }

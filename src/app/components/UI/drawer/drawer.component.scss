@@ -2,13 +2,7 @@
 
 .mat-drawer-container {
   height: 100%;
-}
-
-.menuToggleBtn.mdc-fab {
-  position: fixed;
-  z-index: 2;
-  top: 8px;
-  right: 16px;
+  background: #280028;
 }
 
 main {
@@ -16,7 +10,7 @@ main {
   overflow: hidden;
   height: 100%;
   & > *:not(router-outlet) {
-    padding: 0px 8px 8px 8px;
+    padding: 0px 8px 40px 8px;
     box-sizing: border-box;
     display: block;
     height: 100%;
