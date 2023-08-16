@@ -6,8 +6,7 @@
   left: calc(25% - 8px);
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-evenly;
   background: #280028;
   padding: 8px;
   border-top-right-radius: 8px;

@@ -48,7 +48,7 @@ export class IsTouchingDirective {
     this.touching = true
 
     this.touchStartSubject$.pipe(
-      switchMap(() => interval(25).pipe(delay(300))),
+      switchMap(() => interval(25).pipe(delay(600))),
       takeWhile(() => this.touching),
     ).subscribe({
       next: () => {
