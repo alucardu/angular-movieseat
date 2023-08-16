@@ -7,9 +7,7 @@
     <app-drawer-menu [drawer]="drawer"></app-drawer-menu>
   </mat-sidenav>
   <mat-sidenav-content>
-    <button mat-mini-fab color="accent" (click)="drawer.toggle()" onclick="this.blur()" class="menuToggleBtn">
-      <mat-icon>menu</mat-icon>
-    </button>
+    <app-drawer-toggle [drawer]="drawer"></app-drawer-toggle>
     <main #mainContent [@routeAnimations]="getRouteAnimationData() | async">
       <router-outlet></router-outlet>
     </main>

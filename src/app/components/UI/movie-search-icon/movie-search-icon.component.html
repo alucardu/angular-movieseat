@@ -1,0 +1,10 @@
+<button
+  mat-mini-fab
+  color="primary"
+  class="openMovieSearchBtn"
+  [routerLink]="['/movie-search']"
+  routerLinkActive="router-link-active"
+  @fadeAnimation
+  *ngIf="recentlyScrolled$ | async">
+  <mat-icon>search</mat-icon>
+</button>

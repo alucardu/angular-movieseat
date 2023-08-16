@@ -8,6 +8,7 @@ import { Observable, map } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 import { DrawerMenuComponent } from '../drawer-menu/drawer-menu.component';
 import { CommonModule } from '@angular/common';
+import { DrawerToggleComponent } from '../drawer-toggle/drawer-toggle.component';
 
 @Component({
   selector: 'app-drawer',
@@ -16,7 +17,7 @@ import { CommonModule } from '@angular/common';
   animations: [slideInAnimation],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MaterialModule, CommonModule, RouterModule, DrawerMenuComponent]
+  imports: [MaterialModule, CommonModule, RouterModule, DrawerMenuComponent, DrawerToggleComponent]
 })
 export class DrawerComponent implements OnInit, AfterViewInit {
   @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
@@ -46,6 +47,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.scrollService.detectScrollElement(this.mainContent)
+    this.scrollService.detectScrollAction(this.mainContent)
   }
 
   public exitApp(state: string): void {

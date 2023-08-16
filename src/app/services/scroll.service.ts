@@ -1,6 +1,6 @@
 import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { BehaviorSubject, Subscription, debounceTime, delay, filter, first, fromEvent, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Subscription, debounceTime, delay, filter, first, fromEvent, map, switchMap, timer } from 'rxjs';
 
 interface IScrollTop {
   id: number
@@ -13,6 +13,9 @@ interface IScrollTop {
 export class ScrollService implements OnDestroy {
   public activeRoutesSubject$ = new BehaviorSubject<Array<IScrollTop>>([]);
   public activeRoutes$ = this.activeRoutesSubject$.asObservable();
+
+  public recentlyScrolledSubject$ = new BehaviorSubject<boolean>(false);
+  public recentlyScrolled$ = this.recentlyScrolledSubject$.asObservable();
 
   public scrollPosition = 1;
 
@@ -69,9 +72,27 @@ export class ScrollService implements OnDestroy {
           this.activeRoutesSubject$.next(updatedRoutes);
           mainContent.nativeElement.children[2]?.scrollTo({ top: scrollPosition });
         }
-      })
+      });
+    }
 
-      ;
+    public detectScrollAction(mainContent: ElementRef<HTMLElement>): void {
+      this.router.events.pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      ).subscribe({
+        next: () => {
+          const scrollElement = mainContent.nativeElement.children[2] ? mainContent.nativeElement.children[2] : mainContent.nativeElement.children[1];
+
+          fromEvent(scrollElement, 'scroll').pipe(
+            debounceTime(200),
+            switchMap(() => {
+              this.recentlyScrolledSubject$.next(true);
+              return timer(2500);
+            })
+          ).subscribe(() => {
+            this.recentlyScrolledSubject$.next(false);
+          });
+        }
+      })
     }
 
     private getUpdatedRoutes(activeRoutes: Array<IScrollTop>, navigationStart: NavigationStart): Array<IScrollTop> {
@@ -88,5 +109,3 @@ export class ScrollService implements OnDestroy {
       this.routeSubscription$.unsubscribe();
     }
 }
-
-// bug => no scroll position set when not scrolled but does have scrollTop value
