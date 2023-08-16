@@ -5,13 +5,13 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 
 @Component({
-  selector: 'app-drawer-menu',
-  templateUrl: './drawer-menu.component.html',
-  styleUrls: ['./drawer-menu.component.scss'],
+  selector: 'app-drawer-sidenav',
+  templateUrl: './drawer-sidenav.component.html',
+  styleUrls: ['./drawer-sidenav.component.scss'],
   standalone: true,
   imports: [MaterialModule, RouterModule]
 })
-export class DrawerMenuComponent {
+export class DrawerSidenavComponent {
   private location = inject(Location)
 
   @Input() public drawer!: MatSidenav

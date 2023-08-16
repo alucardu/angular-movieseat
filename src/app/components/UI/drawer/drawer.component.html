@@ -4,10 +4,10 @@
 </div>
 <mat-sidenav-container hasBackdrop="true">
   <mat-sidenav #drawer mode="over" autoFocus="false">
-    <app-drawer-menu [drawer]="drawer"></app-drawer-menu>
+    <app-drawer-sidenav [drawer]="drawer"></app-drawer-sidenav>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-drawer-toggle [drawer]="drawer"></app-drawer-toggle>
+    <app-drawer-bottom-menu [drawer]="drawer" *ngIf="displayMenu" @fadeAnimation></app-drawer-bottom-menu>
     <main #mainContent [@routeAnimations]="getRouteAnimationData() | async">
       <router-outlet></router-outlet>
     </main>

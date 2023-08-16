@@ -1,19 +1,1 @@
-<div @fadeAnimation class="overlay" *ngIf="showDetails" (click)="showDetails = !showDetails">
-  <mat-list>
-    <mat-list-item>
-      <span>Moonrise Kingdom </span>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <span class="releaseDate">{{ movie.release_date }}</span>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <div class="actionsContainer">
-        <app-share-social [movie]="movie"></app-share-social>
-        <mat-icon color="accent">visibility</mat-icon>
-      </div>
-    </mat-list-item>
-  </mat-list>
-</div>
 <img src="{{ movie.poster }}" [routerLink]="['/movie', 'moonrise-kingdom']" />

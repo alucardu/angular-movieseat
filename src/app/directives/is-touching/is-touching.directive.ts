@@ -1,22 +1,36 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
-import { Subject, delay, interval, switchMap, takeWhile } from 'rxjs';
+ import { Directive, ElementRef, HostListener } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subject, delay, filter, interval, switchMap, takeWhile } from 'rxjs';
 
 @Directive({
   selector: '[appIsTouching]',
   standalone: true
 })
 export class IsTouchingDirective {
-  @Output() public appIsTouching = new EventEmitter();
+  private isTouchingSubject$ = new Subject<boolean>;
+  public isTouching$ = this.isTouchingSubject$.asObservable();
 
   private touching = false;
   private touchStartSubject$ = new Subject<TouchEvent>();
 
-  public constructor(private el: ElementRef<HTMLElement>) {
+  public constructor(
+    private el: ElementRef<HTMLElement>,
+    private router: Router) {
     this.el.nativeElement.addEventListener('touchstart', this.handleTouchStart, {passive: true})
     this.el.nativeElement.addEventListener('touchmove', this.handleTouchMove, {passive: true})
+    this.router.events.pipe(
+      filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
+    ).subscribe({
+      next: () => this.detectRoutingEvent()
+    })
   }
 
   @HostListener('touchend', ['$event']) public handleTouchEnd(): void {
+    this.touching = false
+  }
+
+  private detectRoutingEvent(): void {
+    this.isTouchingSubject$.next(false)
     this.touching = false
   }
 
@@ -33,11 +47,11 @@ export class IsTouchingDirective {
     this.touching = true
 
     this.touchStartSubject$.pipe(
-      switchMap(() => interval(25).pipe(delay(600))),
+      switchMap(() => interval(25).pipe(delay(300))),
       takeWhile(() => this.touching),
     ).subscribe({
       next: () => {
-        this.appIsTouching.emit();
+        this.isTouchingSubject$.next(true)
         this.touching = false
       }
     })

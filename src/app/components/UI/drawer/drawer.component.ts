@@ -1,36 +1,43 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { ChildrenOutletContexts, OutletContext, RouterModule, } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { ScrollService } from 'src/app/services/scroll.service';
-import { slideInAnimation } from 'src/app/animations';
+import { fadeAnimation, slideInAnimation } from 'src/app/animations';
 import { DeviceService } from 'src/app/services/device.service';
 import { Observable, map } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
-import { DrawerMenuComponent } from '../drawer-menu/drawer-menu.component';
+import { DrawerSidenavComponent } from '../drawer-sidenav/drawer-sidenav.component';
 import { CommonModule } from '@angular/common';
-import { DrawerToggleComponent } from '../drawer-toggle/drawer-toggle.component';
+import { DrawerBottomMenuComponent } from '../drawer-bottom-menu/drawer-bottom-menu.component';
+import { IsTouchingDirective } from 'src/app/directives/is-touching/is-touching.directive';
 
 @Component({
   selector: 'app-drawer',
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss'],
-  animations: [slideInAnimation],
+  animations: [slideInAnimation, fadeAnimation],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [MaterialModule, CommonModule, RouterModule, DrawerMenuComponent, DrawerToggleComponent]
+  hostDirectives: [IsTouchingDirective],
+  imports: [MaterialModule, CommonModule, RouterModule, DrawerSidenavComponent, DrawerBottomMenuComponent]
 })
 export class DrawerComponent implements OnInit, AfterViewInit {
   @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
-  public exitConfirmation = false;
-
   private deviceIsMobile$: Observable<boolean>;
+
+  public exitConfirmation = false;
+  public displayMenu = false;
 
   public constructor(
     private contexts: ChildrenOutletContexts,
     private scrollService: ScrollService,
     private deviceService: DeviceService,
+    private touchingDirective: IsTouchingDirective = inject(IsTouchingDirective, {self: true})
   ) {
     this.deviceIsMobile$ = this.deviceService.deviceIsMobile$;
+    this.touchingDirective.isTouching$.subscribe({
+      next: (data) => this.toggleMenu(data)
+    })
   }
 
   public ngOnInit(): void {
@@ -47,7 +54,6 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.scrollService.detectScrollElement(this.mainContent)
-    this.scrollService.detectScrollAction(this.mainContent)
   }
 
   public exitApp(state: string): void {
@@ -64,5 +70,9 @@ export class DrawerComponent implements OnInit, AfterViewInit {
         return deviceIsMobile ? this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'] : null
       })
     );
+  }
+
+  private toggleMenu(isTouching: boolean): void {
+    this.displayMenu = (!this.displayMenu && isTouching) ? true : false;
   }
 }

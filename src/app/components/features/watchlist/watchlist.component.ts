@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { watchlist } from 'src/app/mock/watchlist.json';
-import { MovieDisplayComponent } from '../movie-dashboard/movie-display/movie-display.component';
 import { CommonModule } from '@angular/common';
+import { MovieDisplayComponent } from '../movie-dashboard/movie-display/movie-display.component';
 
 @Component({
   selector: 'app-watchlist',
