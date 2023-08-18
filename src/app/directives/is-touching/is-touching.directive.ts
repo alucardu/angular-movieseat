@@ -11,6 +11,7 @@ export class IsTouchingDirective {
   public isTouching$ = this.isTouchingSubject$.asObservable();
 
   private touching = false;
+  private touched  = false;
   private touchStartSubject$ = new Subject<TouchEvent>();
 
   public constructor(
@@ -21,7 +22,9 @@ export class IsTouchingDirective {
     this.router.events.pipe(
       filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
     ).subscribe({
-      next: () => this.detectRoutingEvent()
+      next: () => {
+        this.detectRoutingEvent()
+      }
     })
   }
 
@@ -47,13 +50,20 @@ export class IsTouchingDirective {
   private startTouching(): void {
     this.touching = true
 
+    if (this.touched) {
+      this.isTouchingSubject$.next(false)
+      this.touching = false
+      this.touched = false
+    }
+
     this.touchStartSubject$.pipe(
-      switchMap(() => interval(25).pipe(delay(300))),
+      switchMap(() => interval(25).pipe(delay(600))),
       takeWhile(() => this.touching),
     ).subscribe({
       next: () => {
         this.isTouchingSubject$.next(true)
         this.touching = false
+        this.touched = true;
       }
     })
   }

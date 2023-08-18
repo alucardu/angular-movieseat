@@ -6,11 +6,9 @@
 }
 
 main {
-  background-color: #280028;
-  overflow: hidden;
   height: 100%;
   & > *:not(router-outlet) {
-    padding: 0px 8px 40px 8px;
+    padding: 0px 8px 56px 8px;
     box-sizing: border-box;
     display: block;
     height: 100%;

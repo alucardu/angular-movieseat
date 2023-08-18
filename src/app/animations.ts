@@ -47,7 +47,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('watchList => movieSearch', [
+  transition('* => movieSearch', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -60,12 +60,12 @@ export const slideInAnimation = trigger('routeAnimations', [
     query(':enter', [style({ transform: 'translateY(100%)', opacity: 1, position: 'fixed' })]),
 
     group([
-      query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateY(0%)', opacity: 1, }))]),
-      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateY(-100%)', opacity: 1 }))]),
+      query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateY(0%)', opacity: 1, }))], {optional: true}),
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateY(-100%)', opacity: 1 }))], {optional: true}),
     ]),
   ]),
 
-  transition('movieSearch => watchList', [
+  transition('movieSearch => *', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({

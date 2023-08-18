@@ -33,6 +33,7 @@
   padding-top: 8px;
   font-size: 0.8rem;
   line-height: 1.4;
+  text-align: justify;
 }
 
 mat-card-actions {
@@ -55,4 +56,8 @@ mat-card-subtitle {
 mat-card-content {
   overflow: hidden;
   padding-bottom: 0px!important;
+}
+
+mat-card-actions button:last-child {
+  background: #575757;
 }
