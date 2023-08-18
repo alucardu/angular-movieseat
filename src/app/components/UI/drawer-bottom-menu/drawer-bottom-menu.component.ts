@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
 import { RouterModule } from '@angular/router';
 
@@ -11,6 +10,4 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule, CommonModule, MaterialModule],
 })
-export class DrawerBottomMenuComponent {
-  @Input() public drawer!: MatSidenav;
-}
+export class DrawerBottomMenuComponent {}

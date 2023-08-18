@@ -27,6 +27,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   public exitConfirmation = false;
   public displayMenu = false;
+  public scrollingUp$ = this.scrollService.scrollingUp$
 
   public constructor(
     private contexts: ChildrenOutletContexts,
@@ -54,6 +55,7 @@ export class DrawerComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.scrollService.detectScrollElement(this.mainContent)
+    this.scrollService.getScrollingDirection(this.mainContent)
   }
 
   public exitApp(state: string): void {
