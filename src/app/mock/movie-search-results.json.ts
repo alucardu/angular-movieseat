@@ -1,4 +1,4 @@
-interface IResult {
+export interface IResult {
   description: string,
   director: string,
   poster_path: string,

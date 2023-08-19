@@ -1,0 +1,14 @@
+
+.mark-as-read {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+app-notification {
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+  &:last-child {
+    margin-bottom: 0px;
+  }
+}

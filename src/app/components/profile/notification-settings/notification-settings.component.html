@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Notification settings</mat-card-title>
+    <button mat-icon-button (click)="toggleEdit()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-selection-list>
+      <mat-list-option [selected]="true" [disabled]="notificationSettingsForm.get('friendAddsMovie')?.disabled">
+        {{ notificationSettingsForm.get('friendAddsMovie')?.value }}
+      </mat-list-option>
+
+      <mat-list-option [selected]="true" [disabled]="notificationSettingsForm.get('friendAddsMovieReview')?.disabled">
+        {{ notificationSettingsForm.get('friendAddsMovieReview')?.value }}
+      </mat-list-option>
+
+      <mat-list-option [selected]="true" [disabled]="notificationSettingsForm.get('newMovieReleaseDate')?.disabled">
+        {{ notificationSettingsForm.get('newMovieReleaseDate')?.value }}
+      </mat-list-option>
+
+      <mat-list-option [selected]="true" [disabled]="notificationSettingsForm.get('newMovieTrailer')?.disabled">
+        {{ notificationSettingsForm.get('newMovieTrailer')?.value }}
+      </mat-list-option>
+    </mat-selection-list>
+
+    <mat-card-actions *ngIf="!notificationSettingsForm.disabled">
+      <button mat-flat-button color="primary" (click)="submitForm()">SAVE</button>
+      <button mat-flat-button *ngIf="!notificationSettingsForm.disabled" (click)="resetForm()">CANCEL</button>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

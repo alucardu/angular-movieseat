@@ -22,12 +22,19 @@ const routes: Routes = [
     },
   },
   {
+    path: 'notifications',
+    loadComponent: () => import('./components/notifications/notifications.component').then(c => c.NotificationsComponent),
+    data: {
+      animation: 'notifications'
+    },
+  },
+  {
     path: 'movie',
     loadChildren: () => import('./components/features/movie-dashboard/movie-dashboard.module').then(m => m.MovieDashboardModule)
   },
   {
     path: 'profile',
-    loadComponent: () => import('./components/profile/profile/profile.component').then(c => c.ProfileComponent),
+    loadComponent: () => import('./components/profile/profile.component').then(c => c.ProfileComponent),
     data: {
       animation: 'profile'
     }

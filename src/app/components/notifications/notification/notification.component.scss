@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+mat-card-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.1rem;
+}
+
+.read {
+  transition: background 0.2s;
+  background: #575757;
+}
+
+mat-card-content {
+  transition: all 0.2s;
+  overflow: hidden;
+  font-weight: 100;
+  padding: 16px;
+  padding-bottom: 0!important;
+  &.opened {
+    padding-bottom: 16px!important;
+  }
+}
+
+.mat-card-header {
+  padding: 16px 16px 0 16px;
+}

@@ -1,10 +1,10 @@
-<mat-card class="example-card" *ngFor="let searchResult of searchResults; let i = index">
-  <mat-card-header (click)="toggleOpened(i)">
+<mat-card class="example-card">
+  <mat-card-header (click)="toggleOpened(index)">
     <app-rating-circle [rating]="searchResult.score" mat-card-avatar></app-rating-circle>
     <mat-card-title>{{ searchResult.title }}</mat-card-title>
     <mat-card-subtitle>{{ searchResult.release_year }} ({{ searchResult.director }})</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content [@toggleSearchResult]="openedIndex === i ? 'expanded' : 'collapsed'">
+  <mat-card-content [@toggleSearchResult]="(movieSearchOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
     <div class="poster">
       <img mat-card-image [src]="searchResult.poster_path" alt="Oppenheimer poster" />
     </div>
@@ -13,7 +13,7 @@
     </p>
     <mat-card-actions>
       <button mat-flat-button color="primary">ADD TO WATCHLIST</button>
-      <button mat-flat-button>DETAILS</button>
+      <button mat-flat-button [routerLink]="['/movie/moonrise-kingdom']">DETAILS</button>
     </mat-card-actions>
   </mat-card-content>
 </mat-card>
