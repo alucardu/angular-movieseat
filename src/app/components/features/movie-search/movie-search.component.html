@@ -5,4 +5,5 @@
   </mat-form-field>
 </form>
 
-<app-movie-search-result></app-movie-search-result>
+<app-movie-search-result [searchResult]="searchResult" [index]="index" *ngFor="let searchResult of movieSearchResults$ | async; let index = index">
+</app-movie-search-result>

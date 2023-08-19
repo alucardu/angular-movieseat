@@ -1,24 +1,29 @@
-import { Component } from '@angular/core';
-import { searchResults } from '../../../../mock/movie-search-results.json';
+import { Component, Input, inject } from '@angular/core';
+import { IResult } from '../../../../mock/movie-search-results.json';
 import { MaterialModule } from 'src/app/material.module';
 import { RatingCircleComponent } from 'src/app/components/UI/rating-circle/rating-circle.component';
 import { CommonModule } from '@angular/common';
 import { toggleSearchResult } from 'src/app/animations';
+import { MovieSearchService } from '../movie-search.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-movie-search-result',
   templateUrl: './movie-search-result.component.html',
   styleUrls: ['./movie-search-result.component.scss'],
   standalone: true,
-  imports: [CommonModule, MaterialModule, RatingCircleComponent],
+  imports: [CommonModule, MaterialModule, RatingCircleComponent, RouterLink],
   animations: [toggleSearchResult],
 })
 export class MovieSearchResultComponent {
-  public searchResults = searchResults;
-  public openedIndex!: number | null;
-  public animating = true
+  private movieSearchService = inject(MovieSearchService)
+
+  @Input() public searchResult!: IResult
+  @Input() public index!: number
+
+  public movieSearchOpenedIndex$ = this.movieSearchService.movieSearchOpenedIndex$
 
   public toggleOpened(index: number): void {
-    this.openedIndex = (this.openedIndex === index ? null : index)
+    this.movieSearchService.setMovieSearchOpenedIndex(index)
   }
 }

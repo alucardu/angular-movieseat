@@ -52,7 +52,7 @@ export class ScrollService implements OnDestroy {
         this.scrollingDownSubject$.next(true)
         this.scrollingUpSubject$.next(false)
       } else {
-        if (scrollDifference < -24 ) {
+        if (scrollDifference < -8 ) {
           this.scrollingUpSubject$.next(true)
           this.scrollingDownSubject$.next(false)
         }
