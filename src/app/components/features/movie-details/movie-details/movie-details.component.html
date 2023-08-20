@@ -1,6 +1,4 @@
-<div #youtubeContainer>
-  <app-youtube-player [showThumbnail]="true" videoId="RBCRe73dZb0"></app-youtube-player>
-</div>
+<app-clips-container></app-clips-container>
 
 <h2 class="titleContainer">
   <span class="title">Moonrise Kingdom</span>
@@ -22,28 +20,24 @@
   <mat-chip>Romance</mat-chip>
 </mat-chip-set>
 
-<mat-card>
+<mat-card class="infoContainer">
   <mat-card-content>
-    <div class="infoContainer">
+    <div class="movieInfo">
       <div class="age">12+</div>
-      <span>29-10-1986 (NL) | 1h 34m </span>
+      <span>29-10-1986 (NL) </span>
       <app-share-social [movie]="movie"></app-share-social>
       <app-movie-rating></app-movie-rating>
+    </div>
+    <div class="crewInfo">
+      <p class="label">Director:</p>
+      <p class="value">Wes Anderson</p>
+      <p class="label">Writers:</p>
+      <p class="value">Wes Anderson, Roman Coppola</p>
+      <p class="label">Runtime:</p>
+      <p class="value">128 min</p>
     </div>
   </mat-card-content>
 </mat-card>
 
-<div class="directorWriterInfo">
-  <span>
-    <p>Director:</p>
-    Wes Anderson
-  </span>
-  <span>
-    <p>Writers:</p>
-    Wes Anderson, Roman Coppola
-  </span>
-</div>
-
 <app-image-slider></app-image-slider>
-<app-clips-container></app-clips-container>
 <app-movie-reviews></app-movie-reviews>

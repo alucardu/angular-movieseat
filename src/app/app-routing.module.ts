@@ -30,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'movie',
-    loadChildren: () => import('./components/features/movie-dashboard/movie-dashboard.module').then(m => m.MovieDashboardModule)
+    loadChildren: () => import('./components/features/movie-dashboard/movie-dashboard.module').then(m => m.MovieDashboardModule),
   },
   {
     path: 'profile',

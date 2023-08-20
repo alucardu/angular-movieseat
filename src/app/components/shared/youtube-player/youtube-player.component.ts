@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { YouTubePlayer, YouTubePlayerModule } from '@angular/youtube-player';
 import { StatusBar } from '@capacitor/status-bar';
@@ -6,17 +6,21 @@ import { App as CapacitorApp } from '@capacitor/app';
 import { take } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
 import { PluginListenerHandle } from '@capacitor/core';
-import { HttpClient } from '@angular/common/http';
-
+import { ActivatedRoute } from '@angular/router';
+import { ScrollService } from 'src/app/services/scroll.service';
+import { MaterialModule } from 'src/app/material.module';
 @Component({
   standalone: true,
   selector: 'app-youtube-player',
-  imports: [CommonModule, YouTubePlayerModule],
+  imports: [CommonModule, YouTubePlayerModule, MaterialModule],
   templateUrl: './youtube-player.component.html',
   styleUrls: ['./youtube-player.component.scss'],
   animations: [fadeAnimation]
 })
 export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy {
+  private route = inject(ActivatedRoute)
+  private scrollService = inject(ScrollService)
+
   @ViewChild('youtubePlayer') private youtubePlayer!: ElementRef<HTMLElement>;
   @ViewChild('player', { static: false }) private set playerInitial(player: YouTubePlayer) {
     if (player && !this.player) {
@@ -32,13 +36,15 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  public ngOnInit(): void {
+    this.route.paramMap.pipe(take(1)).subscribe({
+      next: (data) => this.clipId = data.get('id')
+    })
+  }
+
   private player?: YouTubePlayer
   private backButtonListener?: PluginListenerHandle
 
-  @Input() public videoId!: string
-  @Input() public showThumbnail = false;
-
-  public title?: string;
   public playerIsPlaying = false;
   public playerWidth = 1;
   public playerHeight = 1;
@@ -46,8 +52,9 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
   public thumbnailUrl?: string;
   public showPlayer = false;
   public playerIsLoaded = true;
+  public clipId!: string | null
 
-  public constructor(private http: HttpClient) {
+  public constructor() {
     window.addEventListener("orientationchange", () => {
       let currentWidth = this.youtubePlayer.nativeElement.offsetWidth
       let nextWidth = 0;
@@ -68,17 +75,6 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  public async ngOnInit(): Promise<void> {
-    this.thumbnailUrl = await this.returnHighestQualityImage()
-
-    const url = `https://www.youtube.com/watch?v=${this.videoId}`;
-    this.http.get<{title: string}>('https://noembed.com/embed', {
-      params: { format: 'json', url: url
-    }}).subscribe({
-      next: (data) => this.title = data.title
-    })
-  }
-
   private setPlayerDimensions(): void {
     this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * (this.playerIsPlaying ? 0.9 : 1);
     this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.48;
@@ -88,53 +84,36 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
     // wait for route animation to end
     this.playerWidth = this.youtubePlayer.nativeElement.offsetWidth * (this.playerIsPlaying ? 0.9 : 1);
     this.playerHeight = this.youtubePlayer.nativeElement.offsetWidth * 0.48;
+
+    this.scrollService.hideBottomMenu();
+
+    StatusBar.hide().catch(() => {
+      // error
+    });
+
+    window.screen.orientation.lock('landscape-primary').catch(() => {
+      // error
+    });
+
+    this.initializeBackButtonListener();
+
+
+    this.startVideo();
   }
 
   private async initializeBackButtonListener(): Promise<void> {
     this.backButtonListener = await CapacitorApp.addListener('backButton', () => {
       this.playerIsLoaded = true;
-      if (this.playerIsPlaying) {
-        window.screen.orientation.lock('portrait-primary').catch(() => {
-          // error
-        })
-        StatusBar.show().catch(() => {
-          // error
-        })
+      window.screen.orientation.lock('portrait-primary').catch(() => {
+        // error
+      })
+      StatusBar.show().catch(() => {
+        // error
+      })
 
-        this.playerIsPlaying = false;
-        this.player?.pauseVideo();
-        this.backButtonListener?.remove();
-      }
-    });
-  }
-
-  public async returnHighestQualityImage(): Promise<string | undefined> {
-    const maxresdefault = `https://i.ytimg.com/vi/${this.videoId}/maxresdefault.jpg`
-    const mqdefault = `https://i.ytimg.com/vi/${this.videoId}/mqdefault.jpg`
-
-    if ((await this.checkImageExists(maxresdefault))) {
-      return maxresdefault
-    }
-
-    if ((await this.checkImageExists(mqdefault))) {
-      return mqdefault
-    }
-
-    return undefined
-  }
-
-  private async checkImageExists(url: string): Promise<boolean> {
-    const img = new Image();
-    img.src = url;
-
-    return new Promise<boolean>((resolve) => {
-      img.onload = (): void => {
-        if (img.height === 90 && img.width === 120) {
-          resolve(false);
-        } else {
-          resolve(true);
-        }
-      };
+      this.playerIsPlaying = false;
+      this.player?.pauseVideo();
+      this.backButtonListener?.remove();
     });
   }
 
@@ -158,19 +137,10 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
     this.playerIsPlaying = event.data === YT.PlayerState.PLAYING;
 
     if (this.playerIsPlaying) {
-      await StatusBar.hide().catch(() => {
-        // error
-      });
-
-      window.screen.orientation.lock('landscape-primary').catch(() => {
-        // error
-      });
-
       setTimeout(() => {
         this.playerIsLoaded = false;
       }, 24)
 
-      this.initializeBackButtonListener();
     }
   }
 
