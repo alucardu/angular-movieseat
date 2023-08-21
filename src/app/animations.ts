@@ -154,7 +154,43 @@ export const slideInAnimation = trigger('routeAnimations', [
       query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateY(0%)', opacity: 1, }))], {optional: true}),
       query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateY(-100%)', opacity: 1 }))], {optional: true}),
     ]),
-  ])
+  ]),
+
+  transition('* => clip', [
+    style({ position: 'relative' }),
+    query(':enter, :leave', [
+      style({
+        position: 'absolute',
+        top: 0,
+        width: '100%'
+      })
+    ]),
+
+    query(':enter', [style({  opacity: 0, position: 'fixed' })]),
+
+    group([
+      query(':enter', [animate(`${animationTime}ms ease-out`, style({ opacity: 1, }))], {optional: true}),
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ opacity: 0 }))], {optional: true}),
+    ]),
+  ]),
+
+  transition('clip => *', [
+    style({ position: 'relative' }),
+    query(':enter, :leave', [
+      style({
+        position: 'absolute',
+        top: 0,
+        width: '100%'
+      })
+    ]),
+
+    query(':enter', [style({  opacity: 0, position: 'fixed' })]),
+
+    group([
+      query(':enter', [animate(`${animationTime}ms ease-out`, style({ opacity: 1, }))], {optional: true}),
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ opacity: 0 }))], {optional: true}),
+    ]),
+  ]),
 ]);
 
 export const fadeAnimation = trigger('fadeAnimation', [

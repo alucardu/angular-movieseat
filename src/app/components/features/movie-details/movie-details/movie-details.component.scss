@@ -42,16 +42,34 @@
 }
 
 .infoContainer {
-  display: flex;
-  align-items: center;
+  box-shadow: none;
+  background: #280028;
   margin-bottom: 8px;
+  mat-card-content {
+    padding: 4px;
+    .movieInfo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
 
-  app-share-social {
-    margin-left: 8px;
-  }
+      app-share-social {
+        margin-left: 8px;
+      }
 
-  app-movie-rating {
-    margin-left: auto;
+      app-movie-rating {
+        margin-left: auto;
+      }
+    }
+
+    .crewInfo {
+      p {
+        margin-bottom: 0;
+        &:nth-child(odd) {
+          width: 20%;
+          float: left;
+        }
+      }
+    }
   }
 }
 
@@ -68,10 +86,15 @@
 }
 
 .genres {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+  mat-chip {
+    margin: 0 4px;
+  }
 }
 
 .add {
   width: 100%;
-  margin: 0px 0 8px 0;
+  margin: 0px 0 16px 0;
+  padding: 24px 0;
 }

@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.clipsContainer {
+  margin: 0px 0 8px 0;
+  position: relative;
+  display: flex;
+  overflow: scroll;
+  app-youtube-player {
+    min-width: 100%;
+    margin-right: 8px;
+  }
+}
+
+
+.clipsSlideTracker {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  .clipsSlide {
+    transition: background 0.2s;
+    display: block;
+    height: 4px;
+    background: #7b1fa2;
+    flex-grow: 1;
+    border-radius: 12px;
+    &.active {
+      background: #69f0ae;
+    }
+  }
+}

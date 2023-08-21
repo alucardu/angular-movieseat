@@ -79,6 +79,10 @@ export class ScrollService implements OnDestroy {
     })
   }
 
+  public hideBottomMenu(): void {
+    this.scrollingUpSubject$.next(false)
+  }
+
   private detectScrollPosition(mainContent: ElementRef<HTMLElement>): void {
     const scrollElement = mainContent.nativeElement.children[2] ? mainContent.nativeElement.children[2] : mainContent.nativeElement.children[1];
 
