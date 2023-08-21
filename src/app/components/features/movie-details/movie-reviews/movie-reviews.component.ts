@@ -1,11 +1,11 @@
-import { Component, Inject, NgZone } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SpeedDialFabComponent } from 'src/app/components/UI/speed-dial-fab/speed-dial-fab.component';
 import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewComponent } from './movie-review/movie-review.component';
-import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
 import { CommonModule } from '@angular/common';
+import { MovieReviewsService } from './movie-reviews.service';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -13,47 +13,44 @@ import { CommonModule } from '@angular/common';
   templateUrl: './movie-reviews.component.html',
   styleUrls: ['./movie-reviews.component.scss'],
   standalone: true,
-  imports: [CommonModule, MaterialModule, SpeedDialFabComponent, MovieReviewComponent]
+  imports: [CommonModule, MaterialModule, SpeedDialFabComponent, MovieReviewComponent, RouterModule]
 })
-export class MovieReviewsComponent {
+export class MovieReviewsComponent implements AfterViewInit {
+  private movieReviewsService = inject(MovieReviewsService)
+
+  @ViewChild('reviewsContainer', {static: false}) private reviewsContainer!: ElementRef<HTMLElement>
+
   public reviewSorting = new FormControl('oldest');
-  public reviewInput = new FormControl('asd')
-  public createReview = false;
 
-  public constructor(
-    private dialog: MatDialog,
-    private ngZone: NgZone
-  ) {}
+  private reviewContainerWidth = 0;
+  private isScrollingTimeout = setTimeout(() => {
+    //
+  }, 0);
 
-  public createReviewDialog(): void {
-    this.ngZone.run(() => {
-      this.dialog.open(CreateReviewDialogComponent, {
-        data: {
-          reviewInput: this.reviewInput,
-        },
-        height: '98vh',
-        minWidth: '95vw',
-      })
+  public currentReview = 1;
+  public movieReviews$ = this.movieReviewsService.reviews$;
+
+  public ngAfterViewInit(): void {
+    this.setPosition();
+  }
+
+  private setPosition(): void {
+    this.reviewContainerWidth = this.reviewsContainer.nativeElement.offsetWidth + 8
+    this.reviewsContainer.nativeElement.addEventListener('scroll', () => {
+      window.clearTimeout( this.isScrollingTimeout );
+
+      this.isScrollingTimeout = setTimeout(() => {
+        this.scollElement();
+      }, 66)
     })
   }
 
-  public createReviewFn(): void {
-    this.createReview = true;
+  private scollElement(index?: number): void {
+    const scrollLeftPosition = this.reviewsContainer.nativeElement.scrollLeft;
+    const clipsScrolled = index ?? Math.round(scrollLeftPosition / this.reviewContainerWidth)
+
+    this.currentReview = clipsScrolled + 1;
+
+    this.reviewsContainer.nativeElement.scrollTo({left: this.reviewContainerWidth * clipsScrolled, behavior: 'smooth'})
   }
-
-  public closeCreateReview(): void {
-    this.createReview = false;
-  }
-}
-
-@Component({
-  templateUrl: 'create-review-dialog/create-review-dialog.html',
-  styleUrls: ['create-review-dialog/create-review-dialog.scss'],
-  standalone: true,
-  imports: [MaterialModule, MovieRatingComponent]
-})
-
-export class CreateReviewDialogComponent {
-  public constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {reviewInput: FormControl}) {}
 }

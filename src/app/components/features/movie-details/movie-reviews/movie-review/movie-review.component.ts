@@ -1,44 +1,47 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { fadeAnimation } from 'src/app/animations';
 import { MaterialModule } from 'src/app/material.module';
 import { MovieRatingComponent } from '../../rating-stars/movie-rating.component';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { IMovieReview } from 'src/app/mock/movie-reviews.json';
+import { MovieReviewsService } from '../movie-reviews.service';
+import { first, map, take } from 'rxjs';
 
 @Component({
   selector: 'app-movie-review',
   templateUrl: './movie-review.component.html',
   styleUrls: ['./movie-review.component.scss'],
   standalone: true,
-  imports: [CommonModule, MaterialModule, MovieRatingComponent],
+  imports: [CommonModule, MaterialModule, MovieRatingComponent, RouterLink],
   animations: [fadeAnimation]
 })
-export class MovieReviewComponent {
-  public reviewText = 'Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales. Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales. Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales. Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales. Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales. Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales. Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales. Lorem ipsum ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vehicula risus et velit tristique tincidunt. Fusce vel elit luctus, tempor libero vel, egestas lacus. Vestibulum lacinia porttitor aliquam. Ut vel neque interdum, malesuada nibh eu, congue enim. Integer lobortis eros eu tincidunt volutpat. Nulla eget auctor massa. In blandit facilisis sapien ultricies sodales.'
+export class MovieReviewComponent implements OnInit {
+  private movieReviewsService = inject(MovieReviewsService)
+  private route = inject(ActivatedRoute)
+
+  @Input() public reviewId!: string | null
+
+  public review?: IMovieReview
+  public fullReview = false;
+
+  public ngOnInit(): void {
+    if (!this.reviewId) {
+      this.route.paramMap.pipe(
+        take(1))
+      .subscribe({
+        next: (data) => {
+          this.reviewId = data.get('id')
+          this.fullReview = true;
+        }
+      })
+    }
+
+    this.movieReviewsService.reviews$.pipe(
+      map((movieReviews) => movieReviews.find((movieReview) => movieReview.id === this.reviewId)),
+      first(),
+    ).subscribe((data) => this.review = data)
+  }
+
   public showEntireReview = false;
-
-  public constructor(
-    public dialog: MatDialog) {
-  }
-
-  public fullReviewDialog(): void {
-    this.dialog.open(FullReviewDialogComponent, {
-      data: {
-        reviewText: this.reviewText,
-      },
-      height: '98vh',
-      minWidth: '95vw',
-    });
-  }
-}
-
-@Component({
-  templateUrl: '../full-review-dialog/full-review-dialog.html',
-  styleUrls: ['../full-review-dialog/full-review-dialog.scss'],
-  standalone: true,
-  imports: [MaterialModule, MovieRatingComponent]
-})
-
-export class FullReviewDialogComponent {
-  public constructor(@Inject(MAT_DIALOG_DATA) public data: {reviewText: string}) {}
 }

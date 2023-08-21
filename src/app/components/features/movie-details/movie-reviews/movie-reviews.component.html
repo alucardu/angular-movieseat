@@ -1,4 +1,5 @@
 <div class="reviewOptionsContainer">
+  <span>{{ currentReview }}/{{ (movieReviews$ | async)!.length }}</span>
   <mat-form-field appearance="outline" class="reviewSort" subscriptSizing="dynamic" color="accent" *ngIf="true">
     <mat-select [formControl]="reviewSorting">
       <mat-option value="populair">Populair</mat-option>
@@ -10,11 +11,13 @@
 
   <div class="reviewNavigation">
     <app-speed-dial-fab>
-      <button mat-mini-fab color="accent" (click)="createReviewDialog()">
+      <button mat-mini-fab color="accent" [routerLink]="['review/create']">
         <mat-icon color="primary">add</mat-icon>
       </button>
     </app-speed-dial-fab>
   </div>
 </div>
 
-<app-movie-review></app-movie-review>
+<div class="reviewContainer" #reviewsContainer>
+  <app-movie-review [reviewId]="review.id" *ngFor="let review of movieReviews$ | async"></app-movie-review>
+</div>

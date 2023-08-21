@@ -11,7 +11,7 @@ const routes: Routes = [
     path: 'movie-search',
     loadComponent: () => import('./components/features/movie-search/movie-search.component').then(c => c.MovieSearchComponent),
     data: {
-      animation: 'movieSearch'
+      animation: 'slideUp'
     }
   },
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
     path: 'notifications',
     loadComponent: () => import('./components/notifications/notifications.component').then(c => c.NotificationsComponent),
     data: {
-      animation: 'notifications'
+      animation: 'slideRight'
     },
   },
   {
@@ -36,7 +36,7 @@ const routes: Routes = [
     path: 'profile',
     loadComponent: () => import('./components/profile/profile.component').then(c => c.ProfileComponent),
     data: {
-      animation: 'profile'
+      animation: 'slideDown'
     }
   }
 ];

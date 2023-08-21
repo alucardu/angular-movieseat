@@ -10,8 +10,8 @@ import {
 
 const animationTime = 225
 
-export const slideInAnimation = trigger('routeAnimations', [
-  transition('watchList => movieDetail', [
+export const routeAnimations = trigger('routeAnimations', [
+  transition('watchList => slideLeft', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -25,11 +25,11 @@ export const slideInAnimation = trigger('routeAnimations', [
 
     group([
       query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(0%)', opacity: 1, }))]),
-      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(-100%)', opacity: 1 }))]),
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(-100%)', opacity: 1 }))], { optional: true }),
     ]),
   ]),
 
-  transition('movieDetail => watchList', [
+  transition('slideLeft => watchList', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -43,12 +43,11 @@ export const slideInAnimation = trigger('routeAnimations', [
 
     group([
       query(':enter', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(0%)', opacity: 1 }))]),
-      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(100%)', opacity: 0 }))]),
+      query(':leave', [animate(`${animationTime}ms ease-out`, style({ transform: 'translateX(100%)', opacity: 0 }))], { optional: true }),
     ]),
   ]),
 
-
-  transition('* => notifications', [
+  transition('* => slideRight', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -66,7 +65,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('notifications => *', [
+  transition('slideRight => *', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -84,7 +83,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('* => movieSearch', [
+  transition('* => slideUp', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -102,7 +101,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('movieSearch => *', [
+  transition('slideUp => *', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -120,7 +119,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('* => profile', [
+  transition('* => slideDown', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -138,7 +137,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('profile => *', [
+  transition('slideDown => *', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -156,7 +155,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('* => clip', [
+  transition('* => fade', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -174,7 +173,7 @@ export const slideInAnimation = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('clip => *', [
+  transition('fade => *', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -203,7 +202,7 @@ export const fadeAnimation = trigger('fadeAnimation', [
   ])
 ]);
 
-export const toggleSearchResult = trigger('toggleSearchResult', [
+export const toggleContent = trigger('toggleContent', [
   state('collapsed', style({ height: '0px', visibility: 'hidden' })),
   state('expanded', style({ height: '*', visibility: 'visible' })),
   transition('expanded <=> collapsed', [

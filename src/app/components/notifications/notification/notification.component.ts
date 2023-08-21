@@ -3,7 +3,7 @@ import { Component, Input, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { NotificationService } from '../notification.service';
-import { toggleSearchResult } from 'src/app/animations';
+import { toggleContent } from 'src/app/animations';
 
 export interface INotification {
   title: string,
@@ -17,7 +17,7 @@ export interface INotification {
   styleUrls: ['./notification.component.scss'],
   standalone: true,
   imports: [CommonModule, MaterialModule, RouterModule],
-  animations: [toggleSearchResult]
+  animations: [toggleContent]
 })
 export class NotificationComponent {
   @Input() public notification!: INotification

@@ -4,11 +4,13 @@
 
 .reviewOptionsContainer {
   position: absolute;
-  top: 8px;
+  top: 12px;
   right: 8px;
   gap: 8px;
   display: flex;
+  align-items: center;
   width: 50%;
+  background: #424242;
 }
 
 mat-form-field.reviewSort {
@@ -17,5 +19,14 @@ mat-form-field.reviewSort {
       min-height: 32px;
       padding: 4px 0 0 0;
     }
+  }
+}
+
+.reviewContainer {
+  display: flex;
+  overflow: scroll;
+  gap: 8px;
+  app-movie-review {
+    min-width: 100%;
   }
 }

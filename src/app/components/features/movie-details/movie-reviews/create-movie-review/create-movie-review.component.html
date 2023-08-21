@@ -1,0 +1,9 @@
+<mat-dialog-content>
+  <mat-form-field appearance="fill" class="reviewInput">
+    <textarea placeholder="Your review..." matInput [formControl]="reviewInput"></textarea>
+  </mat-form-field>
+  <div class="footer">
+    <button mat-flat-button color="primary">Submit</button>
+    <app-movie-rating></app-movie-rating>
+  </div>
+</mat-dialog-content>

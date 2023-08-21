@@ -4,7 +4,7 @@
     <mat-card-title>{{ searchResult.title }}</mat-card-title>
     <mat-card-subtitle>{{ searchResult.release_year }} ({{ searchResult.director }})</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content [@toggleSearchResult]="(movieSearchOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
+  <mat-card-content [@toggleContent]="(movieSearchOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
     <div class="poster">
       <img mat-card-image [src]="searchResult.poster_path" alt="Oppenheimer poster" />
     </div>
