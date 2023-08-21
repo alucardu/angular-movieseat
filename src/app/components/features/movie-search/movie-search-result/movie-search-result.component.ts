@@ -3,7 +3,7 @@ import { IResult } from '../../../../mock/movie-search-results.json';
 import { MaterialModule } from 'src/app/material.module';
 import { RatingCircleComponent } from 'src/app/components/UI/rating-circle/rating-circle.component';
 import { CommonModule } from '@angular/common';
-import { toggleSearchResult } from 'src/app/animations';
+import { toggleContent } from 'src/app/animations';
 import { MovieSearchService } from '../movie-search.service';
 import { RouterLink } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./movie-search-result.component.scss'],
   standalone: true,
   imports: [CommonModule, MaterialModule, RatingCircleComponent, RouterLink],
-  animations: [toggleSearchResult],
+  animations: [toggleContent],
 })
 export class MovieSearchResultComponent {
   private movieSearchService = inject(MovieSearchService)

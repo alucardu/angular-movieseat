@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulat
 import { ChildrenOutletContexts, OutletContext, RouterModule, } from '@angular/router';
 import { App as CapacitorApp } from '@capacitor/app';
 import { ScrollService } from 'src/app/services/scroll.service';
-import { fadeAnimation, slideInAnimation } from 'src/app/animations';
+import { fadeAnimation, routeAnimations } from 'src/app/animations';
 import { DeviceService } from 'src/app/services/device.service';
 import { Observable, map } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
@@ -15,7 +15,7 @@ import { IsTouchingDirective } from 'src/app/directives/is-touching/is-touching.
   selector: 'app-drawer',
   templateUrl: './drawer.component.html',
   styleUrls: ['./drawer.component.scss'],
-  animations: [slideInAnimation, fadeAnimation],
+  animations: [routeAnimations, fadeAnimation],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   hostDirectives: [IsTouchingDirective],

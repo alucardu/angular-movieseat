@@ -1,6 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player/youtube-player.component';
-import { MovieDetailsServiceService } from '../../features/movie-details/movie-details-service.service';
+import { MovieDetailsServiceService } from '../../features/movie-details/movie-details.service';
 import { CommonModule } from '@angular/common';
 import { ClipComponent } from './clip/clip.component';
 import { RouterModule } from '@angular/router';
@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
 export class ClipsContainerComponent implements AfterViewInit, AfterViewChecked {
   private movieDetailsService = inject(MovieDetailsServiceService)
 
-  @ViewChild('clipsContainer', {static: false}) private clipseContainer!: ElementRef<HTMLElement>
+  @ViewChild('clipsContainer', {static: false}) private clipsContainer!: ElementRef<HTMLElement>
 
   private apiLoaded = false;
   private youtubePlayerWidth = 0;
@@ -35,11 +35,11 @@ export class ClipsContainerComponent implements AfterViewInit, AfterViewChecked 
       const tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
 
-      this.clipseContainer.nativeElement.appendChild(tag)
+      this.clipsContainer.nativeElement.appendChild(tag)
       this.apiLoaded = true;
     }
 
-    this.youtubePlayerWidth = this.clipseContainer.nativeElement.children[0]?.clientWidth + 8;
+    this.youtubePlayerWidth = this.clipsContainer.nativeElement.children[0]?.clientWidth + 8;
   }
 
   public scollToClip(index: number): void {
@@ -47,7 +47,7 @@ export class ClipsContainerComponent implements AfterViewInit, AfterViewChecked 
   }
 
   private setPosition(): void {
-    this.clipseContainer.nativeElement.addEventListener('scroll', () => {
+    this.clipsContainer.nativeElement.addEventListener('scroll', () => {
       window.clearTimeout( this.isScrollingTimeout );
 
       this.isScrollingTimeout = setTimeout(() => {
@@ -57,11 +57,11 @@ export class ClipsContainerComponent implements AfterViewInit, AfterViewChecked 
   }
 
   private scollElement(index?: number): void {
-    const scrollLeftPosition = this.clipseContainer.nativeElement.scrollLeft;
+    const scrollLeftPosition = this.clipsContainer.nativeElement.scrollLeft;
     const clipsScrolled = index ?? Math.round(scrollLeftPosition / this.youtubePlayerWidth)
 
     this.currentClip = clipsScrolled;
 
-    this.clipseContainer.nativeElement.scrollTo({left: this.youtubePlayerWidth * clipsScrolled, behavior: 'smooth'})
+    this.clipsContainer.nativeElement.scrollTo({left: this.youtubePlayerWidth * clipsScrolled, behavior: 'smooth'})
   }
 }
