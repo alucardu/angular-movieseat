@@ -1,0 +1,73 @@
+<h2 class="titleContainer">
+  <span class="title">Edward norton</span>
+  <span class="releaseDate">(1986)</span>
+</h2>
+
+<div class="overview">
+  <p appToggleContent [initialHeight]="160" [ellipsis]="true">
+    <img src="https://www.themoviedb.org/t/p/w120_and_h133_face/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg" alt="some guy" />
+    {{ biography }}
+  </p>
+</div>
+
+<mat-chip-set class="genres">
+  <mat-chip>Actor</mat-chip>
+  <mat-chip>Producer</mat-chip>
+  <mat-chip>Writer</mat-chip>
+</mat-chip-set>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon> chevron_right </mat-icon>
+      Actor (56 movies)
+    </mat-card-title>
+  </mat-card-header>
+  <mat-list appToggleContent [initialHeight]="0">
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+  </mat-list>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon> chevron_right </mat-icon>
+      Directed (12 movies)
+    </mat-card-title>
+  </mat-card-header>
+  <mat-list appToggleContent [initialHeight]="0">
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+  </mat-list>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon> chevron_right </mat-icon>
+      Written (22 movies)
+    </mat-card-title>
+  </mat-card-header>
+  <mat-list appToggleContent [initialHeight]="0">
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+  </mat-list>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon> chevron_right </mat-icon>
+      Produced (46 movies)
+    </mat-card-title>
+  </mat-card-header>
+  <mat-list appToggleContent [initialHeight]="0">
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+  </mat-list>
+</mat-card>

@@ -1,0 +1,66 @@
+import { animate,  AnimationBuilder,  AnimationMetadata, style } from '@angular/animations';
+import { AfterViewInit, Directive, ElementRef, HostListener, inject, Input, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appToggleContent]',
+  standalone: true,
+})
+export class ToggleDirective implements OnInit, AfterViewInit {
+  private builder = inject(AnimationBuilder)
+  private el = inject(ElementRef)
+  private renderer = inject(Renderer2)
+
+  @Input() public initialHeight = 0;
+  @Input() public ellipsis = false;
+
+  private elHeight?: number;
+  public collapsed = true;
+
+  public ngOnInit(): void {
+    this.renderer.setStyle(this.el.nativeElement, 'overflow', 'hidden');
+  }
+
+  public ngAfterViewInit(): void {
+    this.toggleEllipsis();
+    setTimeout(() => {
+      this.elHeight = this.el.nativeElement.offsetHeight;
+      this.renderer.setStyle(
+        this.el.nativeElement,
+        'height',
+        this.initialHeight + 'px' ?? '10px'
+      );
+    }, 50)
+  }
+
+  @HostListener('click') public click(): void {
+    this.playAnimation(
+      this.collapsed ? this.getExpandedAnimation() : this.getCollapseAnimation()
+    );
+    this.collapsed = !this.collapsed;
+    this.toggleEllipsis();
+  }
+
+  private playAnimation(animationMetaData: AnimationMetadata[]): void {
+    const animation = this.builder.build(animationMetaData);
+    const player = animation.create(this.el.nativeElement);
+    player.play();
+  }
+
+  private getCollapseAnimation(): AnimationMetadata[] {
+    return [
+      animate(
+        '250ms ease-in',
+        style({ height: this.initialHeight + 'px' ?? '10px' })
+      ),
+    ];
+  }
+
+  private getExpandedAnimation(): AnimationMetadata[] {
+    return [animate('250ms ease-in', style({ height: this.elHeight + 'px' }))];
+  }
+
+  private toggleEllipsis(): void {
+    if (!this.ellipsis) return
+    this.collapsed ? this.renderer.addClass(this.el.nativeElement, ('ellipsis')) : this.renderer.removeClass(this.el.nativeElement, ('ellipsis'));
+  }
+}

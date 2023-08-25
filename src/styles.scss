@@ -14,3 +14,16 @@ mat-form-field {
 * {
   user-select: none;
 }
+
+.ellipsis {
+  text-overflow:ellipsis;
+  position: relative;
+  &:after {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    content: '... read more';
+    background-image: linear-gradient( 90deg, #280028 0%, #280028 100%);
+    color: #69f0ae;
+  }
+}

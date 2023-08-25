@@ -9,9 +9,8 @@
 
     <p class="author">{{ review!.user_name }} <app-movie-rating></app-movie-rating></p>
 
-    <p class="review" [ngClass]="!fullReview && review!.content.length > 380 ? 'ellipsis' : ''">
+    <p class="review" [ngClass]="!fullReview && review!.content.length > 380 ? 'ellipsis' : ''" [routerLink]="fullReview ? null : ['review', review!.id]">
       {{ review!.content }}
     </p>
-    <a routerLink="review/{{ review!.id }}" *ngIf="!fullReview && review!.content.length > 380">...continue</a>
   </mat-card-content>
 </mat-card>
