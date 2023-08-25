@@ -1,0 +1,42 @@
+
+:host {
+  display: block;
+}
+
+.genres {
+  margin-bottom: 16px;
+  padding: 0 4px;
+  mat-chip {
+    margin: 0 4px;
+  }
+}
+
+mat-card {
+  margin-bottom: 0px;
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}
+
+:host {
+  display: block;
+}
+
+.overview {
+  p {
+    text-align: justify;
+    img {
+      float: right;
+      border-radius: 100%;
+      margin-left: 16px;
+    }
+  }
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    color: #69f0ae;
+  }
+}

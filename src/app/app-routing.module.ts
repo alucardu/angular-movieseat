@@ -37,6 +37,13 @@ const routes: Routes = [
     loadComponent: () => import('./components/profile/profile.component').then(c => c.ProfileComponent),
     data: {
       animation: 'slideDown'
+    },
+  },
+  {
+    path: 'biography/:id',
+    loadChildren: () => import('./components/biography/biography.component').then(c => c.BiographyComponent),
+    data: {
+      animation: 'slideRight'
     }
   }
 ];
