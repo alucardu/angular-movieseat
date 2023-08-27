@@ -12,7 +12,8 @@
   community is turned upside down in more ways than anyone can handle.
 </p>
 
-<button class="add" mat-flat-button color="primary">ADD MOVIE TO WATCHLIST</button>
+<button *ngIf="!movieIsAdded" class="add" mat-flat-button color="primary" (click)="addMovie()">ADD MOVIE TO WATCHLIST</button>
+<button *ngIf="movieIsAdded" class="add" mat-flat-button color="primary" (click)="removeMovie()">REMOVE MOVIE FROM WATCHLIST</button>
 
 <mat-chip-set class="genres">
   <mat-chip>Comedy</mat-chip>
@@ -25,6 +26,8 @@
     <div class="movieInfo">
       <div class="age">12+</div>
       <span>29-10-1986 (NL) </span>
+      <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="watchedMovie"> visibility </mat-icon>
+      <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="!watchedMovie"> visibility_off </mat-icon>
       <app-share-social [movie]="movie"></app-share-social>
       <app-movie-rating></app-movie-rating>
     </div>

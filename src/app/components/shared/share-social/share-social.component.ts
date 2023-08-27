@@ -9,7 +9,7 @@ import { MaterialModule } from 'src/app/material.module';
   imports: [MaterialModule],
   selector: 'app-share-social',
   templateUrl: './share-social.component.html',
-  styleUrls: ['./share-social.component.css']
+  styleUrls: ['./share-social.component.scss']
 
 })
 export class ShareSocialComponent {
