@@ -4,7 +4,7 @@
 </h2>
 
 <div class="overview">
-  <p appToggleContent [initialHeight]="160" [ellipsis]="true">
+  <p appToggleContent [initialHeight]="160" [hasEllipsis]="true">
     <img src="https://www.themoviedb.org/t/p/w120_and_h133_face/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg" alt="some guy" />
     {{ biography }}
   </p>
@@ -16,58 +16,66 @@
   <mat-chip>Writer</mat-chip>
 </mat-chip-set>
 
-<mat-card>
+<mat-card appToggleContent [initialHeight]="64">
   <mat-card-header>
     <mat-card-title>
-      <mat-icon> chevron_right </mat-icon>
+      <mat-icon #chevron> chevron_right </mat-icon>
       Actor (56 movies)
     </mat-card-title>
   </mat-card-header>
-  <mat-list appToggleContent [initialHeight]="0">
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-  </mat-list>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    </mat-list>
+  </mat-card-content>
 </mat-card>
 
-<mat-card>
+<mat-card appToggleContent [initialHeight]="64">
   <mat-card-header>
     <mat-card-title>
-      <mat-icon> chevron_right </mat-icon>
-      Directed (12 movies)
+      <mat-icon #chevron> chevron_right </mat-icon>
+      Directed (56 movies)
     </mat-card-title>
   </mat-card-header>
-  <mat-list appToggleContent [initialHeight]="0">
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-  </mat-list>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    </mat-list>
+  </mat-card-content>
 </mat-card>
 
-<mat-card>
+<mat-card appToggleContent [initialHeight]="64">
   <mat-card-header>
     <mat-card-title>
-      <mat-icon> chevron_right </mat-icon>
-      Written (22 movies)
+      <mat-icon #chevron> chevron_right </mat-icon>
+      Written (56 movies)
     </mat-card-title>
   </mat-card-header>
-  <mat-list appToggleContent [initialHeight]="0">
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-  </mat-list>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    </mat-list>
+  </mat-card-content>
 </mat-card>
 
-<mat-card>
+<mat-card appToggleContent [initialHeight]="64">
   <mat-card-header>
     <mat-card-title>
-      <mat-icon> chevron_right </mat-icon>
-      Produced (46 movies)
+      <mat-icon #chevron> chevron_right </mat-icon>
+      Produced (56 movies)
     </mat-card-title>
   </mat-card-header>
-  <mat-list appToggleContent [initialHeight]="0">
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-    <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-  </mat-list>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+      <mat-list-item><a [routerLink]="['/movie/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    </mat-list>
+  </mat-card-content>
 </mat-card>

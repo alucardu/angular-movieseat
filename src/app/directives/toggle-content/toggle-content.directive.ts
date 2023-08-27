@@ -1,5 +1,5 @@
 import { animate,  AnimationBuilder,  AnimationMetadata, style } from '@angular/animations';
-import { AfterViewInit, Directive, ElementRef, HostListener, inject, Input, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ContentChild, Directive, ElementRef, HostListener, inject, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appToggleContent]',
@@ -11,7 +11,9 @@ export class ToggleDirective implements OnInit, AfterViewInit {
   private renderer = inject(Renderer2)
 
   @Input() public initialHeight = 0;
-  @Input() public ellipsis = false;
+  @Input() public hasEllipsis = false;
+
+  @ContentChild('chevron', { read: ElementRef }) private chevronElement?: ElementRef<HTMLElement>
 
   private elHeight?: number;
   public collapsed = true;
@@ -22,6 +24,7 @@ export class ToggleDirective implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.toggleEllipsis();
+
     setTimeout(() => {
       this.elHeight = this.el.nativeElement.offsetHeight;
       this.renderer.setStyle(
@@ -38,6 +41,11 @@ export class ToggleDirective implements OnInit, AfterViewInit {
     );
     this.collapsed = !this.collapsed;
     this.toggleEllipsis();
+
+    if (this.chevronElement) {
+      this.renderer.addClass(this.chevronElement?.nativeElement, ('chevron-toggle'))
+      this.toggleChevronState();
+    }
   }
 
   private playAnimation(animationMetaData: AnimationMetadata[]): void {
@@ -60,7 +68,11 @@ export class ToggleDirective implements OnInit, AfterViewInit {
   }
 
   private toggleEllipsis(): void {
-    if (!this.ellipsis) return
+    if (!this.hasEllipsis) return
     this.collapsed ? this.renderer.addClass(this.el.nativeElement, ('ellipsis')) : this.renderer.removeClass(this.el.nativeElement, ('ellipsis'));
+  }
+
+  private toggleChevronState(): void {
+    !this.collapsed ? this.renderer.addClass(this.chevronElement?.nativeElement, ('expanded')) : this.renderer.removeClass(this.chevronElement?.nativeElement, ('expanded'));
   }
 }

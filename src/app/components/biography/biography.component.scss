@@ -18,6 +18,10 @@ mat-card {
   }
 }
 
+mat-card-header {
+  margin-bottom: 8px;
+}
+
 :host {
   display: block;
 }

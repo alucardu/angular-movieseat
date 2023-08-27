@@ -27,3 +27,10 @@ mat-form-field {
     color: #69f0ae;
   }
 }
+
+.chevron-toggle {
+  transition: all 250ms;
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}

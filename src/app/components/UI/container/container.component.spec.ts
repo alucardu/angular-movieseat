@@ -1,21 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrawerSidenavComponent } from './drawer-sidenav.component';
+import { ContainerComponent } from './container.component';
 
-describe('DrawerMenuComponent', () => {
-  let component: DrawerSidenavComponent;
-  let fixture: ComponentFixture<DrawerSidenavComponent>;
+describe('ContainerComponent', () => {
+  let component: ContainerComponent;
+  let fixture: ComponentFixture<ContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DrawerSidenavComponent ]
-    })
-    .compileComponents();
+      declarations: [ContainerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DrawerSidenavComponent);
+    fixture = TestBed.createComponent(ContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
