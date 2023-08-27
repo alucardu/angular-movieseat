@@ -41,7 +41,7 @@ const routes: Routes = [
   },
   {
     path: 'biography/:id',
-    loadChildren: () => import('./components/biography/biography.component').then(c => c.BiographyComponent),
+    loadComponent: () => import('./components/biography/biography.component').then(c => c.BiographyComponent),
     data: {
       animation: 'slideRight'
     }

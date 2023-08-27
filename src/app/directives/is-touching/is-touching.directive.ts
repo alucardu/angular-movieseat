@@ -1,50 +1,36 @@
- import { Directive, ElementRef, HostListener } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subject, delay, filter, interval, switchMap, takeWhile } from 'rxjs';
+import { Directive, ElementRef, OnInit, inject } from '@angular/core';
+import { Subject, delay, interval, switchMap, takeWhile } from 'rxjs';
 
 @Directive({
   selector: '[appIsTouching]',
   standalone: true
 })
-export class IsTouchingDirective {
+export class IsTouchingDirective implements OnInit {
+  private el = inject(ElementRef<HTMLElement>)
+
   private isTouchingSubject$ = new Subject<boolean>;
   public isTouching$ = this.isTouchingSubject$.asObservable();
 
-  private touching = false;
-  private touched  = false;
   private touchStartSubject$ = new Subject<TouchEvent>();
 
-  public constructor(
-    private el: ElementRef<HTMLElement>,
-    private router: Router) {
-    this.el.nativeElement.addEventListener('touchstart', this.handleTouchStart, {passive: true})
-    this.el.nativeElement.addEventListener('touchmove', this.handleTouchMove, {passive: true})
-    this.router.events.pipe(
-      filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
-    ).subscribe({
-      next: () => {
-        this.detectRoutingEvent()
-      }
-    })
-  }
+  private touching = false;
+  private touched  = false;
 
-  @HostListener('touchend', ['$event']) public handleTouchEnd(): void {
-    this.touching = false
-  }
-
-  private detectRoutingEvent(): void {
-    this.isTouchingSubject$.next(false)
-    this.touching = false
-  }
-
-  private handleTouchMove = ():void => {
-    this.touching = false;
-    this.isTouchingSubject$.next(false)
+  public ngOnInit(): void {
+    this.el.nativeElement.addEventListener('touchstart', this.handleTouchStart, {passive: true});
+    this.el.nativeElement.addEventListener('touchmove', this.handleTouchMove, {passive: true});
+    this.el.nativeElement.addEventListener('touchend', this.handleTouchEnd, {passive: true});
+    this.el.nativeElement.addEventListener('touchcancel', () => this.handleTouchCancel(), { passive: true });
   }
 
   private handleTouchStart = (event: TouchEvent): void => {
     this.startTouching();
     this.touchStartSubject$.next(event)
+  }
+
+  private handleTouchMove = ():void => {
+    this.touching = false;
+    this.isTouchingSubject$.next(false)
   }
 
   private startTouching(): void {
@@ -66,5 +52,14 @@ export class IsTouchingDirective {
         this.touched = true;
       }
     })
+  }
+
+  private handleTouchEnd(): void {
+    this.touching = false;
+  }
+
+  private handleTouchCancel(): void {
+    this.touching = false;
+    this.isTouchingSubject$.next(false)
   }
 }

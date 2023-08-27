@@ -6,23 +6,24 @@ import { fadeAnimation, routeAnimations } from 'src/app/animations';
 import { DeviceService } from 'src/app/services/device.service';
 import { Observable, map } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
-import { DrawerSidenavComponent } from '../drawer-sidenav/drawer-sidenav.component';
 import { CommonModule } from '@angular/common';
-import { DrawerBottomMenuComponent } from '../drawer-bottom-menu/drawer-bottom-menu.component';
+import { DrawerBottomMenuComponent } from '../bottom-menu/drawer-bottom-menu.component';
 import { IsTouchingDirective } from 'src/app/directives/is-touching/is-touching.directive';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-drawer',
-  templateUrl: './drawer.component.html',
-  styleUrls: ['./drawer.component.scss'],
+  selector: 'app-container',
+  templateUrl: './container.component.html',
+  styleUrls: ['./container.component.scss'],
   animations: [routeAnimations, fadeAnimation],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   hostDirectives: [IsTouchingDirective],
-  imports: [MaterialModule, CommonModule, RouterModule, DrawerSidenavComponent, DrawerBottomMenuComponent]
+  imports: [MaterialModule, CommonModule, RouterModule, DrawerBottomMenuComponent]
 })
-export class DrawerComponent implements OnInit, AfterViewInit {
+export class ContainerComponent implements OnInit, AfterViewInit {
   @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
+  private dialog = inject(MatDialog)
   private deviceIsMobile$: Observable<boolean>;
 
   public exitConfirmation = false;
@@ -33,22 +34,16 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     private contexts: ChildrenOutletContexts,
     private scrollService: ScrollService,
     private deviceService: DeviceService,
-    private touchingDirective: IsTouchingDirective = inject(IsTouchingDirective, {self: true})
   ) {
     this.deviceIsMobile$ = this.deviceService.deviceIsMobile$;
-    this.touchingDirective.isTouching$.subscribe({
-      next: (data) => this.toggleMenu(data)
-    })
   }
 
   public ngOnInit(): void {
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
-      // if (window.screen.orientation.type === 'landscape-primary') return;
-
       if (canGoBack) {
         window.history.back();
       } else {
-        this.exitConfirmation = true;
+        this.openDialog();
       };
     });
   }
@@ -58,8 +53,18 @@ export class DrawerComponent implements OnInit, AfterViewInit {
     this.scrollService.getScrollingDirection(this.mainContent)
   }
 
-  public exitApp(state: string): void {
-    if (state === 'exit') {
+  private openDialog(): void {
+    this.dialog.open(DialogExitConfirmationComponent, {
+      width: '98vw',
+      enterAnimationDuration: 250,
+      exitAnimationDuration: 250,
+    }).afterClosed().subscribe((value: boolean) => {
+      this.exitApp(value)
+    })
+  }
+
+  public exitApp(value: boolean): void {
+    if (value) {
       CapacitorApp.exitApp()
     } else {
       this.exitConfirmation = false;
@@ -73,8 +78,15 @@ export class DrawerComponent implements OnInit, AfterViewInit {
       })
     );
   }
-
-  private toggleMenu(isTouching: boolean): void {
-    this.displayMenu = (!this.displayMenu && isTouching) ? true : false;
-  }
 }
+
+@Component({
+  selector: 'app-exit-formation-dialog',
+  templateUrl: 'exit-confirmation/exit-confirmation-dialogue.html',
+  standalone: true,
+  imports: [MaterialModule],
+})
+export class DialogExitConfirmationComponent {
+  public constructor(public dialogRef: MatDialogRef<DialogExitConfirmationComponent>) {}
+}
+

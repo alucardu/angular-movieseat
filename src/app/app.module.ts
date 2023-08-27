@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { DrawerComponent } from './components/UI/drawer/drawer.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { ContainerComponent } from './components/UI/container/container.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     MaterialModule,
     AppRoutingModule,
     HttpClientModule,
-    DrawerComponent,
+    ContainerComponent,
     NgCircleProgressModule.forRoot({})
   ],
   providers: [Title],

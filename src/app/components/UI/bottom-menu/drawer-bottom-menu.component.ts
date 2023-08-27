@@ -5,9 +5,9 @@ import { RouterModule } from '@angular/router';
 import { NotificationsButtonComponent } from '../../notifications/notifications-button/notifications-button.component';
 
 @Component({
-  selector: 'app-drawer-bottom-menu',
-  templateUrl: './drawer-bottom-menu.component.html',
-  styleUrls: ['./drawer-bottom-menu.component.scss'],
+  selector: 'app-bottom-menu',
+  templateUrl: './bottom-menu.component.html',
+  styleUrls: ['./bottom-menu.component.scss'],
   standalone: true,
   imports: [RouterModule, CommonModule, MaterialModule, NotificationsButtonComponent],
 })
