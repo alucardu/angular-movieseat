@@ -23,7 +23,9 @@ import { ContainerComponent } from './components/UI/container/container.componen
     ContainerComponent,
     NgCircleProgressModule.forRoot({})
   ],
-  providers: [Title],
+  providers: [
+    Title,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
