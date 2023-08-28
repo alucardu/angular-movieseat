@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'watchlist',
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'watchlist',
+  //   pathMatch: 'full',
+  // },
   {
     path: 'movie-search',
     loadComponent: () => import('./components/features/movie-search/movie-search.component').then(c => c.MovieSearchComponent),

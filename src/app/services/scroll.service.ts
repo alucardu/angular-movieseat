@@ -33,11 +33,14 @@ export class ScrollService implements OnDestroy {
     let scrollElement!: Element;
 
     if (isPlatformBrowser(this.platformId)) {
+      if (mainContent.nativeElement.children.length < 2) { return }
+
       this.router.events.pipe(
         filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
         tap(() => this.scrollingUpSubject$.next(true)),
         switchMap(() => {
           scrollElement = mainContent.nativeElement.children[2] ? mainContent.nativeElement.children[2] : mainContent.nativeElement.children[1];
+
           return fromEvent(scrollElement, 'scroll').pipe(
             debounceTime(10),
             map(() => ({
@@ -91,6 +94,8 @@ export class ScrollService implements OnDestroy {
 
   private detectScrollPosition(mainContent: ElementRef<HTMLElement>): void {
     const scrollElement = mainContent.nativeElement.children[2] ? mainContent.nativeElement.children[2] : mainContent.nativeElement.children[1];
+
+    if (!scrollElement) { return }
 
     setTimeout(() => {
       this.scrollPositionSubject$.next(mainContent.nativeElement.children[2]?.scrollTop)
