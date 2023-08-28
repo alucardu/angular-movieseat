@@ -16,9 +16,17 @@ export class ShareSocialComponent {
   @Input() public movie!: IMovie
 
   public async shareInfo(e: Event): Promise<void> {
+    console.log(`Check out this movie!: ${this.movie.title}`)
     e.preventDefault();
     await Share.share({
-      text: 'Really awesome thing you need to see right meow',
+      text: `Check out this movie!: ${this.movie.title}`,
+      url: this.generateLink(this.movie.title),
     });
   }
+
+  private generateLink(title: string): string {
+    title = title.replaceAll(' ', '-').toLowerCase();
+    return `https://www.moviese.at/movie/${title}`;
+  }
+
 }

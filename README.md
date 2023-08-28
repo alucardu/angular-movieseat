@@ -38,3 +38,9 @@ Run `adb shell am start -W -a android.intent.action.VIEW -d "https://www.moviese
 # To create icons
 
 Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgroundColorDark '#280028' --android`
+
+# NGINX tips
+
+ - nano /etc/nginx/sites-available/movieseat
+ - sudo nginx -t
+ - sudo systemctl restart nginx
