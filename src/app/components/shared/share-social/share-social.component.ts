@@ -18,16 +18,7 @@ export class ShareSocialComponent {
   public async shareInfo(e: Event): Promise<void> {
     e.preventDefault();
     await Share.share({
-      // text: `Check out this movie: ${this.movie.title}`,
-      // url: this.generateLink(this.movie.title),
-      // title: 'Check out this movie',
-      // dialogTitle: 'Check out this movie'
+      text: 'Really awesome thing you need to see right meow',
     });
   }
-
-  private generateLink(title: string): string {
-    title = title.replaceAll(' ', '-').toLowerCase();
-    return `https://www.moviese.at/movie/${title}`;
-  }
-
 }

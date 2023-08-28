@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IMovie } from '../../movie-dashboard/movie-display/movie-display.component';
 import { MaterialModule } from 'src/app/material.module';
 import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player/youtube-player.component';
@@ -10,6 +10,7 @@ import { ImageSliderComponent } from 'src/app/components/UI/image-slider/image-s
 import { RouterModule } from '@angular/router';
 import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
 import { CommonModule } from '@angular/common';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './movie-details.component.html',
@@ -17,11 +18,29 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, MaterialModule, YoutubePlayerComponent, ShareSocialComponent, MovieRatingComponent, ImageSliderComponent, ClipsContainerComponent, MovieReviewsComponent, RouterModule]
 })
-export class MovieDetailsComponent {
+export class MovieDetailsComponent implements OnInit {
   private snackBarService = inject(SnackbBarService)
+  private metaTagService = inject(Meta)
+  private metaTitleService = inject(Title)
 
   public movieIsAdded = false;
   public watchedMovie = false;
+
+  public ngOnInit(): void {
+    this.metaTagService.addTags([
+      {
+        name: 'keywords',
+        content: 'Angular SEO Integration, Music CRUD, Angular Universal',
+      },
+      { name: 'robots', content: 'index, follow' },
+      { name: 'author', content: 'Digamber Singh' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'date', content: '2019-10-31', scheme: 'YYYY-MM-DD' },
+      { charset: 'UTF-8' },
+    ]);
+
+    this.metaTitleService.setTitle('Movie title goes here')
+  }
 
   public movie: IMovie = {
     title: "Moonrise Kingdom",
