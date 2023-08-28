@@ -18,10 +18,10 @@ export class ShareSocialComponent {
   public async shareInfo(e: Event): Promise<void> {
     e.preventDefault();
     await Share.share({
-      text: `Check out this movie: ${this.movie.title}`,
-      url: this.generateLink(this.movie.title),
-      title: 'Check out this movie',
-      dialogTitle: 'Check out this movie'
+      // text: `Check out this movie: ${this.movie.title}`,
+      // url: this.generateLink(this.movie.title),
+      // title: 'Check out this movie',
+      // dialogTitle: 'Check out this movie'
     });
   }
 
