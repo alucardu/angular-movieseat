@@ -1,7 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { watchlist } from 'src/app/mock/watchlist.json';
-import { CommonModule } from '@angular/common';
-import { MovieDisplayComponent } from '../movie-dashboard/movie-display/movie-display.component';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
@@ -9,19 +6,17 @@ import { Meta, Title } from '@angular/platform-browser';
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.scss'],
   standalone: true,
-  imports: [CommonModule, MovieDisplayComponent]
+  imports: []
 })
 export class WatchlistComponent implements OnInit {
   private metaTagService = inject(Meta)
   private metaTitleService = inject(Title)
 
-  public watchlist = watchlist
-
   public ngOnInit(): void {
     this.metaTagService.addTags([
       {
         name: 'keywords',
-        content: 'Angular SEO Integration, Music CRUD, Angular Universal',
+        content: 'content watchlist page',
       },
       { name: 'robots', content: 'index, follow' },
       { name: 'author', content: 'Digamber Singh' },

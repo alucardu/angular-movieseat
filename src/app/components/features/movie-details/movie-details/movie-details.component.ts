@@ -15,7 +15,7 @@ export class MovieDetailsComponent implements OnInit {
     this.metaTagService.addTags([
       {
         name: 'keywords',
-        content: 'Angular SEO Integration, Music CRUD, Angular Universal',
+        content: 'content movie details page',
       },
       { name: 'robots', content: 'index, follow' },
       { name: 'author', content: 'Digamber Singh' },
