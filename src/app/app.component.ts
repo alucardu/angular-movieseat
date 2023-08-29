@@ -1,9 +1,5 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { DeviceService } from './services/device.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { App, URLOpenListenerEvent } from '@capacitor/app';
-import { Title } from '@angular/platform-browser';
-import { filter } from 'rxjs';
+import { Component, OnInit, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -11,44 +7,22 @@ import { filter } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public constructor(
-    private deviceService: DeviceService,
-    private router: Router,
-    private zone: NgZone,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title,
-  ) {
-    this.deviceService.detectDevice();
-    this.initializeApp();
-  }
+  private metaTagService = inject(Meta)
+  private metaTitleService = inject(Title)
 
   public ngOnInit(): void {
-    this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd),
-      )
-      .subscribe(() => {
-        const rt = this.getChild(this.activatedRoute)
-        rt.data.subscribe(data => {
-          this.titleService.setTitle(data['title'])})
-      })
-  }
+    this.metaTagService.addTags([
+      {
+        name: 'keywords',
+        content: 'content inital page',
+      },
+      { name: 'robots', content: 'index, follow' },
+      { name: 'author', content: 'Digamber Singh' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'date', content: '2019-10-31', scheme: 'YYYY-MM-DD' },
+      { charset: 'UTF-8' },
+    ]);
 
-  private getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
-    if (activatedRoute.firstChild) {
-      return this.getChild(activatedRoute.firstChild);
-    } else {
-      return activatedRoute;
-    }
-  }
-
-  private initializeApp():void {
-    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-        this.zone.run(() => {
-            const slug = event.url.split(".at").pop();
-            if (slug) {
-                this.router.navigateByUrl(slug);
-            }
-        });
-    });
+    this.metaTitleService.setTitle('Movie title goes here')
   }
 }

@@ -26,6 +26,4 @@ export class MovieDetailsComponent implements OnInit {
 
     this.metaTitleService.setTitle('Movie title goes here')
   }
-
-
 }
