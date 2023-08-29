@@ -7,7 +7,7 @@ server {
  ssl_certificate_key /etc/letsencrypt/live/moviese.at/privkey.pem; # managed by Certbot
  include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
- server_name www.moviese.at; # <--- modify here
+ server_name www.moviese.at;
  root /root/angular-movieseat/dist/angular-movieseat/browser;
 
  location / {

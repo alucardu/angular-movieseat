@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
-import { NotificationService } from '../notification.service';
 import { toggleContent } from 'src/app/animations';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -24,9 +23,6 @@ export class NotificationComponent implements OnInit {
   @Input() public notification!: INotification
   @Input() public index!: number;
 
-  private notificationService = inject(NotificationService)
-
-  public notificationOpenedIndex$ = this.notificationService.notificationOpenedIndex$
 
   private metaTagService = inject(Meta)
   private metaTitleService = inject(Title)
@@ -45,10 +41,5 @@ export class NotificationComponent implements OnInit {
     ]);
 
     this.metaTitleService.setTitle('notificaions')
-  }
-
-  public toggleOpened(index: number): void {
-    this.notificationService.setOpenedNotificationIndex(index)
-    this.notificationService.markNotificationAsRead(index);
   }
 }
