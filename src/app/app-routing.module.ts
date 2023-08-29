@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MovieDashboardComponent } from './components/features/movie-dashboard/movie-dashboard/movie-dashboard.component';
 
 const routes: Routes = [
   // {
@@ -16,10 +17,11 @@ const routes: Routes = [
   },
   {
     path: 'watchlist',
-    loadComponent: () => import('./components/features/movie-dashboard/movie-dashboard/movie-dashboard.component').then(c => c.MovieDashboardComponent),
-    data: {
-      animation: 'watchList'
-    },
+    component: MovieDashboardComponent
+    // loadComponent: () => import('./components/features/movie-dashboard/movie-dashboard/movie-dashboard.component').then(c => c.MovieDashboardComponent),
+    // data: {
+    //   animation: 'watchList'
+    // },
   },
   {
     path: 'notifications',

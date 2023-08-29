@@ -25,6 +25,6 @@ export class WatchlistComponent implements OnInit {
       { charset: 'UTF-8' },
     ]);
 
-    this.metaTitleService.setTitle('Movie title goes here')
+    this.metaTitleService.setTitle('watchlist component')
   }
 }

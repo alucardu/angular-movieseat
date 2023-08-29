@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
-import { MovieDisplayComponent } from '../movie-display/movie-display.component';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'src/app/material.module';
-import { MovieSearchComponent } from '../../movie-search/movie-search.component';
-import { WatchlistComponent } from '../../watchlist/watchlist.component';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './movie-dashboard.component.html',
   styleUrls: ['./movie-dashboard.component.scss'],
-  standalone: true,
-  imports: [CommonModule, MaterialModule, MovieDisplayComponent, MovieSearchComponent, WatchlistComponent, RouterModule],
 })
 export class MovieDashboardComponent {
+  private metaTagService = inject(Meta)
+  private metaTitleService = inject(Title)
 
+  public ngOnInit(): void {
+    console.log(1)
+    this.metaTagService.addTags([
+      {
+        name: 'keywords',
+        content: 'content dashboard page',
+      },
+
+    ]);
+
+    this.metaTitleService.setTitle('Movie dashboard')
+  }
 }
