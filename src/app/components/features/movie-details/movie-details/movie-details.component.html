@@ -28,7 +28,7 @@
       <span>29-10-1986 (NL) </span>
       <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="watchedMovie"> visibility </mat-icon>
       <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="!watchedMovie"> visibility_off </mat-icon>
-      <app-share-social [movie]="movie"></app-share-social>
+      <app-share-social shareMessage="Check out this movie: {{ movie.title }}"></app-share-social>
       <app-movie-rating></app-movie-rating>
     </div>
     <div class="crewInfo">

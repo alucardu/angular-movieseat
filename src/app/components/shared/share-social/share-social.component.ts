@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Share } from '@capacitor/share';
-import { IMovie } from '../../features/movie-dashboard/movie-display/movie-display.component';
 import { MaterialModule } from 'src/app/material.module';
 
 
@@ -13,14 +12,14 @@ import { MaterialModule } from 'src/app/material.module';
 
 })
 export class ShareSocialComponent {
-  @Input() public movie!: IMovie
+  @Input() public shareMessage!: string;
 
   public async shareInfo(e: Event): Promise<void> {
     e.preventDefault();
     // is used in mobile app share button, not in the browser share api
     await Share.share({
-      text: `Check out this movie: ${this.movie.title}`,
-      url: this.generateLink(this.movie.title),
+      text: this.shareMessage,
+      url: 'https://www.moviese.at/movie/moonrise-kingdom',
     });
   }
 
@@ -28,5 +27,4 @@ export class ShareSocialComponent {
     title = title.replaceAll(' ', '-').toLowerCase();
     return `https://www.moviese.at/movie/${title}`;
   }
-
 }
