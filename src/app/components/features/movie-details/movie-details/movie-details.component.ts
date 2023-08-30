@@ -42,12 +42,10 @@ export class MovieDetailsComponent implements OnInit {
 
     this.metaTitleService.setTitle(this.movie.title) // for sharing popup on device
 
-    this.metaTagService.updateTag({ name: 'keywords', content: 'Moonrise Kingdom keywords'})
     this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
-    this.metaTagService.updateTag({ property: 'og:url', content: 'https://moviese.at/movies/moonrise-kingdom' })
     this.metaTagService.updateTag({ property: 'og:image', content: this.movie.poster })
     this.metaTagService.updateTag({ property: 'og:title', content: this.movie.title })
-    this.metaTagService.updateTag({ property: 'og:description', content: 'Set on an island off the coast of New England in the summer of 1965, Moonrise Kingdom tells the story of two twelve-year-olds who fall in love, make a secret pact, and run away together into the wilderness. As various authorities try to hunt them down, a violent storm is brewing off-shore – and the peaceful island community is turned upside down in more ways than anyone can handle.' })
+    this.metaTagService.updateTag({ property: 'og:description', content: this.movie.overview })
 
   }
 
