@@ -33,8 +33,6 @@ export class ScrollService implements OnDestroy {
     let scrollElement!: Element;
 
     if (isPlatformBrowser(this.platformId)) {
-      if (mainContent.nativeElement.children.length < 2) { return }
-
       this.router.events.pipe(
         filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
         tap(() => this.scrollingUpSubject$.next(true)),
