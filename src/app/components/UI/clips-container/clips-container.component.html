@@ -1,11 +1,7 @@
 <div class="clipsContainer" #clipsContainer>
-  <app-clip *ngFor="let clip of clips$ | async" [clip]="clip" routerLink="clip/{{ clip.id }}"></app-clip>
+  <app-clip *ngFor="let clip of clips" [clip]="clip" routerLink="clip/{{ clip.id }}"></app-clip>
 </div>
 
-<div class="clipsSlideTracker" *ngIf="(clips$ | async)!.length > 1">
-  <div
-    *ngFor="let clip of clips$ | async; let index = index"
-    class="clipsSlide"
-    [ngClass]="{ active: currentClip === index }"
-    (click)="scollToClip(index)"></div>
+<div class="clipsSlideTracker" *ngIf="clips">
+  <div *ngFor="let clip of clips; let index = index" class="clipsSlide" [ngClass]="{ active: currentClip === index }" (click)="scollToClip(index)"></div>
 </div>
