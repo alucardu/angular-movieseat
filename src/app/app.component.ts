@@ -11,17 +11,7 @@ export class AppComponent implements OnInit {
   private metaTitleService = inject(Title)
 
   public ngOnInit(): void {
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'content inital page',
-      },
-      { name: 'robots', content: 'index, follow' },
-      { name: 'author', content: 'Digamber Singh' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'date', content: '2019-10-31', scheme: 'YYYY-MM-DD' },
-      { charset: 'UTF-8' },
-    ]);
+    this.metaTagService.addTag({name: 'keywords',content: 'content inital page'}),
 
     this.metaTitleService.setTitle('app component')
   }
