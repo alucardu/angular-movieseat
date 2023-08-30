@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MovieDashboardComponent } from './components/features/movie-dashboard/movie-dashboard/movie-dashboard.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'watchlist',
-  //   pathMatch: 'full',
-  // },
+  {
+    path: '',
+    redirectTo: 'watchlist',
+    pathMatch: 'full',
+  },
   {
     path: 'movie-search',
     loadComponent: () => import('./components/features/movie-search/movie-search.component').then(c => c.MovieSearchComponent),
@@ -17,11 +16,10 @@ const routes: Routes = [
   },
   {
     path: 'watchlist',
-    component: MovieDashboardComponent
-    // loadComponent: () => import('./components/features/movie-dashboard/movie-dashboard/movie-dashboard.component').then(c => c.MovieDashboardComponent),
-    // data: {
-    //   animation: 'watchList'
-    // },
+    loadComponent: () => import('./components/features/movie-dashboard/movie-dashboard/movie-dashboard.component').then(c => c.MovieDashboardComponent),
+    data: {
+      animation: 'watchList'
+    },
   },
   {
     path: 'notifications',

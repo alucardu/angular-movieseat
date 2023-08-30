@@ -1,30 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
+import { watchlist } from 'src/app/mock/watchlist.json';
+import { MovieDisplayComponent } from '../movie-dashboard/movie-display/movie-display.component';
 
 @Component({
   selector: 'app-watchlist',
   templateUrl: './watchlist.component.html',
   styleUrls: ['./watchlist.component.scss'],
   standalone: true,
-  imports: []
+  imports: [CommonModule, MovieDisplayComponent]
 })
 export class WatchlistComponent implements OnInit {
-  private metaTagService = inject(Meta)
   private metaTitleService = inject(Title)
 
-  public ngOnInit(): void {
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'content watchlist page',
-      },
-      { name: 'robots', content: 'index, follow' },
-      { name: 'author', content: 'Digamber Singh' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'date', content: '2019-10-31', scheme: 'YYYY-MM-DD' },
-      { charset: 'UTF-8' },
-    ]);
+  public watchlist = watchlist
 
-    this.metaTitleService.setTitle('watchlist component')
+  public ngOnInit(): void {
+    this.metaTitleService.setTitle('Movieseat Watchlist')
   }
 }

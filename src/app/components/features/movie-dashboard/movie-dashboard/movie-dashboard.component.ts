@@ -1,19 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { Component } from '@angular/core';
+import { WatchlistComponent } from '../../watchlist/watchlist.component';
 
 @Component({
   templateUrl: './movie-dashboard.component.html',
   styleUrls: ['./movie-dashboard.component.scss'],
+  standalone: true,
+  imports: [WatchlistComponent],
 })
-export class MovieDashboardComponent implements OnInit {
-  private metaTagService = inject(Meta)
-  private metaTitleService = inject(Title)
-
-  public ngOnInit(): void {
-    console.log('movie dashboard')
-    this.metaTagService.updateTag({name: 'keywords', content: 'content dashboard page'},
-    );
-
-    this.metaTitleService.setTitle('Movie dashboard')
-  }
+export class MovieDashboardComponent {
 }

@@ -16,10 +16,10 @@ export class ShareSocialComponent {
   @Input() public movie!: IMovie
 
   public async shareInfo(e: Event): Promise<void> {
-    console.log(`Check out this movie!: ${this.movie.title}`)
     e.preventDefault();
+    // is used in mobile app share button, not in the browser share api
     await Share.share({
-      text: `Check out this movie!: ${this.movie.title}`,
+      text: `Check out this movie: ${this.movie.title}`,
       url: this.generateLink(this.movie.title),
     });
   }

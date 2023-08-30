@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
+import { NotificationService } from '../notification.service';
 import { toggleContent } from 'src/app/animations';
-import { Meta, Title } from '@angular/platform-browser';
 
 export interface INotification {
   title: string,
@@ -19,16 +19,16 @@ export interface INotification {
   imports: [CommonModule, MaterialModule, RouterModule],
   animations: [toggleContent]
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent {
   @Input() public notification!: INotification
   @Input() public index!: number;
 
-  private metaTagService = inject(Meta)
-  private metaTitleService = inject(Title)
+  private notificationService = inject(NotificationService)
 
-  public ngOnInit(): void {
-    this.metaTagService.updateTag({ name: 'keywords', content: 'content notifications page' });
+  public notificationOpenedIndex$ = this.notificationService.notificationOpenedIndex$
 
-    this.metaTitleService.setTitle('notifications')
+  public toggleOpened(index: number): void {
+    this.notificationService.setOpenedNotificationIndex(index)
+    this.notificationService.markNotificationAsRead(index);
   }
 }
