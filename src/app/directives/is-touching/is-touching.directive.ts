@@ -24,7 +24,7 @@ export class IsTouchingDirective implements OnInit {
   }
 
   private handleTouchStart = (event: TouchEvent): void => {
-    this.startTouching();
+    this.startTouching(event);
     this.touchStartSubject$.next(event)
   }
 
@@ -33,7 +33,9 @@ export class IsTouchingDirective implements OnInit {
     this.isTouchingSubject$.next(false)
   }
 
-  private startTouching(): void {
+  private startTouching(event: TouchEvent): void {
+    if ((event.target as HTMLElement).nodeName === 'MAT-ICON') return
+
     this.touching = true
 
     if (this.touched) {

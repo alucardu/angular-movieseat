@@ -89,4 +89,3 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 export class DialogExitConfirmationComponent {
   public constructor(public dialogRef: MatDialogRef<DialogExitConfirmationComponent>) {}
 }
-

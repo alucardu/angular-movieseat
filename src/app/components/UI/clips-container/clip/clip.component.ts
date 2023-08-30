@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { IClip } from 'src/app/mock/movie-clips.json';
 
 @Component({
@@ -12,13 +12,21 @@ import { IClip } from 'src/app/mock/movie-clips.json';
 })
 export class ClipComponent implements OnInit {
   private http = inject(HttpClient)
+  private platformId = inject(PLATFORM_ID);
+
   @Input() public clip!: IClip
   @Input() public showThumbnail = false;
 
   public thumbnailUrl?: string;
   public title?: string;
 
-  public async ngOnInit(): Promise<void> {
+  public ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.setImageData();
+    }
+  }
+
+  private async setImageData(): Promise<void> {
     this.thumbnailUrl = await this.returnHighestQualityImage()
 
     const url = `https://www.youtube.com/watch?v=${this.clip.id}`;

@@ -1,4 +1,5 @@
-import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ElementRef, Injectable, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subscription, debounceTime, delay, filter, first, fromEvent, map, pairwise, switchMap, tap } from 'rxjs';
 
@@ -12,6 +13,7 @@ interface IScrollTop {
 })
 export class ScrollService implements OnDestroy {
   private router = inject(Router)
+  private platformId = inject(PLATFORM_ID);
 
   private scrollPositionSubject$ = new BehaviorSubject<number>(0)
   public scrollPosition$ = this.scrollPositionSubject$.asObservable();
@@ -30,41 +32,44 @@ export class ScrollService implements OnDestroy {
   public getScrollingDirection(mainContent: ElementRef<HTMLElement>): void {
     let scrollElement!: Element;
 
-    this.router.events.pipe(
-      filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
-      tap(() => this.scrollingUpSubject$.next(true)),
-      switchMap(() => {
-        scrollElement = mainContent.nativeElement.children[2] ? mainContent.nativeElement.children[2] : mainContent.nativeElement.children[1];
-        return fromEvent(scrollElement, 'scroll').pipe(
-          debounceTime(10),
-          map(() => ({
-            scrollTop: scrollElement.scrollTop,
-            scrollHeight: scrollElement.scrollHeight,
-            clientHeight: scrollElement.clientHeight
-          })),
-          pairwise(),
-        );
-      })
-      ).subscribe(([prev, current]) => {
-        const scrollDifference = current.scrollTop - prev.scrollTop;
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events.pipe(
+        filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
+        tap(() => this.scrollingUpSubject$.next(true)),
+        switchMap(() => {
+          scrollElement = mainContent.nativeElement.children[2] ? mainContent.nativeElement.children[2] : mainContent.nativeElement.children[1];
 
-        if (current.scrollTop > prev.scrollTop && scrollDifference > 8) {
-        this.scrollingDownSubject$.next(true)
-        this.scrollingUpSubject$.next(false)
-      } else {
-        if (scrollDifference < -8 ) {
+          return fromEvent(scrollElement, 'scroll').pipe(
+            debounceTime(10),
+            map(() => ({
+              scrollTop: scrollElement.scrollTop,
+              scrollHeight: scrollElement.scrollHeight,
+              clientHeight: scrollElement.clientHeight
+            })),
+            pairwise(),
+          );
+        })
+        ).subscribe(([prev, current]) => {
+          const scrollDifference = current.scrollTop - prev.scrollTop;
+
+          if (current.scrollTop > prev.scrollTop && scrollDifference > 8) {
+          this.scrollingDownSubject$.next(true)
+          this.scrollingUpSubject$.next(false)
+        } else {
+          if (scrollDifference < -8 ) {
+            this.scrollingUpSubject$.next(true)
+            this.scrollingDownSubject$.next(false)
+          }
+        }
+
+        const isNearBottom = current.scrollTop + current.clientHeight >= current.scrollHeight - 44;
+
+        if (isNearBottom) {
           this.scrollingUpSubject$.next(true)
           this.scrollingDownSubject$.next(false)
         }
-      }
-
-      const isNearBottom = current.scrollTop + current.clientHeight >= current.scrollHeight - 44;
-
-      if (isNearBottom) {
-        this.scrollingUpSubject$.next(true)
-        this.scrollingDownSubject$.next(false)
-      }
-    });
+      });
+    }
   }
 
   public detectScrollElement(mainContent: ElementRef<HTMLElement>): void {
@@ -74,7 +79,9 @@ export class ScrollService implements OnDestroy {
       filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
     ).subscribe({
       next: () => {
-        this.detectScrollPosition(mainContent)
+        if (isPlatformBrowser(this.platformId)) {
+          this.detectScrollPosition(mainContent)
+        }
       }
     })
   }
@@ -85,6 +92,8 @@ export class ScrollService implements OnDestroy {
 
   private detectScrollPosition(mainContent: ElementRef<HTMLElement>): void {
     const scrollElement = mainContent.nativeElement.children[2] ? mainContent.nativeElement.children[2] : mainContent.nativeElement.children[1];
+
+    if (!scrollElement) { return }
 
     setTimeout(() => {
       this.scrollPositionSubject$.next(mainContent.nativeElement.children[2]?.scrollTop)

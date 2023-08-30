@@ -15,7 +15,7 @@ import { ContainerComponent } from './components/UI/container/container.componen
     AppComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,

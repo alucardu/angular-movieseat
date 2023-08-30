@@ -38,3 +38,15 @@ Run `adb shell am start -W -a android.intent.action.VIEW -d "https://www.moviese
 # To create icons
 
 Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgroundColorDark '#280028' --android`
+
+# NGINX tips
+
+ - nano /etc/nginx/sites-available/movieseat
+ - sudo nginx -t
+ - sudo systemctl restart nginx
+
+# PM2 tips
+
+ - pm2 list
+ - pm2 start "yarn serve:ssr" --name "Movieseat" --watch /root/angular-movieseat/dist/angular-movieseat/browser
+ - pm2 logs

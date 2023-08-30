@@ -12,7 +12,6 @@ const routes: Routes = [
         path: ':title',
         component: MovieDetailsComponent,
         data: {
-          title: 'Moonrise Kingdom',
           animation: 'slideLeft',
         },
       },

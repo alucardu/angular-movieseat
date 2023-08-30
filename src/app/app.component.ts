@@ -1,9 +1,8 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { DeviceService } from './services/device.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, NgZone, OnInit, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
-import { Title } from '@angular/platform-browser';
-import { filter } from 'rxjs';
+import { DeviceService } from './services/device.service';
 
 @Component({
   selector: 'app-root',
@@ -11,34 +10,18 @@ import { filter } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public constructor(
-    private deviceService: DeviceService,
-    private router: Router,
-    private zone: NgZone,
-    private activatedRoute: ActivatedRoute,
-    private titleService: Title,
-  ) {
-    this.deviceService.detectDevice();
-    this.initializeApp();
-  }
+  private deviceService = inject(DeviceService)
+  private router = inject(Router)
+  private zone = inject(NgZone)
+  private metaTagService = inject(Meta)
+  private metaTitleService = inject(Title)
 
   public ngOnInit(): void {
-    this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd),
-      )
-      .subscribe(() => {
-        const rt = this.getChild(this.activatedRoute)
-        rt.data.subscribe(data => {
-          this.titleService.setTitle(data['title'])})
-      })
-  }
+    this.deviceService.detectDevice();
+    this.initializeApp();
 
-  private getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
-    if (activatedRoute.firstChild) {
-      return this.getChild(activatedRoute.firstChild);
-    } else {
-      return activatedRoute;
-    }
+    this.metaTitleService.setTitle('Movieseat')
+    this.metaTagService.addTag({name: 'keywords', content: 'Movieseat, Watchlist, Movies'})
   }
 
   private initializeApp():void {

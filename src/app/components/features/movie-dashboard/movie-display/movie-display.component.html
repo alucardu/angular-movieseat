@@ -10,8 +10,7 @@
     <mat-divider></mat-divider>
     <mat-list-item>
       <div class="actionsContainer">
-        <app-share-social [movie]="movie"></app-share-social>
-        <mat-icon color="accent">visibility</mat-icon>
+        <app-share-social shareMessage="Check out this movie: {{ movie.title }}"></app-share-social>
       </div>
     </mat-list-item>
   </mat-list>

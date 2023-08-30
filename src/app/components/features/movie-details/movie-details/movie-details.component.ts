@@ -1,15 +1,16 @@
-import { Component, inject } from '@angular/core';
-import { IMovie } from '../../movie-dashboard/movie-display/movie-display.component';
-import { MaterialModule } from 'src/app/material.module';
-import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player/youtube-player.component';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { ClipsContainerComponent } from 'src/app/components/UI/clips-container/clips-container.component';
+import { ImageSliderComponent } from 'src/app/components/UI/image-slider/image-slider.component';
 import { ShareSocialComponent } from 'src/app/components/shared/share-social/share-social.component';
-import { ClipsContainerComponent } from '../../../UI/clips-container/clips-container.component';
+import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player/youtube-player.component';
+import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
 import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
-import { ImageSliderComponent } from 'src/app/components/UI/image-slider/image-slider.component';
-import { RouterModule } from '@angular/router';
-import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
-import { CommonModule } from '@angular/common';
+import { SnackbBarService, SnackBarState } from 'src/app/services/snackbBar.service';
+import { IMovie } from '../../movie-dashboard/movie-display/movie-display.component';
 
 @Component({
   templateUrl: './movie-details.component.html',
@@ -17,7 +18,22 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, MaterialModule, YoutubePlayerComponent, ShareSocialComponent, MovieRatingComponent, ImageSliderComponent, ClipsContainerComponent, MovieReviewsComponent, RouterModule]
 })
-export class MovieDetailsComponent {
+
+export class MovieDetailsComponent implements OnInit {
+  private metaTagService = inject(Meta)
+  private metaTitleService = inject(Title)
+
+  public ngOnInit(): void {
+    this.metaTitleService.setTitle('Moonrise kingdom') // for sharing popup on device
+
+    this.metaTagService.updateTag({ name: 'keywords', content: 'Moonrise Kingdom keywords'})
+    this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
+    this.metaTagService.updateTag({ property: 'og:url', content: 'https://moviese.at/movies/moonrise-kingdom' })
+    this.metaTagService.updateTag({ property: 'og:image', content: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg' })
+    this.metaTagService.updateTag({ property: 'og:title', content: 'Moonrise Kingdom' })
+    this.metaTagService.updateTag({ property: 'og:description', content: 'Set on an island off the coast of New England in the summer of 1965, Moonrise Kingdom tells the story of two twelve-year-olds who fall in love, make a secret pact, and run away together into the wilderness. As various authorities try to hunt them down, a violent storm is brewing off-shore – and the peaceful island community is turned upside down in more ways than anyone can handle.' })
+  }
+
   private snackBarService = inject(SnackbBarService)
 
   public movieIsAdded = false;
