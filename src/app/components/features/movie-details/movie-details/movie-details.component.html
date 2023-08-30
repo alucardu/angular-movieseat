@@ -1,7 +1,7 @@
 <app-clips-container></app-clips-container>
 
 <h2 class="titleContainer">
-  <span class="title">Moonrise Kingdom</span>
+  <span class="title">{{ movie.title }}</span>
   <span class="releaseDate">(1986)</span>
 </h2>
 <p class="tagline">A tormenting and surprising story of children and adults during the stormy days of the summer of 1965.</p>
@@ -28,7 +28,7 @@
       <span>29-10-1986 (NL) </span>
       <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="watchedMovie"> visibility </mat-icon>
       <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="!watchedMovie"> visibility_off </mat-icon>
-      <app-share-social shareMessage="Check out this movie: {{ movie.title }}"></app-share-social>
+      <app-share-social shareMessage="Check out this movie: {{ movie.title }}" id="{{ movie.id }}"></app-share-social>
       <app-movie-rating></app-movie-rating>
     </div>
     <div class="crewInfo">

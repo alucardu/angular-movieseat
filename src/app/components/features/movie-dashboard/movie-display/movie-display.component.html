@@ -10,9 +10,9 @@
     <mat-divider></mat-divider>
     <mat-list-item>
       <div class="actionsContainer">
-        <app-share-social shareMessage="Check out this movie: {{ movie.title }}"></app-share-social>
+        <app-share-social shareMessage="Check out this movie: {{ movie.title }}" id="{{ movie.id }}"></app-share-social>
       </div>
     </mat-list-item>
   </mat-list>
 </div>
-<img src="{{ movie.poster }}" [routerLink]="['/movie', 'moonrise-kingdom']" />
+<img src="{{ movie.poster }}" [routerLink]="['/movie', movie.id]" />

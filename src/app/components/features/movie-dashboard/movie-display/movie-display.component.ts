@@ -7,6 +7,7 @@ import { IsTouchingDirective } from 'src/app/directives/is-touching/is-touching.
 import { MaterialModule } from 'src/app/material.module';
 
 export interface IMovie {
+  id: number,
   title: string
   poster: string
   release_date: string

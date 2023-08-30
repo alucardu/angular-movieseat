@@ -13,18 +13,14 @@ import { MaterialModule } from 'src/app/material.module';
 })
 export class ShareSocialComponent {
   @Input() public shareMessage!: string;
+  @Input() public id!: string
 
   public async shareInfo(e: Event): Promise<void> {
     e.preventDefault();
     // is used in mobile app share button, not in the browser share api
     await Share.share({
       text: this.shareMessage,
-      url: 'https://www.moviese.at/movie/moonrise-kingdom',
+      url: `https://www.moviese.at/movie/${this.id}`,
     });
-  }
-
-  private generateLink(title: string): string {
-    title = title.replaceAll(' ', '-').toLowerCase();
-    return `https://www.moviese.at/movie/${title}`;
   }
 }
