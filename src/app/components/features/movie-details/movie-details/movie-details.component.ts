@@ -43,7 +43,7 @@ export class MovieDetailsComponent implements OnInit {
     this.metaTitleService.setTitle(this.movie.title) // for sharing popup on device
 
     this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
-    this.metaTagService.updateTag({ property: 'og:image', content: this.movie.backdrop })
+    this.metaTagService.updateTag({ property: 'og:image', content: this.movie.poster })
     this.metaTagService.updateTag({ property: 'og:title', content: this.movie.title })
     this.metaTagService.updateTag({ property: 'og:description', content: this.movie.overview })
 
