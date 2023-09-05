@@ -1,9 +1,10 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
 import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player/youtube-player.component';
-import { MovieDetailsServiceService } from '../../features/movie-details/movie-details.service';
 import { CommonModule } from '@angular/common';
 import { ClipComponent } from './clip/clip.component';
 import { RouterModule } from '@angular/router';
+import { MovieDetailsService } from '../../features/movie-details/movie-details/movie-details.service';
+import { IClip } from 'src/app/mock/watchlist.json';
 
 @Component({
   selector: 'app-clips-container',
@@ -13,9 +14,10 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, YoutubePlayerComponent, ClipComponent, RouterModule]
 })
 export class ClipsContainerComponent implements AfterViewInit, AfterViewChecked {
-  private movieDetailsService = inject(MovieDetailsServiceService)
+  private movieDetailsService = inject(MovieDetailsService)
 
   @ViewChild('clipsContainer', {static: false}) private clipsContainer!: ElementRef<HTMLElement>
+  @Input() public clips!: IClip[]
 
   private apiLoaded = false;
   private youtubePlayerWidth = 0;
@@ -23,7 +25,6 @@ export class ClipsContainerComponent implements AfterViewInit, AfterViewChecked 
     //
   }, 0);
 
-  public clips$ = this.movieDetailsService.clips$
   public currentClip = 0;
 
   public ngAfterViewInit(): void {

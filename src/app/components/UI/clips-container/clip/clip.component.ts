@@ -1,7 +1,7 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, PLATFORM_ID, inject } from '@angular/core';
-import { IClip } from 'src/app/mock/movie-clips.json';
+import { IClip } from 'src/app/mock/watchlist.json';
 
 @Component({
   selector: 'app-clip',

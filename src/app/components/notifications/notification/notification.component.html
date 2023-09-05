@@ -7,6 +7,6 @@
   <mat-card-content
     [ngClass]="{ opened: (notificationOpenedIndex$ | async) === index }"
     [@toggleContent]="(notificationOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
-    <a [routerLink]="['/movie/moonrise-kingdom']">{{ notification.content }}</a>
+    <a [routerLink]="['/movie/1/moonrise-kingdom']">{{ notification.content }}</a>
   </mat-card-content>
 </mat-card>

@@ -9,14 +9,14 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: ':title',
+        path: ':id/:title',
         component: MovieDetailsComponent,
         data: {
           animation: 'slideLeft',
         },
       },
       {
-        path: ':title/clip/:id',
+        path: ':id/:title/clip/:id',
         component: YoutubePlayerComponent,
         data: {
           title: 'Trailer #1',
@@ -24,14 +24,14 @@ const routes: Routes = [
         },
       },
       {
-        path: ':title/review/create',
+        path: ':id/:title/review/create',
         component: CreateMovieReviewComponent,
         data: {
           animation: 'fade'
         }
       },
       {
-        path: ':title/review/:id',
+        path: ':id/:title/review/:id',
         component: MovieReviewComponent,
         data: {
           title: 'Review #1',

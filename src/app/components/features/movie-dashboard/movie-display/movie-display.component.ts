@@ -5,12 +5,9 @@ import { fadeAnimation } from 'src/app/animations';
 import { ShareSocialComponent } from 'src/app/components/shared/share-social/share-social.component';
 import { IsTouchingDirective } from 'src/app/directives/is-touching/is-touching.directive';
 import { MaterialModule } from 'src/app/material.module';
+import { IMovie } from 'src/app/mock/watchlist.json';
+import { StripTitle } from 'src/app/utils/string-utils';
 
-export interface IMovie {
-  title: string
-  poster: string
-  release_date: string
-}
 
 @Component({
   selector: 'app-movie-display',
@@ -22,11 +19,13 @@ export interface IMovie {
   imports: [CommonModule, RouterModule, MaterialModule, ShareSocialComponent]
 })
 export class MovieDisplayComponent {
+  private touchingDirective: IsTouchingDirective = inject(IsTouchingDirective, {self: true})
   @Input() public movie!: IMovie
+  public movieLink!: string
 
   public isTouching = this.touchingDirective.isTouching$
 
-  public constructor(
-    private touchingDirective: IsTouchingDirective = inject(IsTouchingDirective, {self: true})
-  ) {}
+  public stripTitle(title: string): string {
+    return StripTitle(title)
+  }
 }

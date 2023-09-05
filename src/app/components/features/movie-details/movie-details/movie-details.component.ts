@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ClipsContainerComponent } from 'src/app/components/UI/clips-container/clips-container.component';
 import { ImageSliderComponent } from 'src/app/components/UI/image-slider/image-slider.component';
 import { ShareSocialComponent } from 'src/app/components/shared/share-social/share-social.component';
@@ -10,7 +10,9 @@ import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
 import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
 import { SnackbBarService, SnackBarState } from 'src/app/services/snackbBar.service';
-import { IMovie } from '../../movie-dashboard/movie-display/movie-display.component';
+import { first } from 'rxjs';
+import { MovieDetailsService } from './movie-details.service';
+import { IMovie } from 'src/app/mock/watchlist.json';
 
 @Component({
   templateUrl: './movie-details.component.html',
@@ -22,28 +24,36 @@ import { IMovie } from '../../movie-dashboard/movie-display/movie-display.compon
 export class MovieDetailsComponent implements OnInit {
   private metaTagService = inject(Meta)
   private metaTitleService = inject(Title)
+  private route = inject(ActivatedRoute)
+  private movieService = inject(MovieDetailsService)
 
   public ngOnInit(): void {
-    this.metaTitleService.setTitle('Moonrise kingdom') // for sharing popup on device
 
-    this.metaTagService.updateTag({ name: 'keywords', content: 'Moonrise Kingdom keywords'})
+    this.movieService.movie$.pipe(first()).subscribe(({
+      next: (data) => this.movie = data
+    }))
+
+    this.route.paramMap.pipe(first()).subscribe({
+      next: (data) => {
+        const id = Number(data.get('id'))
+        this.movieService.setMovie(id)
+      }
+    })
+
+    this.metaTitleService.setTitle(this.movie.title) // for sharing popup on device
+
     this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
-    this.metaTagService.updateTag({ property: 'og:url', content: 'https://moviese.at/movies/moonrise-kingdom' })
-    this.metaTagService.updateTag({ property: 'og:image', content: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg' })
-    this.metaTagService.updateTag({ property: 'og:title', content: 'Moonrise Kingdom' })
-    this.metaTagService.updateTag({ property: 'og:description', content: 'Set on an island off the coast of New England in the summer of 1965, Moonrise Kingdom tells the story of two twelve-year-olds who fall in love, make a secret pact, and run away together into the wilderness. As various authorities try to hunt them down, a violent storm is brewing off-shore – and the peaceful island community is turned upside down in more ways than anyone can handle.' })
+    this.metaTagService.updateTag({ property: 'og:image', content: this.movie.poster })
+    this.metaTagService.updateTag({ property: 'og:title', content: this.movie.title })
+    this.metaTagService.updateTag({ property: 'og:description', content: this.movie.overview })
+
   }
 
   private snackBarService = inject(SnackbBarService)
 
   public movieIsAdded = false;
   public watchedMovie = false;
-
-  public movie: IMovie = {
-    title: "Moonrise Kingdom",
-    poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg",
-    release_date: "29-10-1986"
-  }
+  public movie!: IMovie;
 
   public addMovie(): void {
     this.movieIsAdded = !this.movieIsAdded
