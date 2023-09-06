@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { ChildrenOutletContexts, OutletContext, RouterModule, } from '@angular/router';
+import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { ScrollService } from 'src/app/services/scroll.service';
 import { fadeAnimation, routeAnimations } from 'src/app/animations';
@@ -10,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { DrawerBottomMenuComponent } from '../bottom-menu/drawer-bottom-menu.component';
 import { IsTouchingDirective } from 'src/app/directives/is-touching/is-touching.directive';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Keyboard } from '@capacitor/keyboard';
 
 @Component({
   selector: 'app-container',
@@ -26,7 +28,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   private dialog = inject(MatDialog)
   private deviceIsMobile$: Observable<boolean>;
 
-  public exitConfirmation = false;
   public displayMenu = false;
   public scrollingUp$ = this.scrollService.scrollingUp$
 
@@ -39,6 +40,8 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
+    const isKeyboardAvailable = Capacitor.isPluginAvailable('Keyboard');
+
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
       if (canGoBack) {
         window.history.back();
@@ -46,6 +49,16 @@ export class ContainerComponent implements OnInit, AfterViewInit {
         this.openDialog();
       };
     });
+
+    if (isKeyboardAvailable) {
+      Keyboard.addListener('keyboardDidShow', () => {
+        this.scrollService.hideBottomMenu();
+      });
+
+      Keyboard.addListener('keyboardDidHide', () => {
+        this.scrollService.showBottomMenu();
+      });
+    }
   }
 
   public ngAfterViewInit(): void {
@@ -66,8 +79,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
   public exitApp(value: boolean): void {
     if (value) {
       CapacitorApp.exitApp()
-    } else {
-      this.exitConfirmation = false;
     }
   }
 
