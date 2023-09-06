@@ -209,3 +209,10 @@ export const toggleContent = trigger('toggleContent', [
     animate('225ms ease-in-out'),
   ]),
 ])
+
+export const fadeToggle = trigger('fadeToggle', [
+  state('in', style({ opacity: '1', zIndex: 1})),
+  state('out', style({ opacity: '0', zIndex: -1 })),
+  transition('in => out', animate(`${animationTime}ms ease-in-out`)),
+  transition('out => in', animate(`${animationTime}ms ${animationTime}ms ease-in-out`))
+])

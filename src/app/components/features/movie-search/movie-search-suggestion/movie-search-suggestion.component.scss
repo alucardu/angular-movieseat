@@ -1,0 +1,24 @@
+:host {
+  position: relative;
+}
+
+.type {
+  margin: 16px 0;
+}
+
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  overflow-y: scroll;
+  img {
+    width: 35%;
+    border-radius: 8px;
+  }
+}
+
+.playingNow {
+  position: absolute;
+  top: 56px;
+}

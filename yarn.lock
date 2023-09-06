@@ -1475,6 +1475,11 @@
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-5.2.2.tgz#209cc3b15199325f3f5515f7a208ff9830482f52"
   integrity sha512-6nNhB+G9tamJFMdvPOIATEPIXlh3GNXMq8eeY3xrFO72bBTmQpXdbDQmMJeBbpVlkEnFoVUXiSxAu6O0E9x9Lw==
 
+"@capacitor/keyboard@^5.0.6":
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@capacitor/keyboard/-/keyboard-5.0.6.tgz#04400e71b677abf9f1fc1ceaffd1211e7d864319"
+  integrity sha512-9GewAa/y2Hwkdw/Be8MTdiAjrFZ7TPDKpR44M0Y/0QMnK+mBbgzcoZ/UkuumWv6e2F1IAI+VY5eYVQHDeZcRoA==
+
 "@capacitor/share@^5.0.0":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@capacitor/share/-/share-5.0.6.tgz#76d2f6f13d1596999c49a0d99d21e7a63b8ecfef"
