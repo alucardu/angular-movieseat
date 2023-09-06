@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { canActivate } from './components/authentication/auth-guard.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'watchlist',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
+    path: 'login',
+    loadComponent: () => import('./components/authentication/authentication.component').then(c => c.AuthenticationComponent),
+    data: {
+      animation: 'fade'
+    }
+  },
+  {
     path: 'movie-search',
+    canActivate: [canActivate],
     loadComponent: () => import('./components/features/movie-search/movie-search.component').then(c => c.MovieSearchComponent),
     data: {
       animation: 'slideUp'
@@ -16,6 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'watchlist',
+    canActivate: [canActivate],
     loadComponent: () => import('./components/features/movie-dashboard/movie-dashboard/movie-dashboard.component').then(c => c.MovieDashboardComponent),
     data: {
       animation: 'watchList'
@@ -23,6 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'notifications',
+    canActivate: [canActivate],
     loadComponent: () => import('./components/notifications/notifications.component').then(c => c.NotificationsComponent),
     data: {
       animation: 'slideRight'
@@ -30,10 +41,12 @@ const routes: Routes = [
   },
   {
     path: 'movie',
+    canActivate: [canActivate],
     loadChildren: () => import('./components/features/movie-dashboard/movie-dashboard.module').then(m => m.MovieDashboardModule),
   },
   {
     path: 'profile',
+    canActivate: [canActivate],
     loadComponent: () => import('./components/profile/profile.component').then(c => c.ProfileComponent),
     data: {
       animation: 'slideDown'
@@ -41,6 +54,7 @@ const routes: Routes = [
   },
   {
     path: 'biography/:id',
+    canActivate: [canActivate],
     loadComponent: () => import('./components/biography/biography.component').then(c => c.BiographyComponent),
     data: {
       animation: 'slideRight'

@@ -12,6 +12,7 @@ import { DrawerBottomMenuComponent } from '../bottom-menu/drawer-bottom-menu.com
 import { IsTouchingDirective } from 'src/app/directives/is-touching/is-touching.directive';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Keyboard } from '@capacitor/keyboard';
+import { AuthService } from '../../authentication/auth.service';
 
 @Component({
   selector: 'app-container',
@@ -24,12 +25,16 @@ import { Keyboard } from '@capacitor/keyboard';
   imports: [MaterialModule, CommonModule, RouterModule, DrawerBottomMenuComponent]
 })
 export class ContainerComponent implements OnInit, AfterViewInit {
-  @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
   private dialog = inject(MatDialog)
+  private authService = inject(AuthService)
+
+  @ViewChild('mainContent', { static: false }) private mainContent!: ElementRef<HTMLElement>
+
   private deviceIsMobile$: Observable<boolean>;
 
   public displayMenu = false;
   public scrollingUp$ = this.scrollService.scrollingUp$
+  public userLoggedInStatus$ = this.authService.userLoggedInStatus$
 
   public constructor(
     private contexts: ChildrenOutletContexts,
@@ -41,6 +46,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     const isKeyboardAvailable = Capacitor.isPluginAvailable('Keyboard');
+    // this.authService.checkLogOutRoute();
 
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
       if (canGoBack) {

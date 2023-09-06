@@ -163,9 +163,9 @@ export const routeAnimations = trigger('routeAnimations', [
         top: 0,
         width: '100%'
       })
-    ]),
+    ], {optional: true}),
 
-    query(':enter', [style({  opacity: 0, position: 'fixed' })]),
+    query(':enter', [style({  opacity: 0, position: 'fixed' })], {optional: true}),
 
     group([
       query(':enter', [animate(`${animationTime}ms ease-out`, style({ opacity: 1, }))], {optional: true}),
@@ -181,9 +181,9 @@ export const routeAnimations = trigger('routeAnimations', [
         top: 0,
         width: '100%'
       })
-    ]),
+    ], {optional: true}),
 
-    query(':enter', [style({  opacity: 0, position: 'fixed' })]),
+    query(':enter', [style({  opacity: 0, position: 'fixed' })], {optional: true}),
 
     group([
       query(':enter', [animate(`${animationTime}ms ease-out`, style({ opacity: 1, }))], {optional: true}),
