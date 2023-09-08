@@ -1,7 +1,5 @@
+<img class="logo" src="../../../assets/icon-512.webp" />
 <mat-card *ngIf="state === 'login'">
-  <mat-card-header>
-    <mat-card-title> LOGIN </mat-card-title>
-  </mat-card-header>
   <mat-card-content>
     <form [formGroup]="authForm">
       <mat-form-field>
@@ -19,16 +17,11 @@
       <button mat-flat-button color="primary" [routerLink]="'/watchlist'" (click)="login()">LOGIN</button>
       <button mat-flat-button>SIGN UP</button>
     </mat-card-actions>
+    <a class="password-reset" href="#">Forgot password</a>
   </mat-card-footer>
 </mat-card>
 
 <mat-card *ngIf="state === 'logout'" class="logout">
-  <mat-card-header>
-    <mat-card-title> LOGOUT </mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p>Are you sure you want to logout?</p>
-  </mat-card-content>
   <mat-card-footer>
     <mat-card-actions>
       <button mat-flat-button color="primary" [routerLink]="'/watchlist'">GO BACK</button>

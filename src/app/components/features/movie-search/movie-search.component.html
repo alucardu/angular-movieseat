@@ -6,7 +6,11 @@
   </mat-form-field>
 </form>
 
-<app-movie-search-result [searchResult]="searchResult" [index]="index" *ngFor="let searchResult of movieSearchResults$ | async; let index = index">
+<app-movie-search-result
+  @fadeAnimation
+  [searchResult]="searchResult"
+  [index]="index"
+  *ngFor="let searchResult of movieSearchResults$ | async; let index = index">
 </app-movie-search-result>
 
 <ng-container *ngIf="!((movieSearchResults$ | async)!.length > 0)">
