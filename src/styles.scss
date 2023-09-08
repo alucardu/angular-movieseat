@@ -34,3 +34,13 @@ mat-form-field {
     transform: rotate(90deg);
   }
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #4a4a4a inset;
+  -webkit-text-fill-color: white;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 50px #707070 inset;
+}
+

@@ -1,10 +1,10 @@
 <ng-container *ngIf="type === 'theatre'; else amongFriends">
   <mat-chip-set class="type">
     <mat-chip-option [selected]="selectedType === 'comingSoon'" [color]="colorType === 'comingSoon' ? 'accent' : ''" (click)="toggleSelection('comingSoon')"
-      >Coming soon...</mat-chip-option
+      >Coming soon</mat-chip-option
     >
     <mat-chip-option [selected]="selectedType === 'playingNow'" [color]="colorType === 'playingNow' ? 'accent' : ''" (click)="toggleSelection('playingNow')"
-      >Playing now...</mat-chip-option
+      >Playing now</mat-chip-option
     >
   </mat-chip-set>
 </ng-container>

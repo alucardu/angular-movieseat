@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <app-bottom-menu *ngIf="scrollingUp$ | async" @fadeAnimation></app-bottom-menu>
+  <app-bottom-menu *ngIf="(scrollingUp$ | async) && (userLoggedInStatus$ | async)" @fadeAnimation></app-bottom-menu>
   <main #mainContent [@routeAnimations]="getRouteAnimationData() | async">
     <router-outlet></router-outlet>
   </main>

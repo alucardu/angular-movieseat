@@ -1,0 +1,31 @@
+<img class="logo" src="../../../assets/icon-512.webp" />
+<mat-card *ngIf="state === 'login'">
+  <mat-card-content>
+    <form [formGroup]="authForm">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="userName" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" autocomplete="on" />
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" [routerLink]="'/watchlist'" (click)="login()">LOGIN</button>
+      <button mat-flat-button>SIGN UP</button>
+    </mat-card-actions>
+    <a class="password-reset" href="#">Forgot password</a>
+  </mat-card-footer>
+</mat-card>
+
+<mat-card *ngIf="state === 'logout'" class="logout">
+  <mat-card-footer>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" [routerLink]="'/watchlist'">GO BACK</button>
+      <button mat-flat-button (click)="logout()">LOGOUT</button>
+    </mat-card-actions>
+  </mat-card-footer>
+</mat-card>
