@@ -1,46 +1,21 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { AuthService } from './auth.service';
 import { CommonModule } from '@angular/common';
-import { first } from 'rxjs';
+import { LogoutComponent } from './logout/logout.component';
+import { LoginComponent } from './login/login.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.scss'],
   standalone: true,
-  imports: [MaterialModule, RouterModule, CommonModule]
+  imports: [MaterialModule, RouterModule, CommonModule, LogoutComponent, LoginComponent, SignUpComponent],
 })
-export class AuthenticationComponent implements OnInit {
+export class AuthenticationComponent  {
   private authService = inject(AuthService)
 
-  public userLoggedInStatus$ = this.authService.userLoggedInStatus$;
-
-  public state = 'login'
-
-  public authForm = new FormGroup({
-    userName: new FormControl(''),
-    password: new FormControl('')
-  })
-
-  public ngOnInit(): void {
-    this.authService.userLoggedInStatus$.pipe(
-      first()
-    ).subscribe({
-      next: (data) => {
-        this.state = data ? 'logout' : 'login'
-      }
-    })
-  }
-
-  public login(): void {
-    this.authService.loginUser();
-  }
-
-  public logout(): void {
-    this.authService.logoutUser();
-    this.state = 'login'
-  }
+  public loggedIn$ = this.authService.userLoggedInStatus$;
 }

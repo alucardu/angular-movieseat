@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,24 +29,5 @@ export class AuthService {
         }
       })
     );
-  }
-
-  public checkLogOutRoute(): void {
-    this.router.events.pipe(
-      filter((routingEvent): routingEvent is NavigationEnd => routingEvent instanceof NavigationEnd),
-    ).subscribe({
-      next: (data) => {
-        if (data.url === '/login' && data.id !== 1) {
-          this.checkLoginState().pipe().subscribe({
-            next: (data) => {
-              console.log(data)
-              if (data) {
-                this.router.navigate(['/logout']);
-              }
-            }
-          })
-        }
-      }
-    })
   }
 }

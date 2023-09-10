@@ -1,0 +1,33 @@
+<img class="logo" src="../../../assets/icon-512.webp" />
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="signUpForm">
+      <mat-form-field>
+        <mat-label>Email address</mat-label>
+        <input matInput formControlName="email" />
+        <mat-error *ngIf="signUpForm.controls.email.invalid" autocomplete="email">{{ getErrorMessage('email') }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" />
+        <mat-error *ngIf="signUpForm.controls.username.invalid" autocomplete="username">{{ getErrorMessage('username') }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password" autocomplete="new-password" />
+        <mat-error *ngIf="signUpForm.controls.password.invalid">{{ getErrorMessage('password') }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Confirm password</mat-label>
+        <input type="password" matInput formControlName="confirmPassword" autocomplete="new-password" />
+        <mat-error *ngIf="signUpForm.controls.confirmPassword.invalid">{{ getErrorMessage('confirmPassword') }}</mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" type="submit" (click)="submit()">SIGN UP</button>
+    </mat-card-actions>
+  </mat-card-footer>
+</mat-card>

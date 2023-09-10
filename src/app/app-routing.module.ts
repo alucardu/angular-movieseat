@@ -16,6 +16,10 @@ const routes: Routes = [
     }
   },
   {
+    path: 'sign-up',
+    loadComponent: () => import('./components/authentication/sign-up/sign-up.component').then(c => c.SignUpComponent),
+  },
+  {
     path: 'movie-search',
     canActivate: [canActivate],
     loadComponent: () => import('./components/features/movie-search/movie-search.component').then(c => c.MovieSearchComponent),

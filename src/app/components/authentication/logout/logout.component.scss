@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+  width: 100%;
+}
+
+.logout {
+  width: 100%;
+}
+
+mat-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+  padding: 0 16px;
+  button {
+    flex: 1
+  }
+}

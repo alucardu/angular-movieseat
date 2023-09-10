@@ -1,0 +1,35 @@
+mat-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+mat-card-header {
+  padding: 0;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  mat-card-title {
+    font-size: 2rem;
+  }
+}
+
+mat-card-footer {
+  display: flex;
+  flex-direction: column;
+  .password-reset {
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 8px;
+  }
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+  padding: 0 16px;
+  button {
+    flex: 1
+  }
+}

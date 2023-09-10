@@ -36,11 +36,11 @@ mat-form-field {
 }
 
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px #4a4a4a inset;
-  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #4a4a4a inset!important;
+  -webkit-text-fill-color: white!important;
 }
 
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 50px #707070 inset;
+  -webkit-box-shadow: 0 0 0 50px #707070 inset!important;
 }
 
