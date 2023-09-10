@@ -1,0 +1,76 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(#280028 40%, #490049 80%);
+}
+
+.logo {
+  height: 192px;
+  margin-bottom: 64px;
+  animation: pulse-logo 5000ms ease-in-out infinite;
+  border-radius: 100px;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  overflow: hidden;
+}
+
+mat-card {
+  background: transparent;
+  box-shadow: none;
+  width: 100%;
+}
+
+mat-card-header {
+  padding: 0;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  mat-card-title {
+    font-size: 2rem;
+  }
+}
+
+mat-card-footer {
+  display: flex;
+  flex-direction: column;
+  .password-reset {
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 8px;
+  }
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+  padding: 0 16px;
+  button {
+    flex: 1
+  }
+}
+
+
+@keyframes pulse-logo {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 #280028
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 64px 24px #490049f0
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 #280028
+	}
+}
+
+.error-message {
+  margin-bottom: 16px;
+  text-align: right;
+}
