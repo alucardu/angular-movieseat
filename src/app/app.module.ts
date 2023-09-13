@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ContainerComponent } from './components/UI/container/container.component';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ContainerComponent } from './components/UI/container/container.componen
     AppRoutingModule,
     HttpClientModule,
     ContainerComponent,
-    NgCircleProgressModule.forRoot({})
+    NgCircleProgressModule.forRoot({}),
+    GraphQLModule
   ],
   providers: [
     Title,

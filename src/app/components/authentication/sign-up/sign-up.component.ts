@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
+import { SignUpService } from './sign-up.service';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { MaterialModule } from 'src/app/material.module';
 })
 export class SignUpComponent implements OnInit {
   private formBuilder = inject(FormBuilder)
+  private signUpService = inject(SignUpService)
 
   public signUpForm = this.formBuilder.group({
     email: new FormControl<string>('', [Validators.required, Validators.email]),
@@ -41,7 +43,9 @@ export class SignUpComponent implements OnInit {
   public submit(): void {
     this.signUpForm.markAllAsTouched();
     if(this.signUpForm.invalid) return
-    console.log('send')
+    this.signUpService.createUser(this.signUpForm).subscribe({
+      next: (data) => console.log(data)
+    })
   }
 
   public getErrorMessage(field: string): string {

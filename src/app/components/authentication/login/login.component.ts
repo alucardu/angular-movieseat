@@ -16,7 +16,7 @@ export class LoginComponent {
   private authService = inject(AuthService)
 
   public authForm = new FormGroup({
-    userName: new FormControl(''),
+    username: new FormControl(''),
     password: new FormControl('')
   })
 
