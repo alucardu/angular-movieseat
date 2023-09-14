@@ -38,7 +38,8 @@ const server = new ApolloServer({
 await server.start();
 
 app.use(
-  cors<cors.CorsRequest>({ origin: ['https://www.moviese.at', 'https://studio.apollographql.com'] }),
+  '/graphql',
+  cors({ origin: ['https://www.your-app.example', 'https://studio.apollographql.com'] }),
   bodyParser.json(),
   expressMiddleware(server),
 );
