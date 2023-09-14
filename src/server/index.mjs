@@ -39,7 +39,6 @@ app.use(
   '/graphql',
   cors({
     origin: ['https://www.moviese.at', 'https://moviese.at/graphql', 'https://studio.apollographql.com'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'x-access-token', 'XSRF-TOKEN'],
   }),
   bodyParser.json(),
   expressMiddleware(server),
