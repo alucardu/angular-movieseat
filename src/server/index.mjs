@@ -45,4 +45,4 @@ app.use(
 );
 
 await new Promise((resolve) => httpServer.listen({ port: 4100 }, resolve));
-console.log(`🚀 Server ready at http://localhost:4100t`);
+console.log(`🚀 Server ready at http://localhost:4100`);
