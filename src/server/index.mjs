@@ -18,7 +18,7 @@ const schema = makeExecutableSchema({
 const app = express()
 let httpServer;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ENVIRONMENT === 'production') {
   console.log(1, process.env.ENVIRONMENT)
   httpServer = http.createHttpsServer({
     key: fs.readFileSync('/etc/letsencrypt/live/moviese.at/privkey.pem'),
