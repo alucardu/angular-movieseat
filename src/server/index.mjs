@@ -20,13 +20,11 @@ const app = express()
 let httpServer;
 
 if (process.env.ENVIRONMENT === 'production') {
-  console.log(1, process.env.ENVIRONMENT)
   httpServer = http.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/moviese.at/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/moviese.at/fullchain.pem'),
   }, app)
 } else {
-  console.log(2, process.env.ENVIRONMENT)
   httpServer = http.createServer(app)
 }
 
