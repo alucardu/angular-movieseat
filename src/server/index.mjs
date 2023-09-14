@@ -40,7 +40,7 @@ await server.start();
 app.use(
   '/graphql',
   cors<cors.CorsRequest>({ origin: ['https://www.moviese.at', 'https://studio.apollographql.com'] }),
-  json(),
+  bodyParser.json(),
   expressMiddleware(server),
 );
 
