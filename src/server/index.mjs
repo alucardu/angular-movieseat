@@ -38,12 +38,10 @@ const server = new ApolloServer({
 await server.start();
 
 app.use(
-  '/graphql',
   cors<cors.CorsRequest>({ origin: ['https://www.moviese.at', 'https://studio.apollographql.com'] }),
   bodyParser.json(),
   expressMiddleware(server),
 );
-
 
 await new Promise((resolve) => httpServer.listen({ port: 4100 }, resolve));
 console.log(`🚀 Server ready at http://localhost:4100`);
