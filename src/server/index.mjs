@@ -37,7 +37,7 @@ await server.start();
 
 app.use(
   '/graphql',
-  cors({ origin: ['https://moviese.at', 'https://moviese.at/graphql', 'https://studio.apollographql.com'], credentials: true }),
+  cors({ origin: ['https://www.moviese.at', 'https://moviese.at/graphql', 'https://studio.apollographql.com'], credentials: true }),
   bodyParser.json(),
   expressMiddleware(server),
 );
