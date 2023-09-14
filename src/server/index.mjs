@@ -43,5 +43,4 @@ app.use(
 );
 
 await new Promise((resolve) => httpServer.listen({ port: 4100 }, resolve));
-console.log(process.env.ENVIRONMENT)
 console.log(`🚀 Server ready at http://localhost:4100`);
