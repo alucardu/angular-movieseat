@@ -7,8 +7,8 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { makeExecutableSchema } from '@graphql-tools/schema'
 
-import { userResolvers } from './resolvers/user.js'
-import { userTypeDefs } from './typeDefs/user.js'
+import userResolvers from './resolvers/user.mjs'
+import userTypeDefs from './typeDefs/user.mjs'
 
 const schema = makeExecutableSchema({
   typeDefs: [userTypeDefs],

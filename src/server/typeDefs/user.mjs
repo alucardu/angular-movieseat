@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 // Construct a schema, using GraphQL schema language
-export const userTypeDefs = gql`
+const userTypeDefs = gql`
   type User {
     id: ID
     username: String
@@ -16,3 +16,5 @@ export const userTypeDefs = gql`
     getUser(username: String!): User
   }
 `
+
+export default userTypeDefs

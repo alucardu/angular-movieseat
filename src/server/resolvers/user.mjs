@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export const userResolvers = {
+const userResolvers = {
   Mutation: {
     createUser: async (_, args) => {
       return await prisma.user.create({
@@ -15,3 +15,5 @@ export const userResolvers = {
     },
   },
 }
+
+export default userResolvers;
