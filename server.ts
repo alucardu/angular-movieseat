@@ -6,6 +6,7 @@ import * as express from 'express';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { createWindow } from 'domino-ext';
+import cors from 'cors';
 
 import { AppServerModule } from './src/main.server';
 
@@ -34,6 +35,8 @@ export function app(): express.Express {
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
+
+  server.use(cors())
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
