@@ -26,6 +26,7 @@ if (process.env.ENVIRONMENT === 'production') {
     cert: fs.readFileSync('/etc/letsencrypt/live/moviese.at/fullchain.pem'),
   }, app)
 } else {
+  console.log(2)
   httpServer = http.createServer(app)
 }
 
