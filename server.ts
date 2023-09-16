@@ -5,7 +5,8 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { createWindow } from 'domino';
+import { createWindow } from 'domino-ext';
+import cors from 'cors';
 
 import { AppServerModule } from './src/main.server';
 

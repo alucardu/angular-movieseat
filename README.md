@@ -39,14 +39,37 @@ Run `adb shell am start -W -a android.intent.action.VIEW -d "https://www.moviese
 
 Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgroundColorDark '#280028' --android`
 
+# Angular Universal
+
+ - `yarn build:ssr`
+ - move dist folder to server
+ - restart nginx
+
 # NGINX tips
 
- - nano /etc/nginx/sites-available/movieseat
- - sudo nginx -t
- - sudo systemctl restart nginx
+ - `nano /etc/nginx/sites-available/movieseat`
+ - `sudo nginx -t`
+ - `sudo systemctl restart nginx`
 
 # PM2 tips
 
- - pm2 list
- - pm2 start "yarn serve:ssr" --name "Movieseat" --watch /root/angular-movieseat/dist/angular-movieseat/browser
- - pm2 logs
+ - `pm2 list`
+ - `pm2 start "yarn serve:ssr" --name "Movieseat" --watch /root/angular-movieseat/dist/angular-movieseat/browser`
+ - `pm2 start "yarn server" --name "Movieseat Server"`
+ - `pm2 start "yarn studio" --name "Prisma studio`
+ - `pm2 restart all`
+ - `pm2 logs`
+
+# Docker database commands
+
+ - `docker-compose up`
+ - `docker exec -it movieseat bash`
+ - `psql -U postgres movieseat`
+ - `\dt+`
+ - `TABLE "User";`
+
+ 
+# Prisma commands
+
+ - `npx prisma migrate dev --name <NAME>`
+ - `npx prisma migrate deploy` on server

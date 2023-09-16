@@ -21,7 +21,7 @@ export class UserInfoComponent implements OnInit {
 
   private setProfileForm(): void {
     this.profileForm = this.formBuilder.nonNullable.group({
-      userName: [{ value: 'alucardu', disabled: true }],
+      username: [{ value: 'alucardu', disabled: true }],
     });
   }
 }
