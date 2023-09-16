@@ -2,6 +2,11 @@ import gql from 'graphql-tag';
 
 // Construct a schema, using GraphQL schema language
 const userTypeDefs = gql`
+  type ReturnObject {
+    user: User,
+    message: String
+  }
+
   type User {
     id: ID
     username: String
@@ -9,7 +14,7 @@ const userTypeDefs = gql`
   }
 
   type Mutation {
-    createUser(username: String!, email: String!): User
+    createUser(username: String!, email: String!): ReturnObject
   }
 
   type Query {

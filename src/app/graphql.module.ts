@@ -2,11 +2,12 @@ import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { NgModule } from '@angular/core';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
+import { environment } from 'src/environments/environment';
 
-const uri = 'https://moviese.at/graphql'; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   return {
-    link: httpLink.create({ uri }),
+    link: httpLink.create({ uri: `${environment.graphQLserverUri}`,
+  }),
     cache: new InMemoryCache(),
   };
 }

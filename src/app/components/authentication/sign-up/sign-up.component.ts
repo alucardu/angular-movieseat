@@ -24,6 +24,10 @@ export class SignUpComponent implements OnInit {
   })
 
   public ngOnInit(): void {
+    this.signUpForm.controls.password.valueChanges.subscribe(() => {
+      this.validatePasswordConfirmation();
+    });
+
     this.signUpForm.controls.confirmPassword.valueChanges.subscribe(() => {
       this.validatePasswordConfirmation();
     });
@@ -43,9 +47,7 @@ export class SignUpComponent implements OnInit {
   public submit(): void {
     this.signUpForm.markAllAsTouched();
     if(this.signUpForm.invalid) return
-    this.signUpService.createUser(this.signUpForm).subscribe({
-      next: (data) => console.log(data)
-    })
+    this.signUpService.createUser(this.signUpForm)
   }
 
   public getErrorMessage(field: string): string {

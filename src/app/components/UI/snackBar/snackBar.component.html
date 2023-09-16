@@ -1,4 +1,5 @@
 <div class="snackBar-container">
   <span>{{ data.message }}</span>
-  <mat-icon> check </mat-icon>
+  <mat-icon *ngIf="data.state === 'success'"> check </mat-icon>
+  <mat-icon *ngIf="data.state === 'error'"> error </mat-icon>
 </div>

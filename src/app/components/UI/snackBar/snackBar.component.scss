@@ -18,4 +18,8 @@
 
 .snackBar-container {
   display: flex;
+  align-items: center;
+  mat-icon {
+    margin-left: auto;
+  }
 }
