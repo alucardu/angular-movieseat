@@ -36,8 +36,6 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
-  server.use(cors())
-
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
