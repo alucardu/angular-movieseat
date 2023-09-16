@@ -43,15 +43,5 @@ app.use(
   expressMiddleware(server),
 );
 
-// app.use(
-//   '/graphql',
-//   cors({
-//     origin: ['https://www.moviese.at', 'https://studio.apollographql.com'],
-//     allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'x-access-token', 'XSRF-TOKEN'],
-//   }),
-//   bodyParser.json(),
-//   expressMiddleware(server),
-// );
-
 await new Promise((resolve) => httpServer.listen({ port: 4100 }, resolve));
 console.log(`🚀 Server ready at http://localhost:4100`);
