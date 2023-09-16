@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { Observable } from 'rxjs';
 
 import { CREATE_USER } from 'src/operations/userOperations/mutations';
 import { CreateUser } from 'src/types/userTypes';
@@ -16,19 +16,15 @@ export interface IUser {
 })
 export class SignUpService {
   private apollo = inject(Apollo)
-  private snackBarService = inject(SnackbBarService)
 
-  public createUser(userForm: FormGroup): void {
+  public createUser(userForm: FormGroup): Observable<MutationResult<CreateUser>> {
     const user: IUser = userForm.value
-    this.apollo.mutate<CreateUser>({
+    return this.apollo.mutate<CreateUser>({
       mutation: CREATE_USER,
       variables: {
         username: user.username,
         email: user.email
       },
-    }).subscribe(({
-      next: ({data}) => this.snackBarService.openSnackBar(data!.createUser.message, SnackBarState.SUCCESS),
-      error: (data) => this.snackBarService.openSnackBar(data.message, SnackBarState.ERROR)
-    }))
+    })
   }
 }

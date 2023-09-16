@@ -1,6 +1,6 @@
 <img class="logo" src="../../../assets/icon-512.webp" />
 
-<mat-card>
+<mat-card *ngIf="signUpState$ | async; else signUpSuccess">
   <mat-card-content>
     <form [formGroup]="signUpForm">
       <mat-form-field>
@@ -31,3 +31,15 @@
     </mat-card-actions>
   </mat-card-footer>
 </mat-card>
+
+<ng-template #signUpSuccess>
+  <mat-card>
+    <mat-card-content>
+      <span
+        >Your account has been created! Check your email inbox for the confirmation! <br /><br />
+        See you soon.<br /><br />
+        <a [routerLink]="['/login']">Back to login</a>
+      </span>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
