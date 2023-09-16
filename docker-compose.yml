@@ -10,6 +10,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: movieseat
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/movieseat?schema=public
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
