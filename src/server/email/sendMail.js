@@ -9,15 +9,10 @@ async function main(email) {
     return;
   }
 
-  console.log('email: ', email)
-
   const transporter = nodemailer.createTransport({
     host: env.PROD_MAIL_HOST,
     secure: env.PROD_MAIL_SECURE,
     secureConnection: false, // TLS requires secureConnection to be false
-    tls: {
-      ciphers: 'SSLv3',
-    },
     requireTLS: env.PROD_REQUIRE_TLS,
     port: env.PROD_PORT,
     logger: true,
