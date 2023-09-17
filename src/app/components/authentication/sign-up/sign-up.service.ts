@@ -9,6 +9,7 @@ import { CreateUser } from 'src/types/userTypes';
 export interface IUser {
   username: string;
   email: string;
+  password: string;
 }
 
 @Injectable({
@@ -23,7 +24,8 @@ export class SignUpService {
       mutation: CREATE_USER,
       variables: {
         username: user.username,
-        email: user.email
+        email: user.email,
+        password: user.password
       },
     })
   }

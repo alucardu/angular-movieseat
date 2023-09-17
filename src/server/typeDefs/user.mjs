@@ -14,7 +14,12 @@ const userTypeDefs = gql`
   }
 
   type Mutation {
-    createUser(username: String!, email: String!): ReturnObject
+    createUser(
+      username: String!,
+      email: String!,
+      password: String!
+
+    ): ReturnObject
   }
 
   type Query {
