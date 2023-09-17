@@ -19,7 +19,7 @@ async function main(email) {
       ciphers: 'SSLv3',
     },
     requireTLS: env.PROD_REQUIRE_TLS,
-    port: 465,
+    port: env.PROD_PORT,
     logger: true,
     debug: true,
     auth: {
