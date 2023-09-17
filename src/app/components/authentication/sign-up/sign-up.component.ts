@@ -3,6 +3,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { SignUpService } from './sign-up.service';
+import { SnackbBarService, SnackBarState } from 'src/app/services/snackbBar.service';
+import { BehaviorSubject } from 'rxjs';
+import { fadeAnimation } from 'src/app/animations';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -10,11 +14,16 @@ import { SignUpService } from './sign-up.service';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   standalone: true,
-  imports: [MaterialModule, CommonModule]
+  imports: [MaterialModule, CommonModule, RouterLink],
+  animations: [fadeAnimation]
 })
 export class SignUpComponent implements OnInit {
   private formBuilder = inject(FormBuilder)
   private signUpService = inject(SignUpService)
+  private snackBarService = inject(SnackbBarService)
+
+  private signUpStateSubject$ = new BehaviorSubject<boolean>(true);
+  public signUpState$ = this.signUpStateSubject$.asObservable();
 
   public signUpForm = this.formBuilder.group({
     email: new FormControl<string>('', [Validators.required, Validators.email]),
@@ -24,6 +33,10 @@ export class SignUpComponent implements OnInit {
   })
 
   public ngOnInit(): void {
+    this.signUpForm.controls.password.valueChanges.subscribe(() => {
+      this.validatePasswordConfirmation();
+    });
+
     this.signUpForm.controls.confirmPassword.valueChanges.subscribe(() => {
       this.validatePasswordConfirmation();
     });
@@ -44,7 +57,11 @@ export class SignUpComponent implements OnInit {
     this.signUpForm.markAllAsTouched();
     if(this.signUpForm.invalid) return
     this.signUpService.createUser(this.signUpForm).subscribe({
-      next: (data) => console.log(data)
+      next: ({data}) => {
+        this.signUpStateSubject$.next(false)
+        this.snackBarService.openSnackBar(data!.createUser.message, SnackBarState.SUCCESS)
+      },
+      error: (data) => this.snackBarService.openSnackBar(data.message, SnackBarState.ERROR)
     })
   }
 

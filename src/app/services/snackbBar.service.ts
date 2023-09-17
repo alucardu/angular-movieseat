@@ -10,6 +10,7 @@ export enum SnackBarState {
 
 export interface SnackBarData {
   message: string,
+  state: SnackBarState
 }
 
 @Injectable({
@@ -18,13 +19,30 @@ export interface SnackBarData {
 export class SnackbBarService {
   private _snackBar = inject(MatSnackBar)
 
-  public openSnackBar(message: string, state: string): void {
+  public openSnackBar(message: string, state: SnackBarState): void {
+    message = this.setMessageText(message);
+
     this._snackBar.openFromComponent(SnackBarComponent, {
       panelClass: state,
-      duration: 1500,
+      duration: 3500,
       data: {
-        message: message
+        message: message,
+        state: state
       } as SnackBarData
     })
+  }
+
+  private setMessageText(message: string): string {
+    switch (message) {
+      case 'U_01':
+        message = 'Your account has been created! Check your email!'
+        break;
+
+      case 'P2002':
+        message = 'Username or email is already taken.'
+        break;
+    }
+
+    return message
   }
 }
