@@ -39,7 +39,7 @@ const userResolvers = {
           message: 'U_01'
         }
       } catch (e) {
-        console.log('error')
+        console.log('error', e)
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           throw new Error(e.code)
         }
