@@ -27,7 +27,7 @@ const userResolvers = {
           to: args.email, // list of receivers
           subject: 'Activate your Movieseat account!', // Subject line
           // eslint-disable-next-line max-len
-          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://localhost:4200/sign-up?id=${user.id}&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
+          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://moviese.at/sign-up?id=${user.id}&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
         };
         msg.main(email);
 
