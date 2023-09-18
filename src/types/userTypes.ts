@@ -10,3 +10,8 @@ type ReturnObject = {
 export type CreateUser = {
   createUser: ReturnObject
 }
+
+// QUERIES
+export type ConfirmUser = {
+  confirmUser: string
+}

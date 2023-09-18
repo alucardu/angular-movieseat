@@ -23,7 +23,16 @@ const userTypeDefs = gql`
   }
 
   type Query {
-    getUser(username: String!): User
+    getUser(
+      username: String!
+    ): User
+  }
+
+  type Query {
+    confirmUser(
+      id: ID!
+      confirmationCode: String!
+    ): String
   }
 `
 

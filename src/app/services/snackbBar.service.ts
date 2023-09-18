@@ -38,8 +38,16 @@ export class SnackbBarService {
         message = 'Your account has been created! Check your email!'
         break;
 
+      case 'U_02':
+        message = 'Your account has been confirmed!'
+        break;
+
       case 'P2002':
         message = 'Username or email is already taken.'
+        break;
+
+      case 'P2025':
+        message = 'Something went wrong.'
         break;
     }
 
