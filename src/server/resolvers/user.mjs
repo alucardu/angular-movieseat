@@ -11,9 +11,7 @@ const prisma = new PrismaClient()
 const userResolvers = {
   Mutation: {
     createUser: async (_, args) => {
-      console.log(args)
       const confirmation_code = nanoid()
-      console.log(confirmation_code)
 
       try {
         const user = await prisma.user.create({
@@ -39,7 +37,6 @@ const userResolvers = {
           message: 'U_01'
         }
       } catch (e) {
-        console.log('error', e)
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           throw new Error(e.code)
         }
