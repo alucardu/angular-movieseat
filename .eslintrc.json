@@ -1,9 +1,10 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
+  "ignorePatterns": ["projects/**/*", "server/"],
   "overrides": [
     {
       "files": ["*.ts"],
+      "excludedFiles": ["*.js"],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",

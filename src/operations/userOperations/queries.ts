@@ -21,7 +21,12 @@ const CONFIRM_USER = gql`
     confirmUser(
       id: $id
       confirmationCode: $confirmationCode
-    )
+    ) {
+      response {
+        type,
+        code
+      }
+    }
   }
 `
 

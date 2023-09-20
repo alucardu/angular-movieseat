@@ -7,6 +7,7 @@ import { SnackbBarService, SnackBarState } from 'src/app/services/snackbBar.serv
 import { BehaviorSubject, first } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { IResponse } from 'src/types/userTypes';
 
 
 @Component({
@@ -96,10 +97,18 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     if(this.signUpForm.invalid) return
     this.signUpService.createUser(this.signUpForm).subscribe({
       next: ({data}) => {
+        if (!data) return
         this.signUpStateSubject$.next(false)
-        this.snackBarService.openSnackBar(data!.createUser.message, SnackBarState.SUCCESS)
+        this.router.navigate(['/sign-up'], { queryParams: {id: data.createUser.data.id, confirmationCode: 'xxxx'}});
+        this.confirmationCodeForm.controls.userId.setValue(data.createUser.data.id)
+        this.snackBarService.openSnackBar(data.createUser.response, SnackBarState.SUCCESS)
       },
-      error: (data) => this.snackBarService.openSnackBar(data.message, SnackBarState.ERROR)
+      error: (data) => {
+        const response: IResponse = {
+          type: 'sign_up',
+          code: data.message
+        }
+        this.snackBarService.openSnackBar(response, SnackBarState.ERROR)}
     })
   }
 
@@ -110,10 +119,16 @@ export class SignUpComponent implements OnInit, AfterViewInit {
       if (this.confirmationCodeForm.valid) {
         this.signUpService.confirmUser(this.confirmationCodeForm).subscribe({
           next: ({data}) => {
-            this.snackBarService.openSnackBar(data!.confirmUser, SnackBarState.SUCCESS)
+            if (!data) return
+            this.snackBarService.openSnackBar(data.confirmUser.response, SnackBarState.SUCCESS)
             this.router.navigate(['/login'])
           },
-          error: (data) => this.snackBarService.openSnackBar(data.message, SnackBarState.ERROR)
+          error: (data) => {
+            const response: IResponse = {
+              type: 'sign_up',
+              code: data.message
+            }
+            this.snackBarService.openSnackBar(response, SnackBarState.ERROR)}
         })
       }
     })

@@ -3,13 +3,41 @@ import bcrypt from 'bcrypt'
 import msg from '../../server/email/sendMail.js'
 import { customAlphabet } from 'nanoid'
 
-  const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // You can customize this character set
+  const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const nanoid  = customAlphabet(alphabet, 4);
 
 const prisma = new PrismaClient()
 
 const userResolvers = {
   Mutation: {
+    loginUser: async (_, args) => {
+      try {
+        const user = await prisma.user.findFirstOrThrow({
+          where: {
+            email: String(args.email),
+          },
+        });
+
+        if (user.confirmation_code.length > 0) throw new Error('U_05')
+        if (!bcrypt.compareSync(args.password, user.password)) throw new Error('U_04')
+
+        return {
+          data: user,
+          response: {
+            type: 'user',
+            code: 'U_03'
+          }
+        }
+
+      } catch(e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          throw new Error(e.code)
+        } else {
+          throw e
+        }
+      }
+    },
+
     createUser: async (_, args) => {
       const confirmation_code = nanoid()
 
@@ -24,17 +52,20 @@ const userResolvers = {
         })
 
         const email = {
-          from: '"moviese.at" <info@moviese.at>', // sender address
-          to: args.email, // list of receivers
-          subject: 'Activate your Movieseat account!', // Subject line
+          from: '"moviese.at" <info@moviese.at>',
+          to: args.email,
+          subject: 'Activate your Movieseat account!',
           // eslint-disable-next-line max-len
           html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://moviese.at/sign-up?id=${user.id}&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
         };
         msg.main(email);
 
         return {
-          user: user,
-          message: 'U_01'
+          data: user,
+          response: {
+            type: 'user',
+            code: 'U_01'
+          }
         }
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -46,7 +77,6 @@ const userResolvers = {
 
   Query: {
     confirmUser: async (_, args) => {
-      console.log(args.confirmationCode)
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
@@ -60,7 +90,12 @@ const userResolvers = {
           data: { confirmation_code: '' },
         });
 
-        return 'U_02'
+        return {
+          response: {
+            type: 'user',
+            code: 'U_02'
+          }
+        }
       } catch(e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           throw new Error(e.code)

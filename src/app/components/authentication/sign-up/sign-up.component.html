@@ -5,12 +5,12 @@
     <form [formGroup]="signUpForm">
       <mat-form-field>
         <mat-label>Email address</mat-label>
-        <input matInput formControlName="email" />
+        <input matInput formControlName="email" autocomplete="email" />
         <mat-error *ngIf="signUpForm.controls.email.invalid" autocomplete="email">{{ getErrorMessage('email') }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Username</mat-label>
-        <input matInput formControlName="username" />
+        <input matInput formControlName="username" autocomplete="username" />
         <mat-error *ngIf="signUpForm.controls.username.invalid" autocomplete="username">{{ getErrorMessage('username') }}</mat-error>
       </mat-form-field>
       <mat-form-field>

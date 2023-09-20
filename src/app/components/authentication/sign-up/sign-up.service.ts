@@ -9,6 +9,7 @@ import { CONFIRM_USER } from 'src/operations/userOperations/queries';
 import { ConfirmUser, CreateUser, } from 'src/types/userTypes';
 
 export interface IUser {
+  id: string;
   username: string;
   email: string;
   password: string;

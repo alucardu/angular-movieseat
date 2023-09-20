@@ -9,7 +9,7 @@ import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player
 import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
 import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
-import { SnackbBarService, SnackBarState } from 'src/app/services/snackbBar.service';
+import { SnackbBarService } from 'src/app/services/snackbBar.service';
 import { first } from 'rxjs';
 import { MovieDetailsService } from './movie-details.service';
 import { IMovie } from 'src/app/mock/watchlist.json';
@@ -58,25 +58,25 @@ export class MovieDetailsComponent implements OnInit {
 
   public addMovie(): void {
     this.movieIsAdded = !this.movieIsAdded
-    this.snackBarService.openSnackBar('Moonrise Kingdom has been added to your watchlist!', SnackBarState.SUCCESS);
+    // this.snackBarService.openSnackBar('Moonrise Kingdom has been added to your watchlist!', SnackBarState.SUCCESS);
   }
 
   public removeMovie(): void {
     this.movieIsAdded = !this.movieIsAdded
-    this.snackBarService.openSnackBar('Moonrise Kingdom has been removed to your watchlist!', SnackBarState.SUCCESS);
+    // this.snackBarService.openSnackBar('Moonrise Kingdom has been removed to your watchlist!', SnackBarState.SUCCESS);
   }
 
   public toggleWatchedState(): void {
-    let message!: string;
+    // let message!: string;
 
     this.watchedMovie = !this.watchedMovie
 
-    if (this.watchedMovie) {
-      message = 'Moonrise Kingdome has been marked as watched'
-    } else {
-      message = 'Moonrise Kingdome has been marked as unwatched'
-    }
+    // if (this.watchedMovie) {
+    //   message = 'Moonrise Kingdome has been marked as watched'
+    // } else {
+    //   message = 'Moonrise Kingdome has been marked as unwatched'
+    // }
 
-    this.snackBarService.openSnackBar(message, SnackBarState.SUCCESS);
+    // this.snackBarService.openSnackBar(message, SnackBarState.SUCCESS);
   }
 }

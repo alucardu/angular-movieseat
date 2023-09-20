@@ -2,18 +2,18 @@
   <mat-card-content>
     <form [formGroup]="authForm">
       <mat-form-field>
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username" />
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="text" autocomplete="email" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input matInput formControlName="password" type="password" autocomplete="on" />
+        <input matInput formControlName="password" type="password" autocomplete="current-password" />
       </mat-form-field>
     </form>
   </mat-card-content>
   <mat-card-footer>
     <mat-card-actions>
-      <button mat-flat-button color="primary" [routerLink]="'/watchlist'" (click)="login()">LOGIN</button>
+      <button mat-flat-button color="primary" (click)="login()">LOGIN</button>
       <button mat-flat-button [routerLink]="'/sign-up'">SIGN UP</button>
     </mat-card-actions>
     <a class="password-reset" href="#">Forgot password</a>
