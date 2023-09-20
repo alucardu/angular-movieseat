@@ -74,3 +74,16 @@ mat-card-actions {
   margin-bottom: 16px;
   text-align: right;
 }
+
+.confirmation-code-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  mat-form-field {
+    width: 64px;
+    height: 64px;
+    input {
+      text-align: center;
+    }
+  }
+}

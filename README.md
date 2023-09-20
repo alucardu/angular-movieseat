@@ -56,7 +56,7 @@ Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgr
  - `pm2 list`
  - `pm2 start "yarn serve:ssr" --name "Movieseat" --watch /root/angular-movieseat/dist/angular-movieseat/browser`
  - `pm2 start "yarn server" --name "Movieseat Server"`
- - `pm2 start "yarn studio" --name "Prisma studio`
+ - `pm2 start "yarn studio" --name "Prisma studio"`
  - `pm2 restart all`
  - `pm2 logs`
 
@@ -73,3 +73,4 @@ Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgr
 
  - `npx prisma migrate dev --name <NAME>`
  - `npx prisma migrate deploy` on server
+ - `npx prisma generate` on server

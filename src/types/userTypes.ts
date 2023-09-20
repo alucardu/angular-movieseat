@@ -1,12 +1,26 @@
 import { IUser } from "src/app/components/authentication/sign-up/sign-up.service"
 
+export interface IResponse {
+  type: string,
+  code: string
+}
+
 // TYPES
 type ReturnObject = {
   data: IUser,
-  message: string
+  response: IResponse
 }
 
 // MUTATIONS
 export type CreateUser = {
   createUser: ReturnObject
+}
+
+export type LoginUser = {
+  loginUser: ReturnObject
+}
+
+// QUERIES
+export type ConfirmUser = {
+  confirmUser: ReturnObject
 }

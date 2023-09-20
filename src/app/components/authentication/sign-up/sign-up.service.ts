@@ -1,14 +1,18 @@
 import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ApolloQueryResult } from '@apollo/client/core/types';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { Observable } from 'rxjs';
 
 import { CREATE_USER } from 'src/operations/userOperations/mutations';
-import { CreateUser } from 'src/types/userTypes';
+import { CONFIRM_USER } from 'src/operations/userOperations/queries';
+import { ConfirmUser, CreateUser, } from 'src/types/userTypes';
 
 export interface IUser {
+  id: string;
   username: string;
   email: string;
+  password: string;
 }
 
 @Injectable({
@@ -23,8 +27,21 @@ export class SignUpService {
       mutation: CREATE_USER,
       variables: {
         username: user.username,
-        email: user.email
+        email: user.email,
+        password: user.password
       },
+    })
+  }
+
+  public confirmUser(confirmationForm: FormGroup): Observable<ApolloQueryResult<ConfirmUser>> {
+    const formData = confirmationForm.value
+    const confirmationCode = `${formData.digit1}${formData.digit2}${formData.digit3}${formData.digit4}`
+    return this.apollo.query<ConfirmUser>({
+      query: CONFIRM_USER,
+      variables: {
+        id: formData.userId,
+        confirmationCode: confirmationCode
+      }
     })
   }
 }

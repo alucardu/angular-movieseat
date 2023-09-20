@@ -1,20 +1,71 @@
 import { PrismaClient, Prisma  } from '@prisma/client'
+import bcrypt from 'bcrypt'
+import msg from '../../server/email/sendMail.js'
+import { customAlphabet } from 'nanoid'
+
+  const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const nanoid  = customAlphabet(alphabet, 4);
 
 const prisma = new PrismaClient()
 
 const userResolvers = {
   Mutation: {
+    loginUser: async (_, args) => {
+      try {
+        const user = await prisma.user.findFirstOrThrow({
+          where: {
+            email: String(args.email),
+          },
+        });
+
+        if (user.confirmation_code.length > 0) throw new Error('U_05')
+        if (!bcrypt.compareSync(args.password, user.password)) throw new Error('U_04')
+
+        return {
+          data: user,
+          response: {
+            type: 'user',
+            code: 'U_03'
+          }
+        }
+
+      } catch(e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          throw new Error(e.code)
+        } else {
+          throw e
+        }
+      }
+    },
+
     createUser: async (_, args) => {
+      const confirmation_code = nanoid()
+
       try {
         const user = await prisma.user.create({
           data: {
             email: args.email,
             username: args.username,
+            password: bcrypt.hashSync(args.password, 3),
+            confirmation_code: confirmation_code,
           },
         })
+
+        const email = {
+          from: '"moviese.at" <info@moviese.at>',
+          to: args.email,
+          subject: 'Activate your Movieseat account!',
+          // eslint-disable-next-line max-len
+          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://moviese.at/sign-up?id=${user.id}&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
+        };
+        msg.main(email);
+
         return {
-          user: user,
-          message: 'U_01'
+          data: user,
+          response: {
+            type: 'user',
+            code: 'U_01'
+          }
         }
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -23,6 +74,37 @@ const userResolvers = {
       }
     },
   },
+
+  Query: {
+    confirmUser: async (_, args) => {
+      try {
+        const user = await prisma.user.findFirstOrThrow({
+          where: {
+            id: Number(args.id),
+            confirmation_code: args.confirmationCode
+          }
+        })
+
+        await prisma.user.update({
+          where: { id: Number(args.id) },
+          data: { confirmation_code: '' },
+        });
+
+        return {
+          response: {
+            type: 'user',
+            code: 'U_02'
+          }
+        }
+      } catch(e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          throw new Error(e.code)
+        }
+      }
+    }
+  }
 }
 
 export default userResolvers;
+
+
