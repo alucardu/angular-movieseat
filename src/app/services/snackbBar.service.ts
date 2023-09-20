@@ -50,9 +50,6 @@ export class SnackbBarService {
           case 'U_03':
             return `Welcome back ${data?.username}`
 
-          case 'U_04':
-            return 'Incorrect email and or password.'
-
           case 'U_05':
             return 'Your account has not yet been confirmed. Check your email!'
 
@@ -62,6 +59,9 @@ export class SnackbBarService {
 
       case 'sign_in':
         switch (response.code) {
+          case 'U_04':
+            return 'Incorrect email and or password.'
+
           case 'P2025':
             return 'Email not found'
 
