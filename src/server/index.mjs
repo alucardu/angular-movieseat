@@ -40,14 +40,15 @@ const server = new ApolloServer({
 await server.start();
 
 const corsOptions = {
-  origin: ["https://moviese.at", "http://localhost:4200"],
+  origin: true,
   optionsSuccessStatus: 200,
+  credentials: true
 };
 
 app.use(
   '/graphql',
   cookieParser(),
-  cors(),
+  cors(corsOptions),
   bodyParser.json(),
   expressMiddleware(server, {
     context

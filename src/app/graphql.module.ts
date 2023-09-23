@@ -9,6 +9,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     cache: new InMemoryCache(),
     link: httpLink.create({
       uri: `${environment.graphQLserverUri}`,
+      withCredentials: true
     })
   };
 }
