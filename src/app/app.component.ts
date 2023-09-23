@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   private checkAuthToken(): void {
     if (isPlatformBrowser(this.platformId)) {
       const authToken = document.cookie.split('=')[1]
+      console.log(authToken)
       this.authService.authenticateByCookie(authToken).subscribe({
         next: ({data}) => {
           if (!data) return
