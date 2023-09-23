@@ -42,7 +42,6 @@ await server.start();
 const corsOptions = {
   origin: ["https://moviese.at", "http://localhost:4200"],
   optionsSuccessStatus: 200,
-  credentials: true
 };
 
 app.use(
