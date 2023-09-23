@@ -43,6 +43,7 @@ const corsOptions = {
   origin: ["https://moviese.at"],
   optionsSuccessStatus: 200,
   credentials: true,
+  preflightContinue: true,
 };
 
 app.use(
