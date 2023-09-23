@@ -4,8 +4,8 @@ import msg from '../../server/email/sendMail.js'
 import { customAlphabet } from 'nanoid'
 import { setTokens, validateAccessToken } from '../jwt.mjs';
 
-  const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const nanoid  = customAlphabet(alphabet, 4);
+const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const nanoid  = customAlphabet(alphabet, 4);
 
 const prisma = new PrismaClient()
 

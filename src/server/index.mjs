@@ -6,7 +6,9 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { makeExecutableSchema } from '@graphql-tools/schema'
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import cookieParser from 'cookie-parser';
+import context from './context.mjs';
 
 import userResolvers from './resolvers/user.mjs'
 import userTypeDefs from './typeDefs/user.mjs'
@@ -37,11 +39,20 @@ const server = new ApolloServer({
 });
 await server.start();
 
+const corsOptions = {
+  origin: true,
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+
 app.use(
   '/graphql',
-  cors(),
+  cookieParser(),
+  cors(corsOptions),
   bodyParser.json(),
-  expressMiddleware(server),
+  expressMiddleware(server, {
+    context
+  }),
 );
 
 await new Promise((resolve) => httpServer.listen({ port: 4100 }, resolve));

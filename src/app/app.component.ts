@@ -1,10 +1,11 @@
-import { Component, NgZone, OnInit, inject } from '@angular/core';
+import { Component, NgZone, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { DeviceService } from './services/device.service';
 import { AuthService } from './components/authentication/auth.service';
 import { SnackBarState, SnackbBarService } from './services/snackbBar.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,8 @@ import { SnackBarState, SnackbBarService } from './services/snackbBar.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+
   private deviceService = inject(DeviceService)
   private router = inject(Router)
   private zone = inject(NgZone)
@@ -30,19 +33,21 @@ export class AppComponent implements OnInit {
   }
 
   private checkAuthToken(): void {
-    const authToken = document.cookie.split('=')[1]
-    this.authService.authenticateByCookie(authToken).subscribe({
-      next: ({data}) => {
-        if (!data) return
-        const { response: response, data: userData } = data.authenticateByCookie;
-        this.authService.loginUser()
-        this.router.navigate(['/watchlist'])
-        this.snackBarService.openSnackBar(response, SnackBarState.SUCCESS, userData)
-      },
-      error: () => {
-        // do nothing
-      }
-    })
+    if (isPlatformBrowser(this.platformId)) {
+      const authToken = document.cookie.split('=')[1]
+      this.authService.authenticateByCookie(authToken).subscribe({
+        next: ({data}) => {
+          if (!data) return
+          const { response: response, data: userData } = data.authenticateByCookie;
+          this.authService.loginUser()
+          this.router.navigate(['/watchlist'])
+          this.snackBarService.openSnackBar(response, SnackBarState.SUCCESS, userData)
+        },
+        error: () => {
+          // do nothing
+        }
+      })
+    }
   }
 
   private initializeApp():void {

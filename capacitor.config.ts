@@ -8,7 +8,10 @@ const config: CapacitorConfig = {
     SplashScreen: {
       launchShowDuration: 600,
       launchFadeOutDuration: 400
-    }
+    },
+    CapacitorCookies: {
+      enabled: true,
+    },
   }
 };
 
