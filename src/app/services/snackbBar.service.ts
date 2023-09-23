@@ -65,6 +65,9 @@ export class SnackbBarService {
           case 'P2025':
             return 'Email not found'
 
+          case 'P1003':
+            return 'Database is offline'
+
           default:
             return ''
         }

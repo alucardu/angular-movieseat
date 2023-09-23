@@ -8,7 +8,7 @@ export interface IResponse {
 // TYPES
 type ReturnObject = {
   data: IUser,
-  response: IResponse
+  response: IResponse,
 }
 
 // MUTATIONS
@@ -18,6 +18,10 @@ export type CreateUser = {
 
 export type LoginUser = {
   loginUser: ReturnObject
+}
+
+export type AuthenticateByCookie = {
+  authenticateByCookie: ReturnObject
 }
 
 // QUERIES

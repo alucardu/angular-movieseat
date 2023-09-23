@@ -6,9 +6,10 @@ import { environment } from 'src/environments/environment';
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   return {
-    link: httpLink.create({ uri: `${environment.graphQLserverUri}`,
-  }),
     cache: new InMemoryCache(),
+    link: httpLink.create({
+      uri: `${environment.graphQLserverUri}`,
+    }),
   };
 }
 

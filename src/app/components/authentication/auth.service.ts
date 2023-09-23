@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { LOGIN_USER } from 'src/operations/userOperations/mutations';
-import { LoginUser } from 'src/types/userTypes';
+import { AUTHENTICATE_BY_COOKIE, LOGIN_USER } from 'src/operations/userOperations/mutations';
+import { AuthenticateByCookie, LoginUser } from 'src/types/userTypes';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,16 @@ export class AuthService {
   private userLoggedInStatusSubject$ = new BehaviorSubject<boolean>(false);
   public userLoggedInStatus$ = this.userLoggedInStatusSubject$.asObservable();
 
-  public authenticateUser(authForm: FormGroup): Observable<MutationResult<LoginUser>> {
+  public authenticateByCookie(authToken: string): Observable<MutationResult<AuthenticateByCookie>> {
+    return this.apollo.mutate<AuthenticateByCookie>({
+      mutation: AUTHENTICATE_BY_COOKIE,
+      variables: {
+        token: authToken
+      }
+    })
+  }
+
+  public authenticateByLogin(authForm: FormGroup): Observable<MutationResult<LoginUser>> {
     const formData = authForm.value
     return this.apollo.mutate<LoginUser>({
       mutation: LOGIN_USER,

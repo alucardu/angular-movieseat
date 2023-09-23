@@ -21,6 +21,27 @@ const LOGIN_USER = gql`
     }
 `;
 
+const AUTHENTICATE_BY_COOKIE = gql`
+  mutation authenticateByCookie(
+    $token: String!
+  ) {
+    authenticateByCookie(
+      token: $token
+    ) {
+      response {
+        type,
+        code
+      }
+      data {
+        id,
+        username,
+        email,
+      }
+    }
+  }
+`;
+
+
 const CREATE_USER = gql`
   mutation CreateUser(
     $username: String!,
@@ -45,5 +66,5 @@ const CREATE_USER = gql`
   }
 `;
 
-export { CREATE_USER, LOGIN_USER };
+export { CREATE_USER, LOGIN_USER, AUTHENTICATE_BY_COOKIE };
 

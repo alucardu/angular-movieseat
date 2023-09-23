@@ -25,7 +25,7 @@ export class LoginComponent {
   })
 
   public login(): void {
-    if (this.authForm.valid) this.authService.authenticateUser(this.authForm).subscribe({
+    if (this.authForm.valid) this.authService.authenticateByLogin(this.authForm).subscribe({
       next: ({data}) => {
         if (!data) return
         const { response: response, data: userData } = data.loginUser;

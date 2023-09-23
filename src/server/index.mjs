@@ -16,8 +16,8 @@ const schema = makeExecutableSchema({
   resolvers: [userResolvers],
 })
 
-const app = express()
 let httpServer;
+const app = express()
 
 if (process.env.ENVIRONMENT === 'production') {
   console.log('env: production')
@@ -38,6 +38,7 @@ const server = new ApolloServer({
 await server.start();
 
 app.use(
+  '/graphql',
   cors(),
   bodyParser.json(),
   expressMiddleware(server),
