@@ -47,7 +47,7 @@ const corsOptions = {
 app.use(
   '/graphql',
   cookieParser(),
-  cors(corsOptions),
+  cors(),
   bodyParser.json(),
   expressMiddleware(server, {
     context
