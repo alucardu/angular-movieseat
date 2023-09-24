@@ -40,7 +40,7 @@ const server = new ApolloServer({
 await server.start();
 
 const corsOptions = {
-  origin: ["http://localhost", "http://www.moviese.at"],
+  origin: ["http://localhost", "https://www.moviese.at"],
   optionsSuccessStatus: 200,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true
