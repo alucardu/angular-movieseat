@@ -32,9 +32,6 @@ export class LoginComponent {
         this.authService.loginUser()
         this.router.navigate(['/watchlist'])
         this.snackBarService.openSnackBar(response, SnackBarState.SUCCESS, userData)
-        console.log(document.cookie)
-        const authToken = document.cookie.split('=')[1]
-        console.log(authToken)
       },
       error: (data) => {
         const response: IResponse = {
