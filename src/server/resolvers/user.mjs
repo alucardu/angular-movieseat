@@ -44,6 +44,10 @@ const userResolvers = {
       }
     },
 
+    logoutUser: async (_, args, {req, res}) => {
+      res.clearCookie('authToken');
+    },
+
     createUser: async (_, args) => {
       const confirmation_code = nanoid()
 
@@ -83,6 +87,15 @@ const userResolvers = {
 
   Query: {
     authenticateByCookie: async (_, args, {req}) => {
+      if (!req.cookies.authToken) {
+        return {
+          response: {
+            type: 'user',
+            code: 'U_05',
+          }
+        }
+      }
+
       const token = validateAccessToken(req.cookies.authToken)
 
       try {

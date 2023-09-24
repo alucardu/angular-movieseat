@@ -27,6 +27,10 @@ const userTypeDefs = gql`
   }
 
   type Mutation {
+    logoutUser: String
+  }
+
+  type Mutation {
     loginUser(
       email: String!
       password: String!

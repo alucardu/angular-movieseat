@@ -2,9 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { LOGIN_USER } from 'src/operations/userOperations/mutations';
+import { LOGIN_USER, LOGOUT_USER } from 'src/operations/userOperations/mutations';
 import { AUTHENTICATE_BY_COOKIE } from 'src/operations/userOperations/queries';
-import { AuthenticateByCookie, LoginUser } from 'src/types/userTypes';
+import { AuthenticateByCookie, LoginUser, LogoutUser } from 'src/types/userTypes';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,7 @@ export class AuthService {
   public authenticateByCookie(): Observable<MutationResult<AuthenticateByCookie>> {
     return this.apollo.query<AuthenticateByCookie>({
       query: AUTHENTICATE_BY_COOKIE,
+      fetchPolicy: 'no-cache'
     })
   }
 
@@ -36,8 +37,12 @@ export class AuthService {
     this.userLoggedInStatusSubject$.next(true);
   }
 
-  public logoutUser(): void {
+  public logoutUser(): Observable<MutationResult<LogoutUser>> {
     this.userLoggedInStatusSubject$.next(false);
+
+    return this.apollo.mutate<LogoutUser>({
+      mutation: LOGOUT_USER
+    })
   }
 
   public checkLoginState(): Observable<void | boolean> {

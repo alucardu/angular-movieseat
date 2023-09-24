@@ -35,7 +35,6 @@ export class MovieDetailsComponent implements OnInit {
 
     this.route.paramMap.pipe(first()).subscribe({
       next: (data) => {
-        console.log(data)
         const id = Number(data.get('id'))
         this.movieService.setMovie(id)
       }

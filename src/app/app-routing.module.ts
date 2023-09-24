@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { canActivate } from './components/authentication/auth-guard.guard';
+import { canLoginByCookie } from './components/authentication/auth-guard-test.guard';
 
 const routes: Routes = [
   {
@@ -10,6 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
+    canActivate: [canLoginByCookie],
     loadComponent: () => import('./components/authentication/authentication.component').then(c => c.AuthenticationComponent),
     data: {
       animation: 'fade'
