@@ -13,6 +13,23 @@ const GET_USER = gql`
   }
 `;
 
+const AUTHENTICATE_BY_COOKIE = gql`
+  query {
+    authenticateByCookie {
+      response {
+          type,
+          code
+        }
+        data {
+          id,
+          username,
+          email,
+        }
+    }
+  }
+`;
+
+
 const CONFIRM_USER = gql`
   query ConfirmUser(
     $id: ID!
@@ -30,4 +47,4 @@ const CONFIRM_USER = gql`
   }
 `
 
-export { GET_USER, CONFIRM_USER  };
+export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE  };

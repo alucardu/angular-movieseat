@@ -6,7 +6,9 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { makeExecutableSchema } from '@graphql-tools/schema'
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import cookieParser from 'cookie-parser';
+import context from './context.mjs';
 
 import userResolvers from './resolvers/user.mjs'
 import userTypeDefs from './typeDefs/user.mjs'
@@ -16,8 +18,8 @@ const schema = makeExecutableSchema({
   resolvers: [userResolvers],
 })
 
-const app = express()
 let httpServer;
+const app = express()
 
 if (process.env.ENVIRONMENT === 'production') {
   console.log('env: production')
@@ -37,10 +39,21 @@ const server = new ApolloServer({
 });
 await server.start();
 
+const corsOptions = {
+  origin: ["http://localhost", "https://www.moviese.at"],
+  optionsSuccessStatus: 200,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
+};
+
 app.use(
-  cors(),
+  '/graphql',
+  cookieParser(),
+  cors(corsOptions),
   bodyParser.json(),
-  expressMiddleware(server),
+  expressMiddleware(server, {
+    context
+  }),
 );
 
 await new Promise((resolve) => httpServer.listen({ port: 4100 }, resolve));

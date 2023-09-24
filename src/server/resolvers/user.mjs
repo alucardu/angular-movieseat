@@ -2,15 +2,16 @@ import { PrismaClient, Prisma  } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import msg from '../../server/email/sendMail.js'
 import { customAlphabet } from 'nanoid'
+import { setTokens, validateAccessToken } from '../jwt.mjs';
 
-  const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const nanoid  = customAlphabet(alphabet, 4);
+const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const nanoid  = customAlphabet(alphabet, 4);
 
 const prisma = new PrismaClient()
 
 const userResolvers = {
   Mutation: {
-    loginUser: async (_, args) => {
+    loginUser: async (_, args, {req, res}) => {
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
@@ -21,11 +22,15 @@ const userResolvers = {
         if (user.confirmation_code.length > 0) throw new Error('U_05')
         if (!bcrypt.compareSync(args.password, user.password)) throw new Error('U_04')
 
+        const tokens = setTokens(user)
+
+        res.cookie('authToken', tokens.accessToken, { maxAge: 3600000, httpOnly: true, secure: true, sameSite: 'none' });
+
         return {
           data: user,
           response: {
             type: 'user',
-            code: 'U_03'
+            code: 'U_03',
           }
         }
 
@@ -33,6 +38,7 @@ const userResolvers = {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           throw new Error(e.code)
         } else {
+          console.log('login error: ', e)
           throw e
         }
       }
@@ -76,6 +82,26 @@ const userResolvers = {
   },
 
   Query: {
+    authenticateByCookie: async (_, args, {req}) => {
+      const token = validateAccessToken(req.cookies.authToken)
+
+      try {
+        const user = await prisma.user.findFirstOrThrow({
+          where: {
+            id: token.user.id
+          }
+        })
+
+        return {
+          data: user,
+          response: {
+            type: 'user',
+            code: 'U_03',
+          }
+        }
+      } catch(e) {}
+    },
+
     confirmUser: async (_, args) => {
       try {
         const user = await prisma.user.findFirstOrThrow({

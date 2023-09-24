@@ -34,14 +34,21 @@ server {
   }
 
   location /graphql {
+    set $cors_origin "";
+
+    if ($http_origin ~* (https://www.moviese.at|http://localhost)) {
+      set $cors_origin $http_origin;
+    }
+
+    if ($cors_origin = "") {
+        return 403;
+    }
+
     if ($request_method = 'OPTIONS') {
-      add_header 'Access-Control-Allow-Origin' '*';
-      add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-      add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
+      add_header 'Access-Control-Allow-Origin' "$cors_origin";
+      add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+      add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept';
       add_header 'Access-Control-Allow-Credentials' 'true';
-      add_header 'Access-Control-Max-Age' 1728000;
-      add_header 'Content-Type' 'text/plain charset=UTF-8';
-      add_header 'Content-Length' 0;
       return 204;
     }
 

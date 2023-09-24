@@ -23,7 +23,6 @@ const userTypeDefs = gql`
       username: String!,
       email: String!,
       password: String!
-
     ): ReturnObject
   }
 
@@ -32,6 +31,10 @@ const userTypeDefs = gql`
       email: String!
       password: String!
     ): ReturnObject
+  }
+
+  type Query {
+    authenticateByCookie: ReturnObject
   }
 
   type Query {
