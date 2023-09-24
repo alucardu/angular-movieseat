@@ -41,7 +41,8 @@ export class AuthService {
     this.userLoggedInStatusSubject$.next(false);
 
     return this.apollo.mutate<LogoutUser>({
-      mutation: LOGOUT_USER
+      mutation: LOGOUT_USER,
+      fetchPolicy: 'no-cache'
     })
   }
 

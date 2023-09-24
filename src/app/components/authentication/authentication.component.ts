@@ -17,5 +17,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 export class AuthenticationComponent  {
   private authService = inject(AuthService)
 
+  public constructor() {
+    console.log(1)
+  }
+
   public loggedIn$ = this.authService.userLoggedInStatus$;
 }

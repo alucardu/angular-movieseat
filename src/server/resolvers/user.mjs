@@ -87,6 +87,7 @@ const userResolvers = {
 
   Query: {
     authenticateByCookie: async (_, args, {req}) => {
+      console.log(req.cookies.authToken)
       if (!req.cookies.authToken) {
         return {
           response: {
