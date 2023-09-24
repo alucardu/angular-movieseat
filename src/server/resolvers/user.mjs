@@ -44,26 +44,6 @@ const userResolvers = {
       }
     },
 
-    authenticateByCookie: async (_, args) => {
-      const token = validateAccessToken(args.token)
-
-      try {
-        const user = await prisma.user.findFirstOrThrow({
-          where: {
-            id: token.user.id
-          }
-        })
-
-        return {
-          data: user,
-          response: {
-            type: 'user',
-            code: 'U_03',
-          }
-        }
-      } catch(e) {}
-    },
-
     createUser: async (_, args) => {
       const confirmation_code = nanoid()
 
@@ -102,6 +82,26 @@ const userResolvers = {
   },
 
   Query: {
+    authenticateByCookie: async (_, args, {req}) => {
+      const token = validateAccessToken(req.cookies.authToken)
+
+      try {
+        const user = await prisma.user.findFirstOrThrow({
+          where: {
+            id: token.user.id
+          }
+        })
+
+        return {
+          data: user,
+          response: {
+            type: 'user',
+            code: 'U_03',
+          }
+        }
+      } catch(e) {}
+    },
+
     confirmUser: async (_, args) => {
       try {
         const user = await prisma.user.findFirstOrThrow({

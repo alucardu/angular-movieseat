@@ -27,16 +27,14 @@ const userTypeDefs = gql`
   }
 
   type Mutation {
-    authenticateByCookie(
-      token: String!
-    ): ReturnObject
-  }
-
-  type Mutation {
     loginUser(
       email: String!
       password: String!
     ): ReturnObject
+  }
+
+  type Query {
+    authenticateByCookie: ReturnObject
   }
 
   type Query {
