@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   private checkAuthToken(): void {
     this.authService.authenticateByCookie().subscribe({
       next: ({data}) => {
-        if (!data) return
+        if (!data?.authenticateByCookie) return
         const { response: response, data: userData } = data.authenticateByCookie;
         this.authService.loginUser()
         this.router.navigate(['/watchlist'])
