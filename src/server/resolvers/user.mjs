@@ -45,7 +45,8 @@ const userResolvers = {
     },
 
     logoutUser: async (_, args, {req, res}) => {
-      res.clearCookie('authToken');
+      // res.clearCookie('authToken');
+      res.cookie('authToken', '', { maxAge: 1, httpOnly: true, secure: true, sameSite: 'true' });
     },
 
     createUser: async (_, args) => {
