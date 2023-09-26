@@ -24,7 +24,7 @@ const userResolvers = {
 
         const tokens = setTokens(user)
         console.log('login: ', tokens)
-        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
+        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'true' });
 
         return {
           data: user,
@@ -45,7 +45,8 @@ const userResolvers = {
     },
 
     logoutUser: async (_, args, {req, res}) => {
-      res.clearCookie('authToken');
+      // res.clearCookie('authToken');
+      res.cookie('authToken', '', { maxAge: 1, httpOnly: true, secure: true, sameSite: 'true' });
     },
 
     createUser: async (_, args) => {
@@ -101,7 +102,7 @@ const userResolvers = {
 
       const tokens = setTokens({ id: oldToken.user.id})
       console.log('new AuthToken: ', tokens.accessToken)
-      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
+      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'true' });
 
       try {
         const user = await prisma.user.findFirstOrThrow({

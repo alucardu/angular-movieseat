@@ -13,5 +13,13 @@ public class MainActivity extends BridgeActivity {
     Intent appLinkIntent = getIntent();
     String appLinkAction = appLinkIntent.getAction();
     Uri appLinkData = appLinkIntent.getData();
+
+    android.webkit.CookieManager cookieManager = android.webkit.CookieManager.getInstance();
+
+    cookieManager.setAcceptCookie(true);
+    cookieManager.acceptCookie();
+    cookieManager.setAcceptFileSchemeCookies(true);
+    cookieManager.getInstance().setAcceptCookie(true);
+    cookieManager.getCookie("https://moviese.at");
   }
 }
