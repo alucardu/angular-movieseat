@@ -38,7 +38,7 @@ export class AuthService {
     this.userLoggedInStatusSubject$.next(true);
 
     CapacitorCookies.setCookie({
-      url: 'http://moviese.at',
+      url: 'https://moviese.at',
       key: 'language',
       value: 'en',
     });
