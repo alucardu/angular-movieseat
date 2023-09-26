@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { SignUpService } from './sign-up.service';
@@ -8,6 +8,7 @@ import { BehaviorSubject, first } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IResponse } from 'src/types/userTypes';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
 
 @Component({
@@ -15,25 +16,18 @@ import { IResponse } from 'src/types/userTypes';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   standalone: true,
-  imports: [MaterialModule, CommonModule, RouterLink],
+  imports: [MaterialModule, CommonModule, RouterLink, ConfirmationComponent],
   animations: [fadeAnimation]
 })
-export class SignUpComponent implements OnInit, AfterViewInit {
-  private renderer2 = inject(Renderer2)
+export class SignUpComponent implements OnInit {
   private formBuilder = inject(FormBuilder)
   private signUpService = inject(SignUpService)
   private snackBarService = inject(SnackbBarService)
-  private route = inject(ActivatedRoute)
   private router = inject(Router)
-
-  @ViewChild('digit2') private digit2?: ElementRef<HTMLInputElement>
-  @ViewChild('digit3') private digit3?: ElementRef<HTMLInputElement>
-  @ViewChild('digit4') private digit4?: ElementRef<HTMLInputElement>
+  private route = inject(ActivatedRoute)
 
   private signUpStateSubject$ = new BehaviorSubject<boolean>(true);
   public signUpState$ = this.signUpStateSubject$.asObservable();
-
-  private confirmationCode?: string | null
 
   public signUpForm = this.formBuilder.group({
     email: new FormControl<string>('', [Validators.required, Validators.email]),
@@ -42,28 +36,12 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     confirmPassword: new FormControl<string>('', [Validators.required]),
   })
 
-  public confirmationCodeForm = this.formBuilder.group({
-    userId: new FormControl<string|null>(null, [Validators.required]),
-    digit1: new FormControl<string|null>(null, [Validators.required]),
-    digit2: new FormControl<string|null>(null, [Validators.required]),
-    digit3: new FormControl<string|null>(null, [Validators.required]),
-    digit4: new FormControl<string|null>(null, [Validators.required]),
-  });
-
   public ngOnInit(): void {
     this.route.queryParamMap.pipe(first()).subscribe({
       next: (paramMap) => {
-        this.confirmationCodeForm.controls.userId.setValue(paramMap.get('id'))
-        this.confirmationCode = paramMap.get('confirmationCode')
-        if(this.confirmationCode) {
-          this.signUpStateSubject$.next(false)
-          this.confirmationCodeForm.controls.digit1.setValue(this.confirmationCode.charAt(0))
-          this.confirmationCodeForm.controls.digit2.setValue(this.confirmationCode.charAt(1))
-          this.confirmationCodeForm.controls.digit3.setValue(this.confirmationCode.charAt(2))
-          this.confirmationCodeForm.controls.digit4.setValue(this.confirmationCode.charAt(3))
-        }
+        if (paramMap.get('id')) this.signUpStateSubject$.next(false);
       }
-    })
+    });
 
     this.signUpForm.controls.password.valueChanges.subscribe(() => {
       this.validatePasswordConfirmation();
@@ -72,13 +50,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.signUpForm.controls.confirmPassword.valueChanges.subscribe(() => {
       this.validatePasswordConfirmation();
     });
-  }
-
-  public ngAfterViewInit(): void {
-    this.confirmationCodeForm.controls.digit1.valueChanges.subscribe(() => {this.renderer2.selectRootElement(this.digit2?.nativeElement).focus()})
-    this.confirmationCodeForm.controls.digit2.valueChanges.subscribe(() => {this.renderer2.selectRootElement(this.digit3?.nativeElement).focus()})
-    this.confirmationCodeForm.controls.digit3.valueChanges.subscribe(() => {this.renderer2.selectRootElement(this.digit4?.nativeElement).focus()})
-    this.confirmationCodeForm.controls.digit4.valueChanges.subscribe(() => this.submitConfirmationCode())
   }
 
   private validatePasswordConfirmation():void {
@@ -100,7 +71,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         if (!data) return
         this.signUpStateSubject$.next(false)
         this.router.navigate(['/sign-up'], { queryParams: {id: data.createUser.data.id, confirmationCode: 'xxxx'}});
-        this.confirmationCodeForm.controls.userId.setValue(data.createUser.data.id)
         this.snackBarService.openSnackBar(data.createUser.response, SnackBarState.SUCCESS)
       },
       error: (data) => {
@@ -109,28 +79,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
           code: data.message
         }
         this.snackBarService.openSnackBar(response, SnackBarState.ERROR)}
-    })
-  }
-
-  public submitConfirmationCode(): void {
-    this.confirmationCodeForm.markAllAsTouched();
-
-    setTimeout(() => {
-      if (this.confirmationCodeForm.valid) {
-        this.signUpService.confirmUser(this.confirmationCodeForm).subscribe({
-          next: ({data}) => {
-            if (!data) return
-            this.snackBarService.openSnackBar(data.confirmUser.response, SnackBarState.SUCCESS)
-            this.router.navigate(['/login'])
-          },
-          error: (data) => {
-            const response: IResponse = {
-              type: 'sign_up',
-              code: data.message
-            }
-            this.snackBarService.openSnackBar(response, SnackBarState.ERROR)}
-        })
-      }
     })
   }
 

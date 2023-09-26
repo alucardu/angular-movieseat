@@ -4,7 +4,7 @@ import msg from '../../server/email/sendMail.js'
 import { customAlphabet } from 'nanoid'
 import { setTokens, validateAccessToken } from '../jwt.mjs';
 
-const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const alphabet = '123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
 const nanoid  = customAlphabet(alphabet, 4);
 
 const prisma = new PrismaClient()
@@ -99,11 +99,12 @@ const userResolvers = {
 
       const tokens = setTokens({ id: oldToken.user.id})
       res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
+      const userID = tokens.id || 0
 
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
-            id: tokens.id
+            id: userID
           }
         })
 
@@ -114,7 +115,14 @@ const userResolvers = {
             code: 'U_03',
           }
         }
-      } catch(e) {}
+      } catch(e) {
+        return {
+          response: {
+            type: 'sign_in',
+            code: 'U_06',
+          }
+        }
+      }
     },
 
     confirmUser: async (_, args) => {

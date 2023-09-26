@@ -1,0 +1,28 @@
+.confirmation-code-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  mat-form-field {
+    width: 64px;
+    height: 64px;
+    input {
+      text-align: center;
+    }
+  }
+}
+
+mat-card {
+  background: transparent;
+  box-shadow: none;
+  width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+  padding: 0 16px;
+  button {
+    flex: 1
+  }
+}

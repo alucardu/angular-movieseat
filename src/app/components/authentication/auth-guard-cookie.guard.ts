@@ -3,10 +3,12 @@ import { AuthService } from './auth.service';
 import { PLATFORM_ID, inject } from '@angular/core';
 import { map } from 'rxjs';
 import { isPlatformServer } from '@angular/common';
+import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
 
 export const canLoginByCookie: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router)
+  const snackBarService = inject(SnackbBarService)
 
   const platformId = inject(PLATFORM_ID);
 
@@ -16,6 +18,10 @@ export const canLoginByCookie: CanActivateFn = () => {
 
   return authService.authenticateByCookie().pipe(
     map(({data}) => {
+      if (data?.authenticateByCookie.response.code === 'U_06') {
+        snackBarService.openSnackBar(data.authenticateByCookie.response, SnackBarState.ERROR)
+      }
+
       if (data?.authenticateByCookie.response.code === 'U_03') {
         authService.loginUser();
         router.navigate(['/watchlist']);
