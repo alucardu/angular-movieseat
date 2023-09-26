@@ -85,10 +85,7 @@ const userResolvers = {
   },
 
   Query: {
-    authenticateByCookie: async (_, args, {req}) => {
-      const tokens = setTokens(user)
-      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
-
+    authenticateByCookie: async (_, args, {req, res}) => {
       if (!req.cookies.authToken) {
         return {
           response: {
@@ -98,12 +95,15 @@ const userResolvers = {
         }
       }
 
-      const token = validateAccessToken(req.cookies.authToken)
+      const oldToken = validateAccessToken(req.cookies.authToken)
+
+      const tokens = setTokens({ id: oldToken.user.id})
+      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
-            id: token.user.id
+            id: tokens.id
           }
         })
 
