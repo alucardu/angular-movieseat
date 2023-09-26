@@ -16,6 +16,7 @@ export const canLoginByCookie: CanActivateFn = () => {
 
   return authService.authenticateByCookie().pipe(
     map(({data}) => {
+      console.log(data?.authenticateByCookie.response.code)
       if (data?.authenticateByCookie.response.code === 'U_03') {
         authService.loginUser();
         router.navigate(['/watchlist']);
