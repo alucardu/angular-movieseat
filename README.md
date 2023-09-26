@@ -64,9 +64,20 @@ Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgr
 
  - `docker-compose up`
  - `docker exec -it movieseat bash`
- - `psql -U postgres movieseat`
+ - `psql -U postgres`
+ - `\c movieseat postgres`
+
+ Check data:
  - `\dt+`
  - `TABLE "User";`
+
+\password postgres
+ - to create a user: `CREATE USER new_username WITH PASSWORD 'password';`
+ - allow for create db: `ALTER USER new_username CREATEDB;`
+ - to grabnt schema usage: `GRANT USAGE ON SCHEMA public TO new_username;`
+ - to grant all privileges: `GRANT ALL PRIVILEGES ON DATABASE your_database_name TO new_username;`
+ - to grand all priv on schema: `GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_username;`
+ - not needed: `GRANT, SELECT, INSERT, UPDATE, DELETE ON TABLE _prisma_migrations TO your_username;`
 
  
 # Prisma commands

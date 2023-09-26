@@ -16,6 +16,10 @@ export type CreateUser = {
   createUser: ReturnObject
 }
 
+export type LogoutUser = {
+  logoutUser: string
+}
+
 export type LoginUser = {
   loginUser: ReturnObject
 }

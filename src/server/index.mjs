@@ -19,16 +19,18 @@ const schema = makeExecutableSchema({
 })
 
 let httpServer;
+let corsOrigin
 const app = express()
 
 if (process.env.ENVIRONMENT === 'production') {
-  console.log('env: production')
+  corsOrigin = ["http://localhost", "https://www.moviese.at"],
   httpServer = http.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/moviese.at/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/moviese.at/fullchain.pem'),
   }, app)
 } else {
   console.log('env: development')
+  corsOrigin = true
   httpServer = http.createServer(app)
 }
 
@@ -40,7 +42,7 @@ const server = new ApolloServer({
 await server.start();
 
 const corsOptions = {
-  origin: ["http://localhost", "https://www.moviese.at"],
+  origin: corsOrigin,
   optionsSuccessStatus: 200,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true

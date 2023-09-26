@@ -23,8 +23,7 @@ const userResolvers = {
         if (!bcrypt.compareSync(args.password, user.password)) throw new Error('U_04')
 
         const tokens = setTokens(user)
-
-        res.cookie('authToken', tokens.accessToken, { maxAge: 3600000, httpOnly: true, secure: true, sameSite: 'none' });
+        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
         return {
           data: user,
@@ -42,6 +41,10 @@ const userResolvers = {
           throw e
         }
       }
+    },
+
+    logoutUser: async (_, args, {req, res}) => {
+      res.clearCookie('authToken');
     },
 
     createUser: async (_, args) => {
@@ -82,13 +85,25 @@ const userResolvers = {
   },
 
   Query: {
-    authenticateByCookie: async (_, args, {req}) => {
-      const token = validateAccessToken(req.cookies.authToken)
+    authenticateByCookie: async (_, args, {req, res}) => {
+      if (!req.cookies.authToken) {
+        return {
+          response: {
+            type: 'user',
+            code: 'U_05',
+          }
+        }
+      }
+
+      const oldToken = validateAccessToken(req.cookies.authToken)
+
+      const tokens = setTokens({ id: oldToken.user.id})
+      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
-            id: token.user.id
+            id: tokens.id
           }
         })
 

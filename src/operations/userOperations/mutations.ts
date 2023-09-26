@@ -21,6 +21,12 @@ const LOGIN_USER = gql`
     }
 `;
 
+const LOGOUT_USER = gql`
+  mutation logoutUser {
+    logoutUser
+  }
+`;
+
 const CREATE_USER = gql`
   mutation CreateUser(
     $username: String!,
@@ -45,5 +51,5 @@ const CREATE_USER = gql`
   }
 `;
 
-export { CREATE_USER, LOGIN_USER };
+export { CREATE_USER, LOGIN_USER, LOGOUT_USER };
 

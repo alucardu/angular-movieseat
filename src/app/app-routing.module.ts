@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { canActivate } from './components/authentication/auth-guard.guard';
+import { canLoginByCookie } from './components/authentication/auth-guard-cookie.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'auth',
     pathMatch: 'full',
+  },
+  {
+    path: 'auth',
+    canActivate: [canLoginByCookie],
+    loadComponent: () => import('./components/authentication/placeholder/placeholder.component').then(c => c.PlaceholderComponent),
   },
   {
     path: 'login',
