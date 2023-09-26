@@ -23,7 +23,7 @@ const userResolvers = {
         if (!bcrypt.compareSync(args.password, user.password)) throw new Error('U_04')
 
         const tokens = setTokens(user)
-        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'true' });
+        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
         return {
           data: user,
@@ -99,7 +99,7 @@ const userResolvers = {
       const oldToken = validateAccessToken(req.cookies.authToken)
 
       const tokens = setTokens({ id: oldToken.user.id})
-      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'true' });
+      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
       try {
         const user = await prisma.user.findFirstOrThrow({
