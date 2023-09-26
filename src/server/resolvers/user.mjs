@@ -24,7 +24,7 @@ const userResolvers = {
 
         const tokens = setTokens(user)
         console.log('login: ', tokens)
-        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'true' });
+        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'strict' });
 
         return {
           data: user,
