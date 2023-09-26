@@ -23,7 +23,6 @@ const userResolvers = {
         if (!bcrypt.compareSync(args.password, user.password)) throw new Error('U_04')
 
         const tokens = setTokens(user)
-
         res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
         return {
@@ -87,7 +86,9 @@ const userResolvers = {
 
   Query: {
     authenticateByCookie: async (_, args, {req}) => {
-      console.log(req.cookies.authToken)
+      const tokens = setTokens(user)
+      res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
+
       if (!req.cookies.authToken) {
         return {
           response: {
