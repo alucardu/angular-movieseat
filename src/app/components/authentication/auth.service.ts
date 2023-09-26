@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { LOGIN_USER, LOGOUT_USER } from 'src/operations/userOperations/mutations';
 import { AUTHENTICATE_BY_COOKIE } from 'src/operations/userOperations/queries';
 import { AuthenticateByCookie, LoginUser, LogoutUser } from 'src/types/userTypes';
+import { CapacitorCookies } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +36,21 @@ export class AuthService {
 
   public loginUser(): void {
     this.userLoggedInStatusSubject$.next(true);
+
+    CapacitorCookies.setCookie({
+      url: 'http://moviese.at',
+      key: 'language',
+      value: 'en',
+    });
   }
 
   public logoutUser(): Observable<MutationResult<LogoutUser>> {
     this.userLoggedInStatusSubject$.next(false);
+
+    CapacitorCookies.deleteCookie({
+      url: 'https://moviese.at',
+      key: 'authToken',
+    });
 
     return this.apollo.mutate<LogoutUser>({
       mutation: LOGOUT_USER,
