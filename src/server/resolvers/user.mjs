@@ -24,7 +24,7 @@ const userResolvers = {
 
         const tokens = setTokens(user)
 
-        res.cookie('authToken', tokens.accessToken, { maxAge: 3600000, httpOnly: true, secure: true, sameSite: 'none' });
+        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
         return {
           data: user,

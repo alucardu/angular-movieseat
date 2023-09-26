@@ -6,12 +6,16 @@ import { canLoginByCookie } from './components/authentication/auth-guard-test.gu
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'auth',
     pathMatch: 'full',
   },
   {
-    path: 'login',
+    path: 'auth',
     canActivate: [canLoginByCookie],
+    loadComponent: () => import('./components/authentication/placeholder/placeholder.component').then(c => c.PlaceholderComponent),
+  },
+  {
+    path: 'login',
     loadComponent: () => import('./components/authentication/authentication.component').then(c => c.AuthenticationComponent),
     data: {
       animation: 'fade'

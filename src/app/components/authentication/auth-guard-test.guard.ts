@@ -21,6 +21,7 @@ export const canLoginByCookie: CanActivateFn = () => {
         router.navigate(['/watchlist']);
         return false
       } else {
+        router.navigate(['/login']);
         return true
       }
     })
