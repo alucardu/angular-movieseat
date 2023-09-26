@@ -20,7 +20,6 @@ export class MovieSearchService {
   }
 
   public getMovieSearchResults(query: string): void {
-    console.log(query)
     if (query.length > 0) {
       this.movieSearchResultsSubject$.next(searchResults)
     } else {
