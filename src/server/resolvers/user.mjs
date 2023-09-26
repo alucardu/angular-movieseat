@@ -100,6 +100,7 @@ const userResolvers = {
       const oldToken = validateAccessToken(req.cookies.authToken)
 
       const tokens = setTokens({ id: oldToken.user.id})
+      console.log('new AuthToken: ', tokens.accessToken)
       res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
 
       try {
