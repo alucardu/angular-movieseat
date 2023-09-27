@@ -117,7 +117,7 @@ const userResolvers = {
           }
         }
       } catch(e) {
-        res.clearCookie('authToken');
+        res.cookie('authToken', '', { maxAge: 1, httpOnly: true, secure: true, sameSite: 'none' });
         return {
           response: {
             type: 'sign_in',
