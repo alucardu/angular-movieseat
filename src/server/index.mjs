@@ -23,6 +23,7 @@ let corsOrigin
 const app = express()
 
 if (process.env.ENVIRONMENT === 'production') {
+  console.log('env: production')
   corsOrigin = ["http://localhost", "https://www.moviese.at", "https://moviese.at"],
   httpServer = http.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/moviese.at/privkey.pem'),
