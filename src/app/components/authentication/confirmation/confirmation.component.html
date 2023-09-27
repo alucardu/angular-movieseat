@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-content>
+    <span
+      >Your account has been created! Check your email inbox for the confirmation code and enter it below! <br /><br />
+      <form class="confirmation-code-input" [formGroup]="confirmationCodeForm">
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="digit1" maxlength="1" #digit1 />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="digit2" maxlength="1" #digit2 />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="digit3" maxlength="1" #digit3 />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="digit4" maxlength="1" #digit4 />
+        </mat-form-field>
+      </form>
+    </span>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" type="submit" (click)="submitConfirmationCode()">ENTER CONFIRMATION CODE</button>
+    </mat-card-actions>
+  </mat-card-footer>
+</mat-card>

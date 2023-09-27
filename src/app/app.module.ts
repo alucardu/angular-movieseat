@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ContainerComponent } from './components/UI/container/container.component';
 import { GraphQLModule } from './graphql.module';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from './utils/CustomRouteReuseStrategy';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,10 @@ import { GraphQLModule } from './graphql.module';
   ],
   providers: [
     Title,
+    {
+      provide: RouteReuseStrategy,
+      useClass: CustomRouteReuseStrategy,
+    }
   ],
   bootstrap: [AppComponent],
 })

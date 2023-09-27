@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
         this.zone.run(() => {
             const slug = event.url.split(".at").pop();
             if (slug) {
-                this.router.navigateByUrl(slug);
+              this.router.navigateByUrl(slug);
             }
         });
     });

@@ -62,6 +62,9 @@ export class SnackbBarService {
           case 'U_04':
             return 'Incorrect email and or password.'
 
+          case 'U_06':
+            return 'Cookiemonster ate your cookie!'
+
           case 'P2025':
             return 'Email not found'
 

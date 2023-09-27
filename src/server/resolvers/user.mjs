@@ -4,7 +4,7 @@ import msg from '../../server/email/sendMail.js'
 import { customAlphabet } from 'nanoid'
 import { setTokens, validateAccessToken } from '../jwt.mjs';
 
-const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const alphabet = '123456789ABCDEFGHIJKLMNPQRSTUVWXYZ';
 const nanoid  = customAlphabet(alphabet, 4);
 
 const prisma = new PrismaClient()
@@ -65,7 +65,7 @@ const userResolvers = {
           to: args.email,
           subject: 'Activate your Movieseat account!',
           // eslint-disable-next-line max-len
-          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://moviese.at/sign-up?id=${user.id}&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
+          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://www.moviese.at/sign-up?id=${user.id}\&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
         };
         msg.main(email);
 
@@ -86,6 +86,7 @@ const userResolvers = {
 
   Query: {
     authenticateByCookie: async (_, args, {req, res}) => {
+      console.log(req.cookies.authToken)
       if (!req.cookies.authToken) {
         return {
           response: {
@@ -99,11 +100,12 @@ const userResolvers = {
 
       const tokens = setTokens({ id: oldToken.user.id})
       res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
+      const userID = tokens.id || 0
 
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
-            id: tokens.id
+            id: userID
           }
         })
 
@@ -114,7 +116,15 @@ const userResolvers = {
             code: 'U_03',
           }
         }
-      } catch(e) {}
+      } catch(e) {
+        res.cookie('authToken', '', { maxAge: 1, httpOnly: true, secure: true, sameSite: 'none' });
+        return {
+          response: {
+            type: 'sign_in',
+            code: 'U_06',
+          }
+        }
+      }
     },
 
     confirmUser: async (_, args) => {
