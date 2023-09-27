@@ -4,6 +4,7 @@ import { PLATFORM_ID, inject } from '@angular/core';
 import { map } from 'rxjs';
 import { isPlatformServer } from '@angular/common';
 import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
+import { CapacitorCookies } from '@capacitor/core';
 
 export const canLoginByCookie: CanActivateFn = () => {
   const authService = inject(AuthService);
@@ -19,6 +20,10 @@ export const canLoginByCookie: CanActivateFn = () => {
   return authService.authenticateByCookie().pipe(
     map(({data}) => {
       if (data?.authenticateByCookie.response.code === 'U_06') {
+        CapacitorCookies.deleteCookie({
+          url: 'https://moviese.at',
+          key: 'authToken',
+        });
         snackBarService.openSnackBar(data.authenticateByCookie.response, SnackBarState.ERROR)
       }
 
