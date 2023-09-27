@@ -20,8 +20,8 @@ export class LoginComponent {
   private router = inject(Router)
 
   public authForm = new FormGroup({
-    email: new FormControl<string>('', [Validators.required]),
-    password: new FormControl<string>('', [Validators.required])
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    password: new FormControl<string>('', [Validators.required, Validators.minLength(6), Validators.maxLength(24)]),
   })
 
   public login(): void {
@@ -40,5 +40,34 @@ export class LoginComponent {
         }
         this.snackBarService.openSnackBar(response, SnackBarState.ERROR)}
     })
+  }
+
+  public getErrorMessage(field: string): string {
+    switch (field) {
+      case 'email':
+        if (this.authForm.controls.email.hasError('required')) {
+          return 'You must enter a email address';
+        }
+
+        return this.authForm.controls.email.hasError('email') ? 'Not a valid email' : '';
+
+      case 'password':
+        if (this.authForm.controls.password.hasError('required')) {
+          return 'You must enter a password';
+        }
+
+        if (this.authForm.controls.password.hasError('minlength')) {
+          return 'Password must be at least 6 characters long';
+        }
+
+        if (this.authForm.controls.password.hasError('maxlength')) {
+          return 'Password cannot exceed 24 characters';
+        }
+
+        return '';
+
+      default:
+        return ''
+    }
   }
 }
