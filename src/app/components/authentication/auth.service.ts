@@ -17,6 +17,12 @@ export class AuthService {
   public userLoggedInStatus$ = this.userLoggedInStatusSubject$.asObservable();
 
   public authenticateByCookie(): Observable<MutationResult<AuthenticateByCookie>> {
+    CapacitorCookies.setCookie({
+      url: 'https://moviese.at',
+      key: '',
+      value: '',
+    });
+
     return this.apollo.query<AuthenticateByCookie>({
       query: AUTHENTICATE_BY_COOKIE,
       fetchPolicy: 'no-cache'
