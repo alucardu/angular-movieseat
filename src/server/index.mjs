@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import cookieParser from 'cookie-parser';
 import context from './context.mjs';
+import 'dotenv/config'
 
 import userResolvers from './resolvers/user.mjs'
 import userTypeDefs from './typeDefs/user.mjs'
