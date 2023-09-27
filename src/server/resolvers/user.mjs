@@ -116,6 +116,7 @@ const userResolvers = {
           }
         }
       } catch(e) {
+        res.clearCookie('authToken');
         return {
           response: {
             type: 'sign_in',
