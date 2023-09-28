@@ -10,8 +10,8 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 600,
-      launchFadeOutDuration: 400
+      launchShowDuration: 1000,
+      launchFadeOutDuration: 600
     },
     CapacitorCookies: {
       enabled: true,
