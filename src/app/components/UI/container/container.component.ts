@@ -46,7 +46,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     const isKeyboardAvailable = Capacitor.isPluginAvailable('Keyboard');
-    // this.authService.checkLogOutRoute();
 
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
       if (canGoBack) {

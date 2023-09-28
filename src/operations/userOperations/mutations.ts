@@ -2,10 +2,10 @@ import { gql } from 'apollo-angular';
 
 const LOGIN_USER = gql`
   mutation loginUser(
-    $email: String!
+    $username: String!
     $password: String!) {
       loginUser(
-        email: $email
+        username: $username
         password: $password
       ) {
         response {

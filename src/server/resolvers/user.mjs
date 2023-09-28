@@ -15,7 +15,7 @@ const userResolvers = {
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
-            email: String(args.email),
+            username: String(args.username),
           },
         });
 

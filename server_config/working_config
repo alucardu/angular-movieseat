@@ -36,7 +36,7 @@ server {
   location /graphql {
     set $cors_origin "";
 
-    if ($http_origin ~* (https://www.moviese.at|http://localhost)) {
+    if ($http_origin ~* (https://www.moviese.at|https://moviese.at|http://localhost)) {
       set $cors_origin $http_origin;
     }
 

@@ -10,7 +10,6 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IResponse } from 'src/types/userTypes';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
-
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -32,8 +31,8 @@ export class SignUpComponent implements OnInit {
   public signUpForm = this.formBuilder.group({
     email: new FormControl<string>('', [Validators.required, Validators.email]),
     username: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
-    password: new FormControl<string>('', [Validators.required, Validators.minLength(6), Validators.maxLength(24)]),
-    confirmPassword: new FormControl<string>('', [Validators.required]),
+    password: new FormControl<string>('',),
+    confirmPassword: new FormControl<string>('', ),
   })
 
   public ngOnInit(): void {
@@ -63,11 +62,11 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  public submitSignUpForm(): void {
+  public async submitSignUpForm(): Promise<void> {
     this.signUpForm.markAllAsTouched();
     if(this.signUpForm.invalid) return
     this.signUpService.createUser(this.signUpForm).subscribe({
-      next: ({data}) => {
+      next: async ({data}) => {
         if (!data) return
         this.signUpStateSubject$.next(false)
         this.router.navigate(['/sign-up'], { queryParams: {id: data.createUser.data.id, confirmationCode: 'xxxx'}});
