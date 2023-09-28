@@ -6,6 +6,9 @@ import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
 import { IResponse } from 'src/types/userTypes';
+import { Browser } from '@capacitor/browser';
+import { environment } from 'src/environments/environment';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +23,7 @@ export class LoginComponent {
   private router = inject(Router)
 
   public authForm = new FormGroup({
-    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    username: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
     password: new FormControl<string>('', [Validators.required, Validators.minLength(6), Validators.maxLength(24)]),
   })
 
@@ -42,14 +45,29 @@ export class LoginComponent {
     })
   }
 
+  public async signUp(): Promise<void> {
+    if (Capacitor.isNativePlatform()) {
+      await Browser.open({ url: `${environment.baseUrl}/sign-up` });
+    } else {
+      this.router.navigate(['/sign-up'])
+    }
+  }
+
   public getErrorMessage(field: string): string {
     switch (field) {
-      case 'email':
-        if (this.authForm.controls.email.hasError('required')) {
-          return 'You must enter a email address';
+      case 'username':
+        if (this.authForm.controls.username.hasError('required')) {
+          return 'You must enter a username';
         }
 
-        return this.authForm.controls.email.hasError('email') ? 'Not a valid email' : '';
+        if (this.authForm.controls.username.hasError('minlength')) {
+          return 'Name must be at least 3 characters long';
+        }
+
+        if (this.authForm.controls.username.hasError('maxlength')) {
+          return 'Name cannot exceed 18 characters';
+        }
+        return '';
 
       case 'password':
         if (this.authForm.controls.password.hasError('required')) {

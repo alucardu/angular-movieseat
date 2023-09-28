@@ -15,7 +15,7 @@ const userResolvers = {
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
-            email: String(args.email),
+            username: String(args.username),
           },
         });
 
@@ -117,6 +117,7 @@ const userResolvers = {
           }
         }
       } catch(e) {
+        console.log(e)
         res.cookie('authToken', '', { maxAge: 1, httpOnly: true, secure: true, sameSite: 'none' });
         return {
           response: {

@@ -5,22 +5,22 @@
     <form [formGroup]="signUpForm">
       <mat-form-field>
         <mat-label>Email address</mat-label>
-        <input matInput formControlName="email" autocomplete="email" />
-        <mat-error *ngIf="signUpForm.controls.email.invalid" autocomplete="email">{{ getErrorMessage('email') }}</mat-error>
+        <input matInput formControlName="email" name="email" autocomplete="email" />
+        <mat-error *ngIf="signUpForm.controls.email.invalid">{{ getErrorMessage('email') }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Username</mat-label>
-        <input matInput formControlName="username" autocomplete="username" />
-        <mat-error *ngIf="signUpForm.controls.username.invalid" autocomplete="username">{{ getErrorMessage('username') }}</mat-error>
+        <input matInput formControlName="username" name="username" />
+        <mat-error *ngIf="signUpForm.controls.username.invalid">{{ getErrorMessage('username') }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input type="password" matInput formControlName="password" autocomplete="new-password" />
+        <input type="password" matInput formControlName="password" name="new-password" autocomplete="new-password" />
         <mat-error *ngIf="signUpForm.controls.password.invalid">{{ getErrorMessage('password') }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Confirm password</mat-label>
-        <input type="password" matInput formControlName="confirmPassword" autocomplete="new-password" />
+        <input type="password" matInput formControlName="confirmPassword" name="confirm-password" autocomplete="new-password" />
         <mat-error *ngIf="signUpForm.controls.confirmPassword.invalid">{{ getErrorMessage('confirmPassword') }}</mat-error>
       </mat-form-field>
     </form>

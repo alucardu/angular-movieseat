@@ -10,6 +10,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IResponse } from 'src/types/userTypes';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
+import * as EmailValidator from 'email-validator'
 
 @Component({
   selector: 'app-sign-up',
@@ -30,10 +31,10 @@ export class SignUpComponent implements OnInit {
   public signUpState$ = this.signUpStateSubject$.asObservable();
 
   public signUpForm = this.formBuilder.group({
-    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    email: new FormControl<string>('', [Validators.required]),
     username: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
-    password: new FormControl<string>('', [Validators.required, Validators.minLength(6), Validators.maxLength(24)]),
-    confirmPassword: new FormControl<string>('', [Validators.required]),
+    password: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
+    confirmPassword: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
   })
 
   public ngOnInit(): void {
@@ -43,6 +44,10 @@ export class SignUpComponent implements OnInit {
       }
     });
 
+    this.signUpForm.controls.email.valueChanges.subscribe(() => {
+      this.validateEmail();
+    })
+
     this.signUpForm.controls.password.valueChanges.subscribe(() => {
       this.validatePasswordConfirmation();
     });
@@ -50,6 +55,18 @@ export class SignUpComponent implements OnInit {
     this.signUpForm.controls.confirmPassword.valueChanges.subscribe(() => {
       this.validatePasswordConfirmation();
     });
+  }
+
+  private validateEmail(): void {
+    const email = this.signUpForm.controls.email.value;
+    if (email) {
+      const valid = EmailValidator.validate(email)
+      if (valid) {
+        this.signUpForm.controls.email.setErrors(null)
+      } else {
+        this.signUpForm.controls.email.setErrors({ emailNotValid: true });
+      }
+    }
   }
 
   private validatePasswordConfirmation():void {
@@ -63,11 +80,11 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  public submitSignUpForm(): void {
+  public async submitSignUpForm(): Promise<void> {
     this.signUpForm.markAllAsTouched();
     if(this.signUpForm.invalid) return
     this.signUpService.createUser(this.signUpForm).subscribe({
-      next: ({data}) => {
+      next: async ({data}) => {
         if (!data) return
         this.signUpStateSubject$.next(false)
         this.router.navigate(['/sign-up'], { queryParams: {id: data.createUser.data.id, confirmationCode: 'xxxx'}});
@@ -88,6 +105,10 @@ export class SignUpComponent implements OnInit {
         if (this.signUpForm.controls.email.hasError('required')) {
           return 'You must enter a email address';
         }
+        if (this.signUpForm.controls.email.hasError('emailNotValid')) {
+          return 'Email address is not valid';
+        }
+
         return this.signUpForm.controls.email.hasError('email') ? 'Not a valid email' : '';
 
       case 'username':
