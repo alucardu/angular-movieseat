@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 // Construct a schema, using GraphQL schema language
 const userTypeDefs = gql`
-  type ReturnObject {
+  type ReturnObjectUser {
     data: User,
     response: Response
   }
@@ -23,7 +23,7 @@ const userTypeDefs = gql`
       username: String!,
       email: String!,
       password: String!
-    ): ReturnObject
+    ): ReturnObjectUser
   }
 
   type Mutation {
@@ -34,11 +34,11 @@ const userTypeDefs = gql`
     loginUser(
       username: String!
       password: String!
-    ): ReturnObject
+    ): ReturnObjectUser
   }
 
   type Query {
-    authenticateByCookie: ReturnObject
+    authenticateByCookie: ReturnObjectUser
   }
 
   type Query {
@@ -51,7 +51,7 @@ const userTypeDefs = gql`
     confirmUser(
       id: ID!
       confirmationCode: String!
-    ): ReturnObject
+    ): ReturnObjectUser
   }
 `
 

@@ -6,14 +6,14 @@ export interface IResponse {
 }
 
 // TYPES
-type ReturnObject = {
+type ReturnObjectUser = {
   data: IUser,
   response: IResponse,
 }
 
 // MUTATIONS
 export type CreateUser = {
-  createUser: ReturnObject
+  createUser: ReturnObjectUser
 }
 
 export type LogoutUser = {
@@ -21,14 +21,14 @@ export type LogoutUser = {
 }
 
 export type LoginUser = {
-  loginUser: ReturnObject
+  loginUser: ReturnObjectUser
 }
 
 export type AuthenticateByCookie = {
-  authenticateByCookie: ReturnObject
+  authenticateByCookie: ReturnObjectUser
 }
 
 // QUERIES
 export type ConfirmUser = {
-  confirmUser: ReturnObject
+  confirmUser: ReturnObjectUser
 }

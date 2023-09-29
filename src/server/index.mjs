@@ -13,10 +13,12 @@ import 'dotenv/config'
 
 import userResolvers from './resolvers/user.mjs'
 import userTypeDefs from './typeDefs/user.mjs'
+import movieResolvers from './resolvers/movies.mjs';
+import movieTypeDefs from './typeDefs/movies.mjs';
 
 const schema = makeExecutableSchema({
-  typeDefs: [userTypeDefs],
-  resolvers: [userResolvers],
+  typeDefs: [userTypeDefs, movieTypeDefs],
+  resolvers: [userResolvers, movieResolvers],
 })
 
 let httpServer;
