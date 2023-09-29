@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { SignUpService } from './sign-up.service';
 import { SnackbBarService, SnackBarState } from 'src/app/services/snackbBar.service';
 import { BehaviorSubject, first } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IResponse } from 'src/types/userTypes';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
@@ -24,15 +24,14 @@ export class SignUpComponent implements OnInit {
   private formBuilder = inject(FormBuilder)
   private signUpService = inject(SignUpService)
   private snackBarService = inject(SnackbBarService)
-  private router = inject(Router)
   private route = inject(ActivatedRoute)
 
   private signUpStateSubject$ = new BehaviorSubject<boolean>(true);
   public signUpState$ = this.signUpStateSubject$.asObservable();
 
   public signUpForm = this.formBuilder.group({
-    email: new FormControl<string>('', [Validators.required]),
-    username: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
+    email: new FormControl<string>('', [Validators.required, this.noSpacesValidator()]),
+    username: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18), this.noSpacesValidator()]),
     password: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
     confirmPassword: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
   })
@@ -55,6 +54,17 @@ export class SignUpComponent implements OnInit {
     this.signUpForm.controls.confirmPassword.valueChanges.subscribe(() => {
       this.validatePasswordConfirmation();
     });
+  }
+
+  private noSpacesValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value && control.value.indexOf(' ') !== -1) {
+        // Return an error object if spaces are found
+        return { 'hasSpaces': true };
+      }
+      // Return null if no spaces are found (valid)
+      return null;
+    };
   }
 
   private validateEmail(): void {
@@ -87,7 +97,6 @@ export class SignUpComponent implements OnInit {
       next: async ({data}) => {
         if (!data) return
         this.signUpStateSubject$.next(false)
-        this.router.navigate(['/sign-up'], { queryParams: {id: data.createUser.data.id, confirmationCode: 'xxxx'}});
         this.snackBarService.openSnackBar(data.createUser.response, SnackBarState.SUCCESS)
       },
       error: (data) => {
@@ -123,6 +132,11 @@ export class SignUpComponent implements OnInit {
         if (this.signUpForm.controls.username.hasError('maxlength')) {
           return 'Name cannot exceed 18 characters';
         }
+
+        if (this.signUpForm.controls.username.hasError('hasSpaces')) {
+          return 'Username cannot contain spaces';
+        }
+
         return '';
 
       case 'password':

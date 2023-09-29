@@ -45,10 +45,10 @@ export class SnackbBarService {
             return 'Your account has been created! Check your email!'
 
           case 'U_02':
-            return 'Your account has been confirmed!'
+            return `Your account has been confirmed! Welcome ${data?.username}.`
 
           case 'U_03':
-            return `Welcome back ${data?.username}`
+            return `Welcome back ${data?.username}.`
 
           case 'U_05':
             return 'Your account has not yet been confirmed. Check your email!'
@@ -60,16 +60,16 @@ export class SnackbBarService {
       case 'sign_in':
         switch (response.code) {
           case 'U_04':
-            return 'Incorrect email and or password.'
+            return 'Incorrect username and or password.'
 
           case 'U_06':
             return 'Cookiemonster ate your cookie!'
 
           case 'P2025':
-            return 'Email not found'
+            return 'Username not found.'
 
           case 'P1003':
-            return 'Database is offline'
+            return 'Database is offline.'
 
           default:
             return ''
@@ -78,10 +78,10 @@ export class SnackbBarService {
       case 'sign_up':
         switch (response.code) {
           case 'P2002':
-            return 'Username or email already in use'
+            return 'Username or email already in use.'
 
           case 'P2025':
-            return 'Incorrect confirmation code'
+            return 'Incorrect confirmation code.'
 
           default:
             return '';

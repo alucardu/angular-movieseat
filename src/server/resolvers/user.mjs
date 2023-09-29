@@ -65,7 +65,7 @@ const userResolvers = {
           to: args.email,
           subject: 'Activate your Movieseat account!',
           // eslint-disable-next-line max-len
-          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://www.moviese.at/sign-up?id=${user.id}\&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
+          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://www.moviese.at/confirmation?id=${user.id}\&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
         };
         msg.main(email);
 
@@ -128,7 +128,7 @@ const userResolvers = {
       }
     },
 
-    confirmUser: async (_, args) => {
+    confirmUser: async (_, args, {req, res}) => {
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
@@ -142,7 +142,11 @@ const userResolvers = {
           data: { confirmation_code: '' },
         });
 
+        const tokens = setTokens(user)
+        res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
+
         return {
+          data: user,
           response: {
             type: 'user',
             code: 'U_02'
