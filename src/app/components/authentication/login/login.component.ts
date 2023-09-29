@@ -28,6 +28,7 @@ export class LoginComponent {
   })
 
   public login(): void {
+    this.authForm.markAllAsTouched();
     if (this.authForm.valid) this.authService.authenticateByLogin(this.authForm).subscribe({
       next: ({data}) => {
         if (!data) return

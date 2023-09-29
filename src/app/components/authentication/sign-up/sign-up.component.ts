@@ -6,7 +6,7 @@ import { SignUpService } from './sign-up.service';
 import { SnackbBarService, SnackBarState } from 'src/app/services/snackbBar.service';
 import { BehaviorSubject, first } from 'rxjs';
 import { fadeAnimation } from 'src/app/animations';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IResponse } from 'src/types/userTypes';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
@@ -24,7 +24,6 @@ export class SignUpComponent implements OnInit {
   private formBuilder = inject(FormBuilder)
   private signUpService = inject(SignUpService)
   private snackBarService = inject(SnackbBarService)
-  private router = inject(Router)
   private route = inject(ActivatedRoute)
 
   private signUpStateSubject$ = new BehaviorSubject<boolean>(true);
@@ -87,7 +86,6 @@ export class SignUpComponent implements OnInit {
       next: async ({data}) => {
         if (!data) return
         this.signUpStateSubject$.next(false)
-        this.router.navigate(['/sign-up'], { queryParams: {id: data.createUser.data.id, confirmationCode: 'xxxx'}});
         this.snackBarService.openSnackBar(data.createUser.response, SnackBarState.SUCCESS)
       },
       error: (data) => {

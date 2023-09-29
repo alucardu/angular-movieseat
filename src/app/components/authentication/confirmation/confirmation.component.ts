@@ -74,8 +74,8 @@ export class ConfirmationComponent implements OnInit, AfterViewInit {
         this.signUpService.confirmUser(this.confirmationCodeForm).subscribe({
           next: ({data}) => {
             if (!data) return
-            this.snackBarService.openSnackBar(data.confirmUser.response, SnackBarState.SUCCESS)
-            this.router.navigate(['/login'])
+            this.snackBarService.openSnackBar(data.confirmUser.response, SnackBarState.SUCCESS, data.confirmUser.data)
+            this.router.navigate(['/watchlist'])
           },
           error: (data) => {
             const response: IResponse = {

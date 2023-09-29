@@ -26,6 +26,10 @@ const routes: Routes = [
     loadComponent: () => import('./components/authentication/sign-up/sign-up.component').then(c => c.SignUpComponent),
   },
   {
+    path: 'confirmation',
+    loadComponent: () => import('./components/authentication/confirmation/confirmation.component').then(c => c.ConfirmationComponent),
+  },
+  {
     path: 'movie-search',
     canActivate: [canActivate],
     loadComponent: () => import('./components/features/movie-search/movie-search.component').then(c => c.MovieSearchComponent),
