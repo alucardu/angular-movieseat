@@ -64,10 +64,14 @@ const userResolvers = {
           from: '"moviese.at" <info@moviese.at>',
           to: args.email,
           subject: 'Activate your Movieseat account!',
-          // eslint-disable-next-line max-len
-          html: `Account has been created. This is your confirmation code ${confirmation_code}. Click <a href="http://www.moviese.at/confirmation?id=${user.id}\&confirmationCode=${confirmation_code}">here</a> to validate your account!`, // html body
+          variables: {
+            type: 'confirmation',
+            user: user,
+            confirmationCode: confirmation_code
+          }
         };
-        msg.main(email);
+
+        msg.sendEmail(email);
 
         return {
           data: user,

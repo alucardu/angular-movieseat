@@ -1,0 +1,26 @@
+<%- include('./includes/header.ejs') %>
+
+<div
+  style="
+    margin: 0 auto;
+    max-width: 540px;
+    min-height: 180px;
+    padding: 30px;
+    font-family: Arial;
+    background: #280028;
+    color: #fff;
+  "
+>
+  <h3 style="color: #fff!important;">Hello, <%= variables.user.username %></h3>
+  <p style="color: #fff!important;">
+    Your account has been created. This is your confirmation code:</br></br>
+  </p>
+  <span style="color: #fff!important; padding: 8px; background-color: #490049; border-radius: 4px; letter-spacing: .2rem;">
+    <%= variables.confirmationCode %>
+  </span></br></br>
+  <p style="color: #fff!important;">
+    Go <a style="color: #fff; text-decoration: underline;" href="http://www.moviese.at/confirmation?id=<%= variables.user.id %>&confirmationCode=<%= variables.confirmationCode %>">here</a> to validate your account. See you soon!
+  </p>
+</div>
+
+<%- include('./includes/footer.ejs') %>
