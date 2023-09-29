@@ -12,7 +12,6 @@ const prisma = new PrismaClient()
 const userResolvers = {
   Mutation: {
     loginUser: async (_, args, {req, res}) => {
-      console.log(args)
       try {
         const user = await prisma.user.findFirstOrThrow({
           where: {
