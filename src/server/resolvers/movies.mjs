@@ -44,7 +44,7 @@ async function getMovies(query) {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOGY3MDM5NjMzZjIwNjU5NDJjZDhhMjhkN2NhZGFkNCIsInN1YiI6IjRlMjIxNDBjNWU3M2Q2MGNlMzAwMDMzNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1BCzbE3Sz1W8SRlps4nq0BF16Xt5rbNc4O5NxT8S3Y0'
+      Authorization: `Bearer ${process.env.BEARER_TOKEN}`
     }
   };
 
@@ -59,7 +59,7 @@ async function getMovieCredits(movies) {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOGY3MDM5NjMzZjIwNjU5NDJjZDhhMjhkN2NhZGFkNCIsInN1YiI6IjRlMjIxNDBjNWU3M2Q2MGNlMzAwMDMzNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1BCzbE3Sz1W8SRlps4nq0BF16Xt5rbNc4O5NxT8S3Y0'
+      Authorization: `Bearer ${process.env.BEARER_TOKEN}`
     }
   };
 
