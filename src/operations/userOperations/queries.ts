@@ -52,4 +52,35 @@ const CONFIRM_USER = gql`
   }
 `
 
-export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE  };
+const SEARCH_MOVIES = gql`
+  query SearchMovies(
+    $query: String!
+  ) {
+    searchMovies(
+      query: $query
+    ) {
+      data {
+        id,
+        original_title,
+        overview,
+        poster_path,
+        release_date,
+        title,
+        vote_average,
+        backdrop_path,
+        cast {
+          name
+        }
+        directors {
+          name
+        }
+      }
+      response {
+        type,
+        code
+      }
+    }
+  }
+`
+
+export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES  };

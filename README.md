@@ -33,7 +33,9 @@ Run `npm run sync` to build the application and sync the dist folder with the an
 
 # Deep link testing
 
-Run `adb shell am start -W -a android.intent.action.VIEW -d "https://moviese.at/movie/1/moonrise-kingdom" com.movieseat.app` to initiate deep link simulation
+Run - `adb shell pm verify-app-links --re-verify com.movieseat.app;`
+Run - `adb shell pm get-app-links com.movieseat.app;`
+Run `adb shell am start -W -a android.intent.action.VIEW -d "https://www.moviese.at/movie/1/moonrise-kingdom" com.movieseat.app` to initiate deep link simulation
 
 # To create icons
 
@@ -71,13 +73,12 @@ Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgr
  - `\dt+`
  - `TABLE "User";`
 
-\password postgres
  - to create a user: `CREATE USER new_username WITH PASSWORD 'password';`
+ - \password postgres
  - allow for create db: `ALTER USER new_username CREATEDB;`
  - to grabnt schema usage: `GRANT USAGE ON SCHEMA public TO new_username;`
  - to grant all privileges: `GRANT ALL PRIVILEGES ON DATABASE your_database_name TO new_username;`
  - to grand all priv on schema: `GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_username;`
- - not needed: `GRANT, SELECT, INSERT, UPDATE, DELETE ON TABLE _prisma_migrations TO your_username;`
 
  
 # Prisma commands

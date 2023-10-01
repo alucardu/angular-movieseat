@@ -20,6 +20,7 @@ import { fadeAnimation } from 'src/app/animations';
 export class MovieSearchComponent {
   private movieSearchService = inject(MovieSearchService)
 
+  public noResults = false;
   public showSearch = false;
   public movieSearchResults$ = this.movieSearchService.movieSearchResults$
   public searchQuery = new FormControl('', { nonNullable: true })
@@ -30,9 +31,24 @@ export class MovieSearchComponent {
       distinctUntilChanged()
     ).subscribe({
       next: (query) => {
-        if (query.trim().length === 0) { this.searchQuery.markAsPristine() }
+        if (query.trim().length === 0) {
+          this.searchQuery.markAsPristine()
+          this.movieSearchService.setMovieSearchResults([])
+          this.noResults = false;
+        }
 
-        this.movieSearchService.getMovieSearchResults(query)
+        this.movieSearchService.getMovieSearchResults(query)?.subscribe({
+          next: (movies) => {
+            if (movies.data.searchMovies.response.code === 'M_01') {
+              this.noResults = false;
+              this.movieSearchService.setMovieSearchResults(movies.data.searchMovies.data)
+            } else {
+              this.noResults = true;
+              this.movieSearchService.setMovieSearchResults([])
+            }
+          },
+          error: (error) => console.log(error)
+        })
       }
     })
   }
