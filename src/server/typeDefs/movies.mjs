@@ -12,9 +12,21 @@ const movieTypeDefs = gql`
     code: String,
   }
 
+  type Person {
+    name: String
+  }
+
   type Movie {
-    id: ID
-    title: String
+    id: String,
+    original_title: String,
+    overview: String,
+    poster_path: String,
+    release_date: String,
+    title: String,
+    vote_average: Float,
+    backdrop_path: String,
+    cast: [Person],
+    directors: [Person],
   }
 
   type Query {

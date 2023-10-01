@@ -1,15 +1,25 @@
 <mat-card class="example-card">
   <mat-card-header (click)="toggleOpened(index)">
-    <app-rating-circle [rating]="searchResult.score" mat-card-avatar></app-rating-circle>
+    <img
+      class="poster_search_result"
+      mat-card-image
+      [src]="'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/' + searchResult.poster_path"
+      alt="Oppenheimer poster" />
     <mat-card-title>{{ searchResult.title }}</mat-card-title>
-    <mat-card-subtitle>{{ searchResult.release_year }} ({{ searchResult.director }})</mat-card-subtitle>
+    <mat-card-subtitle>
+      {{ searchResult.release_date | date : 'yyyy' }} {{ searchResult.directors.length > 0 ? '(' + searchResult.directors[0].name + ')' : null }}
+    </mat-card-subtitle>
+    <mat-card-subtitle>
+      {{ searchResult.cast.length > 0 ? searchResult.cast[0].name + ', ' : null }}
+      {{ searchResult.cast.length > 1 ? searchResult.cast[1].name : null }}
+    </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content [@toggleContent]="(movieSearchOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
-    <div class="poster">
-      <img mat-card-image [src]="searchResult.poster_path" alt="Oppenheimer poster" />
+    <div class="poster" *ngIf="backDropIsAvailable(searchResult.backdrop_path)">
+      <img mat-card-image [src]="'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/' + searchResult.backdrop_path" alt="Oppenheimer poster" />
     </div>
     <p class="description">
-      {{ searchResult.description }}
+      {{ searchResult.overview }}
     </p>
     <mat-card-actions>
       <button mat-flat-button color="primary">ADD TO WATCHLIST</button>

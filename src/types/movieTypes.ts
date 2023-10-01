@@ -7,7 +7,7 @@ export interface IResponse {
 
 // TYPES
 type ReturnObjectMovie = {
-  data: IMovie,
+  data: [IMovie],
   response: IResponse,
 }
 

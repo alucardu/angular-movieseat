@@ -61,6 +61,19 @@ const SEARCH_MOVIES = gql`
     ) {
       data {
         id,
+        original_title,
+        overview,
+        poster_path,
+        release_date,
+        title,
+        vote_average,
+        backdrop_path,
+        cast {
+          name
+        }
+        directors {
+          name
+        }
       }
       response {
         type,

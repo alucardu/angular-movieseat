@@ -26,7 +26,6 @@ mat-card-content {
 .mat-mdc-card-header {
   display: flex;
   padding: 8px;
-  align-items: center;
 }
 
 .mat-mdc-card-avatar {
@@ -51,6 +50,8 @@ mat-card-actions {
 
 mat-card-title {
   font-size: 1rem;
+  line-height: 1.2;
+  margin-bottom: 8px;
 }
 
 mat-card-subtitle {
@@ -64,4 +65,10 @@ mat-card-content {
 
 mat-card-actions button:last-child {
   background: #575757;
+}
+
+.poster_search_result {
+  width: 16%;
+  border-radius: 8px!important;
+  margin-left: auto;
 }

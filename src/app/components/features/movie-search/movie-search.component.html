@@ -6,6 +6,10 @@
   </mat-form-field>
 </form>
 
+<mat-card>
+  <mat-card-content *ngIf="noResults">No movies are found... try a different title</mat-card-content>
+</mat-card>
+
 <app-movie-search-result
   @fadeAnimation
   [searchResult]="searchResult"
@@ -13,7 +17,7 @@
   *ngFor="let searchResult of movieSearchResults$ | async; let index = index">
 </app-movie-search-result>
 
-<ng-container *ngIf="!((movieSearchResults$ | async)!.length > 0)">
+<ng-container *ngIf="!noResults && !((movieSearchResults$ | async)!.length > 0)">
   <app-movie-search-suggestion @fadeAnimation type="theatre"></app-movie-search-suggestion>
   <app-movie-search-suggestion @fadeAnimation type="friends"></app-movie-search-suggestion>
 </ng-container>
