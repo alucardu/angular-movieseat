@@ -11,6 +11,11 @@ type ReturnObjectMovie = {
   response: IResponse,
 }
 
+// MUTATIONS
+export type CreateMovie = {
+  createMovies: ReturnObjectMovie
+}
+
 // QUERIES
 export type SearchMovies = {
   searchMovies: ReturnObjectMovie

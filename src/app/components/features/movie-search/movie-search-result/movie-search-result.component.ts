@@ -30,4 +30,10 @@ export class MovieSearchResultComponent {
   public backDropIsAvailable(backdropPath: string): boolean {
     return backdropPath ? true : false
   }
+
+  public createMovie(movie: IMovie): void {
+    this.movieSearchService.createMovie(movie).subscribe({
+      next: (data) => console.log(data)
+    })
+  }
 }

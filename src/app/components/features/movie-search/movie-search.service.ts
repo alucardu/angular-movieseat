@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Apollo } from 'apollo-angular';
-import { SearchMovies } from 'src/types/movieTypes';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { CreateMovie, SearchMovies } from 'src/types/movieTypes';
 import { SEARCH_MOVIES } from 'src/operations/userOperations/queries';
 import { ApolloQueryResult } from '@apollo/client/core/types';
 import { IMovie } from 'src/app/mock/watchlist.json';
+import { CREATE_MOVIE } from 'src/operations/userOperations/mutations';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,14 @@ export class MovieSearchService {
 
   public setMovieSearchResults(movies: Array<IMovie>): void {
     this.movieSearchResultsSubject$.next(movies)
+  }
+
+  public createMovie(movie: IMovie): Observable<MutationResult<CreateMovie>> {
+    return this.apollo.mutate<CreateMovie>({
+      mutation: CREATE_MOVIE,
+      variables: {
+        movie: movie
+      }
+    })
   }
 }
