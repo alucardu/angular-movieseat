@@ -11,13 +11,14 @@ import { IResponse } from 'src/types/userTypes';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
 import * as EmailValidator from 'email-validator'
+import { TogglePasswordDirective } from 'src/app/directives/toggle-password/toggle-password.directive';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   standalone: true,
-  imports: [MaterialModule, CommonModule, RouterLink, ConfirmationComponent],
+  imports: [MaterialModule, CommonModule, RouterLink, ConfirmationComponent, TogglePasswordDirective],
   animations: [fadeAnimation]
 })
 export class SignUpComponent implements OnInit {

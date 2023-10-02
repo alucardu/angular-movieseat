@@ -13,14 +13,16 @@
         <input matInput formControlName="username" name="username" />
         <mat-error *ngIf="signUpForm.controls.username.invalid">{{ getErrorMessage('username') }}</mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appTogglePassword>
         <mat-label>Password</mat-label>
         <input type="password" matInput formControlName="password" name="new-password" autocomplete="new-password" />
+        <mat-icon matSuffix>visibility_off</mat-icon>
         <mat-error *ngIf="signUpForm.controls.password.invalid">{{ getErrorMessage('password') }}</mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appTogglePassword>
         <mat-label>Confirm password</mat-label>
         <input type="password" matInput formControlName="confirmPassword" name="confirm-password" autocomplete="new-password" />
+        <mat-icon matSuffix>visibility_off</mat-icon>
         <mat-error *ngIf="signUpForm.controls.confirmPassword.invalid">{{ getErrorMessage('confirmPassword') }}</mat-error>
       </mat-form-field>
     </form>
