@@ -9,13 +9,14 @@ import { IResponse } from 'src/types/userTypes';
 import { Browser } from '@capacitor/browser';
 import { environment } from 'src/environments/environment';
 import { Capacitor } from '@capacitor/core';
+import { TogglePasswordDirective } from 'src/app/directives/toggle-password/toggle-password.directive';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [MaterialModule, RouterLink, CommonModule]
+  imports: [MaterialModule, RouterLink, CommonModule, TogglePasswordDirective]
 })
 export class LoginComponent {
   private authService = inject(AuthService)

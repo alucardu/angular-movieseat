@@ -6,9 +6,10 @@
         <input matInput formControlName="username" type="text" name="username" autocomplete="username" />
         <mat-error *ngIf="authForm.controls.username.invalid">{{ getErrorMessage('username') }}</mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appTogglePassword>
         <mat-label>Password</mat-label>
         <input matInput formControlName="password" type="password" name="current-password" autocomplete="current-password" />
+        <mat-icon matSuffix>visibility_off</mat-icon>
         <mat-error *ngIf="authForm.controls.password.invalid">{{ getErrorMessage('password') }}</mat-error>
       </mat-form-field>
     </form>
