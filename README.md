@@ -84,5 +84,5 @@ Run `npx @capacitor/assets generate --iconBackgroundColor '#280028' --iconBackgr
 # Prisma commands
 
  - `npx prisma migrate dev --name <NAME>`
+ - `npx prisma generate`
  - `npx prisma migrate deploy` on server
- - `npx prisma generate` on server

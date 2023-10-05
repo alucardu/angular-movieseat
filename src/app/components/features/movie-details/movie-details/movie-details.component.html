@@ -1,40 +1,42 @@
-<app-clips-container [clips]="movie.clips"></app-clips-container>
+<div *ngIf="movie$ | async as movie">
+  <app-clips-container [clips]="movie.clips"></app-clips-container>
 
-<h2 class="titleContainer">
-  <span class="title">{{ movie.title }}</span>
-  <span class="releaseDate">({{ movie.release_year }})</span>
-</h2>
-<p class="tagline">{{ movie.tag }}</p>
+  <h2 class="titleContainer">
+    <span class="title">{{ movie.title }}</span>
+    <span class="releaseDate">({{ movie.release_date | date : 'yyyy' }})</span>
+  </h2>
+  <p class="tagline">{{ movie.tagline }}</p>
 
-<p class="overview">{{ movie.overview }}</p>
+  <p class="overview">{{ movie.overview }}</p>
 
-<button *ngIf="!movieIsAdded" class="add" mat-flat-button color="primary" (click)="addMovie()">ADD MOVIE TO WATCHLIST</button>
-<button *ngIf="movieIsAdded" class="add" mat-flat-button color="primary" (click)="removeMovie()">REMOVE MOVIE FROM WATCHLIST</button>
+  <button *ngIf="!movieIsAdded" class="add" mat-flat-button color="primary" (click)="addMovie()">ADD MOVIE TO WATCHLIST</button>
+  <button *ngIf="movieIsAdded" class="add" mat-flat-button color="primary" (click)="removeMovie()">REMOVE MOVIE FROM WATCHLIST</button>
 
-<mat-chip-set class="genres">
-  <mat-chip *ngFor="let tag of movie.tags">{{ tag }}</mat-chip>
-</mat-chip-set>
+  <mat-chip-set class="genres">
+    <mat-chip *ngFor="let genre of movie.genres">{{ genre.name }}</mat-chip>
+  </mat-chip-set>
 
-<mat-card class="infoContainer">
-  <mat-card-content>
-    <div class="movieInfo">
-      <div class="age">12+</div>
-      <span>{{ movie.release_date }} (NL) </span>
-      <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="watchedMovie"> visibility </mat-icon>
-      <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="!watchedMovie"> visibility_off </mat-icon>
-      <app-share-social shareMessage="Check out this movie: {{ movie.title }}" [movie]="movie"></app-share-social>
-      <app-movie-rating></app-movie-rating>
-    </div>
-    <div class="crewInfo">
-      <p class="label">Director</p>
-      <p class="value">{{ movie.directors[0] }}</p>
-      <p class="label">Writers</p>
-      <p class="value">{{ movie.writers }}</p>
-      <p class="label">Runtime</p>
-      <p class="value">{{ movie.runtime }}</p>
-    </div>
-  </mat-card-content>
-</mat-card>
+  <mat-card class="infoContainer">
+    <mat-card-content>
+      <div class="movieInfo">
+        <div class="age">{{ movie.certification }}</div>
+        <span>{{ movie.release_date }} (NL) </span>
+        <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="watchedMovie"> visibility </mat-icon>
+        <mat-icon class="hasSeenMovie" (click)="toggleWatchedState()" *ngIf="!watchedMovie"> visibility_off </mat-icon>
+        <app-share-social shareMessage="Check out this movie: {{ movie.title }}" [movie]="movie"></app-share-social>
+        <app-movie-rating></app-movie-rating>
+      </div>
+      <div class="crewInfo">
+        <p class="label">Director</p>
+        <p class="value">{{ findPerson(movie.persons, 'Director') }}</p>
+        <p class="label">Screenplay</p>
+        <p class="value">{{ findPerson(movie.persons, 'Screenplay') }}</p>
+        <p class="label">Runtime</p>
+        <p class="value">{{ getMovieRuntime(movie.runtime) }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
-<app-image-slider></app-image-slider>
-<app-movie-reviews></app-movie-reviews>
+  <app-image-slider [movie]="movie"></app-image-slider>
+  <!-- <app-movie-reviews></app-movie-reviews> -->
+</div>

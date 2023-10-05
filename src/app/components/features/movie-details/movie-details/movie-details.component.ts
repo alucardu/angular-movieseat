@@ -12,7 +12,7 @@ import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
 import { SnackbBarService } from 'src/app/services/snackbBar.service';
 import { first } from 'rxjs';
 import { MovieDetailsService } from './movie-details.service';
-import { IMovie } from 'src/app/mock/watchlist.json';
+import { IMovie, IPerson } from 'src/app/mock/watchlist.json';
 
 @Component({
   templateUrl: './movie-details.component.html',
@@ -27,26 +27,27 @@ export class MovieDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute)
   private movieService = inject(MovieDetailsService)
 
+  public movie$ = this.movieService.movie$;
+
   public ngOnInit(): void {
-
-    this.movieService.movie$.pipe(first()).subscribe(({
-      next: (data) => this.movie = data
-    }))
-
     this.route.paramMap.pipe(first()).subscribe({
       next: (data) => {
         const id = Number(data.get('id'))
-        this.movieService.setMovie(id)
+        this.movieService.getMovie(id)
       }
     })
 
-    this.metaTitleService.setTitle(this.movie.title) // for sharing popup on device
+    this.movie$.pipe(first()).subscribe({
+      next: (movie) => {
+        console.log(movie)
+        this.metaTitleService.setTitle(movie.title) // for sharing popup on device
 
-    this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
-    this.metaTagService.updateTag({ property: 'og:image', content: this.movie.poster_path })
-    this.metaTagService.updateTag({ property: 'og:title', content: this.movie.title })
-    this.metaTagService.updateTag({ property: 'og:description', content: this.movie.overview })
-
+        this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
+        this.metaTagService.updateTag({ property: 'og:image', content: movie.poster_path })
+        this.metaTagService.updateTag({ property: 'og:title', content: movie.title })
+        this.metaTagService.updateTag({ property: 'og:description', content: movie.overview })
+      }
+    })
   }
 
   private snackBarService = inject(SnackbBarService)
@@ -77,5 +78,20 @@ export class MovieDetailsComponent implements OnInit {
     // }
 
     // this.snackBarService.openSnackBar(message, SnackBarState.SUCCESS);
+  }
+
+  public findPerson(persons: IPerson[], job: string): string | undefined {
+    const x = persons.find((person) => person.job === job)
+    return x?.person.name
+  }
+
+  public getMovieRuntime(runtime: string | number): string | number {
+    switch (runtime) {
+      case 0:
+        return 'not available'
+
+      default:
+        return runtime
+    }
   }
 }

@@ -1,30 +1,141 @@
 import { PrismaClient, Prisma  } from '@prisma/client'
-import { filterMovies, getMovieCredits, getMovies, sortMoviesOnReleaseDate } from '../movieUtils.mjs'
+import { filterClips, filterMovies, filterReleaseDatesAndCertifications, getMoviesCredits, getMovies, sortMoviesOnReleaseDate, getMovieCredits, getMovieDetails } from '../movieUtils.mjs'
 
 const prisma = new PrismaClient()
 
 const movieResolvers = {
   Mutation: {
     createMovie: async(_, args) => {
-      return {
-        data: args.movie,
-        response: {
-          type: 'movie',
-          code: 'M_03'
+      const moviesWithDetails = await getMovieDetails(args.movie.id)
+      const releaseDatesAndCertifications = await filterReleaseDatesAndCertifications(args.movie.id)
+      const clips = filterClips(moviesWithDetails.videos.results)
+      const genres = moviesWithDetails.genres
+      const credits = await getMovieCredits(args.movie.id)
+
+      const combinedCredits = [...credits.castCredit, ...credits.crewCredit];
+
+      try {
+        const movieAndPersons = await prisma.$transaction(async (prisma) => {
+          await prisma.person.createMany({
+            data: credits.castPerson,
+            skipDuplicates: true,
+          });
+
+          await prisma.person.createMany({
+            data: credits.crewPerson,
+            skipDuplicates: true,
+          });
+
+          const movie = await prisma.movie.create({
+            data: {
+              title: args.movie.title,
+              original_title: args.movie.original_title,
+              tmdb_id: args.movie.id,
+              backdrop_path: args.movie.backdrop_path,
+              certification: releaseDatesAndCertifications.certification,
+              overview: args.movie.overview,
+              poster_path: args.movie.poster_path,
+              release_date: args.movie.release_date,
+              runtime: moviesWithDetails.runtime,
+              tagline: moviesWithDetails.tagline,
+              vote_average: args.movie.vote_average,
+              clips: {
+                create: clips,
+              },
+              genres: {
+                connectOrCreate: genres.map((genre) => ({
+                  where: { name: genre.name },
+                  create: { name: genre.name },
+                })),
+              },
+              persons: {
+                connectOrCreate: combinedCredits.map((credit) => ({
+                  where: { id: credit.tmdb_id },
+                  create: {
+                    credit_id: credit.credit_id,
+                    department: credit.department,
+                    job: credit.job,
+                    cast_id: credit.cast_id,
+                    character: credit.character,
+                    order: credit.order,
+                    person: {
+                      connect: {
+                        tmdb_id: credit.tmdb_id,
+                      },
+                    },
+                  },
+                })),
+              },
+            },
+          });
+
+          return { movie };
+        });
+
+        return {
+          data: movieAndPersons.movie,
+          response: {
+            type: 'movie',
+            code: 'M_03',
+          },
+        };
+
+      } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          throw new Error(e.code);
+        } else {
+          console.log('Error: ', e);
+          throw e;
         }
       }
+
     }
   },
 
   Query: {
+    getMovie: async(_, args) => {
+      try {
+        const movie = await prisma.movie.findUniqueOrThrow({
+          where: {
+            tmdb_id: args.tmdb_id
+          },
+          include: {
+            clips: true,
+            genres: true,
+            persons: {
+              include: {
+                person: true
+              }
+            }
+          }
+        })
+
+        return {
+          data: movie,
+          response: {
+            type: 'movie',
+            code: 'M_04'
+          }
+        }
+      } catch(e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          throw new Error(e.code)
+        } else {
+          console.log(e)
+          throw e
+        }
+      }
+    },
+
     searchMovies: async(_, args) => {
       let movies = await getMovies(args.query)
+
       const filteredMovies = filterMovies(movies.results, args.query)
       const sortedMovies = sortMoviesOnReleaseDate(filteredMovies)
-      const directorAndCastInfo = await getMovieCredits(sortedMovies)
+      const directorAndCastInfo = await getMoviesCredits(sortedMovies)
 
       movies = sortedMovies.map((movie, i) => {
-        return { ...movie, directors: directorAndCastInfo.directors[i].slice(0, 2), cast: directorAndCastInfo.cast[i].slice(0, 2)}
+        return { ...movie, directors: directorAndCastInfo.directors[i].slice(0, 2), persons: directorAndCastInfo.cast[i].slice(0, 2)}
       })
 
       if (movies.length > 0) {
