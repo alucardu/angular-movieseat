@@ -17,14 +17,14 @@ const AUTHENTICATE_BY_COOKIE = gql`
   query {
     authenticateByCookie {
       response {
-          type,
-          code
-        }
-        data {
-          id,
-          username,
-          email,
-        }
+        type,
+        code
+      }
+      data {
+        id,
+        username,
+        email,
+      }
     }
   }
 `;
@@ -52,6 +52,51 @@ const CONFIRM_USER = gql`
   }
 `
 
+const GET_MOVIE = gql`
+  query GetMovie(
+    $tmdb_id: ID!
+  ) {
+    getMovie(
+      tmdb_id: $tmdb_id
+    ) {
+      data {
+        id,
+        tmdb_id,
+        original_title,
+        overview,
+        tagline,
+        certification,
+        runtime,
+        poster_path,
+        release_date,
+        title,
+        vote_average,
+        backdrop_path,
+        persons {
+          job
+          character
+          person {
+            name
+            profile_path
+          }
+        }
+        genres {
+          name
+        }
+        clips {
+          name,
+          key
+        }
+      }
+      response {
+        type,
+        code
+      }
+    }
+  }
+`;
+
+
 const SEARCH_MOVIES = gql`
   query SearchMovies(
     $query: String!
@@ -63,12 +108,13 @@ const SEARCH_MOVIES = gql`
         id,
         original_title,
         overview,
+        runtime,
         poster_path,
         release_date,
         title,
         vote_average,
         backdrop_path,
-        cast {
+        persons {
           name
         }
         directors {
@@ -83,4 +129,4 @@ const SEARCH_MOVIES = gql`
   }
 `
 
-export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES  };
+export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES, GET_MOVIE  };

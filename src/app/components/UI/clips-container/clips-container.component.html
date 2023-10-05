@@ -1,5 +1,5 @@
 <div class="clipsContainer" #clipsContainer>
-  <app-clip *ngFor="let clip of clips" [clip]="clip" routerLink="clip/{{ clip.id }}"></app-clip>
+  <app-clip *ngFor="let clip of clips" [clip]="clip" routerLink="clip/{{ clip.key }}"></app-clip>
 </div>
 
 <div class="clipsSlideTracker" *ngIf="clips">

@@ -16,7 +16,7 @@ const routes: Routes = [
         },
       },
       {
-        path: ':id/:title/clip/:id',
+        path: ':id/:title/clip/:key',
         component: YoutubePlayerComponent,
         data: {
           title: 'Trailer #1',

@@ -4,8 +4,10 @@ import { RatingCircleComponent } from 'src/app/components/UI/rating-circle/ratin
 import { CommonModule } from '@angular/common';
 import { toggleContent } from 'src/app/animations';
 import { MovieSearchService } from '../movie-search.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { IMovie } from 'src/app/mock/watchlist.json';
+import { MovieDetailsService } from '../../movie-details/movie-details/movie-details.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-movie-search-result',
@@ -17,6 +19,8 @@ import { IMovie } from 'src/app/mock/watchlist.json';
 })
 export class MovieSearchResultComponent {
   private movieSearchService = inject(MovieSearchService)
+  private movieDetailService = inject(MovieDetailsService)
+  private router = inject(Router)
 
   @Input() public searchResult!: IMovie
   @Input() public index!: number
@@ -29,5 +33,24 @@ export class MovieSearchResultComponent {
 
   public backDropIsAvailable(backdropPath: string): boolean {
     return backdropPath ? true : false
+  }
+
+  public navigateToMovie(movie: IMovie): void {
+    this.movieDetailService.test(movie.id).pipe(first()).subscribe({
+      next: () => this.router.navigate([`/movie/${movie.id}/${this.replaceSpaces(movie.title)}`]),
+      error: () => this.createMovie(movie)
+    })
+  }
+
+  private replaceSpaces(title: string): string {
+    return title.replace(/\s/g, '-')
+  }
+
+  public createMovie(movie: IMovie): void {
+    console.log(movie)
+    this.movieSearchService.createMovie(movie).subscribe({
+      next: () => this.router.navigate([`/movie/${movie.id}/${this.replaceSpaces(movie.title)}`]),
+      error: (error) => console.log(error)
+    })
   }
 }

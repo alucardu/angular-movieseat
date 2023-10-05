@@ -1,35 +1,9 @@
 <div class="imageSlider">
-  <div class="imageContainer">
+  <div class="imageContainer" *ngFor="let person of movie.persons">
     <div class="image">
-      <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/wyUao77IKN0YtDHHXLSihOj8l8v.jpg" alt="some guy" />
+      <img src="https://www.themoviedb.org/t/p/w138_and_h175_face{{ person.person.profile_path }}" alt="" />
     </div>
-    <p class="realName">Jaren Gilman</p>
-    <p class="characterName">Sam</p>
-  </div>
-
-  <div class="imageContainer">
-    <a [routerLink]="['../../../biography/e01']" class="realName">
-      <div class="image">
-        <img src="https://www.themoviedb.org/t/p/w120_and_h133_face/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg" alt="some guy" />
-      </div>
-      Edward Norton
-    </a>
-    <p class="characterName">Sam</p>
-  </div>
-
-  <div class="imageContainer">
-    <div class="image">
-      <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/caX3KtMU42EP3VLRFFBwqIIrch5.jpg" alt="some guy" />
-    </div>
-    <p class="realName">Bruce Willis</p>
-    <p class="characterName">Sam</p>
-  </div>
-
-  <div class="imageContainer">
-    <div class="image">
-      <img src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/wyUao77IKN0YtDHHXLSihOj8l8v.jpg" alt="some guy" />
-    </div>
-    <p class="realName">Jaren Gilman</p>
-    <p class="characterName">Sam</p>
+    <p class="realName">{{ person.person.name }}</p>
+    <p class="characterName">{{ person.character }}</p>
   </div>
 </div>

@@ -7,11 +7,25 @@ export interface IResponse {
 
 // TYPES
 type ReturnObjectMovie = {
+  data: IMovie,
+  response: IResponse,
+}
+
+type ReturnObjectMovies = {
   data: [IMovie],
   response: IResponse,
 }
 
+// MUTATIONS
+export type CreateMovie = {
+  createMovies: ReturnObjectMovie
+}
+
 // QUERIES
 export type SearchMovies = {
-  searchMovies: ReturnObjectMovie
+  searchMovies: ReturnObjectMovies
+}
+
+export type GetMovie = {
+  getMovie: ReturnObjectMovie
 }

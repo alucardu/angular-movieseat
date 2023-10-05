@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Movie" ALTER COLUMN "tmdb_id" SET DATA TYPE TEXT;

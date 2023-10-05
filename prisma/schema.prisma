@@ -1,16 +1,80 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["rhel-openssl-1.0.x"]
+}
+
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  username String  @unique
-  password String
+  id                Int     @id @default(autoincrement())
+  email             String  @unique
+  username          String  @unique
+  password          String
   confirmation_code String?
+}
+
+model Movie {
+  id             Int           @id @default(autoincrement())
+  tmdb_id        String        @unique
+  title          String
+  original_title String
+  poster_path    String
+  backdrop_path  String
+  release_date   String
+  overview       String
+  certification  String
+  tagline        String
+  runtime        Int
+  vote_average   Int
+  clips          Clip[]        @relation(name: "MovieToClips")
+  genres         Genre[]       @relation(name: "MovieToGenres")
+  persons        PersonMovie[] @relation(name: "MovieToPersons")
+}
+
+model Person {
+  id                   Int           @id @default(autoincrement())
+  adult                Boolean
+  gender               Int
+  tmdb_id              Int @unique
+  known_for_department String
+  name                 String
+  original_name        String
+  popularity           Float
+  profile_path         String?
+  movies               PersonMovie[] @relation(name: "PersonToMovie")
+}
+
+model PersonMovie {
+  id         Int     @id @default(autoincrement())
+  credit_id  String
+  department String?
+  job        String?
+  cast_id    Int?
+  character  String?
+  order      Int?
+  movie      Movie   @relation(name: "MovieToPersons", fields: [movieId], references: [id], onDelete: Cascade)
+  movieId    Int
+  person     Person  @relation(name: "PersonToMovie", fields: [personId], references: [id], onDelete: Cascade)
+  personId   Int
+}
+
+model Clip {
+  id           Int     @id @default(autoincrement())
+  name         String
+  key          String
+  site         String
+  type         String
+  official     Boolean
+  published_at String
+  movie        Movie   @relation(name: "MovieToClips", fields: [movieId], references: [id], onDelete: Cascade)
+  movieId      Int
+}
+
+model Genre {
+  id     Int     @id @default(autoincrement())
+  name   String? @unique
+  movies Movie[] @relation(name: "MovieToGenres")
 }

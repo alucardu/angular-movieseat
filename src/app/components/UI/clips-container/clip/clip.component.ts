@@ -29,7 +29,7 @@ export class ClipComponent implements OnInit {
   private async setImageData(): Promise<void> {
     this.thumbnailUrl = await this.returnHighestQualityImage()
 
-    const url = `https://www.youtube.com/watch?v=${this.clip.id}`;
+    const url = `https://www.youtube.com/watch?v=${this.clip.key}`;
     this.http.get<{title: string}>('https://noembed.com/embed', {
       params: { format: 'json', url: url
     }}).subscribe({
@@ -38,8 +38,8 @@ export class ClipComponent implements OnInit {
   }
 
   private async returnHighestQualityImage(): Promise<string | undefined> {
-    const maxresdefault = `https://i.ytimg.com/vi/${this.clip.id}/maxresdefault.jpg`
-    const mqdefault = `https://i.ytimg.com/vi/${this.clip.id}/mqdefault.jpg`
+    const maxresdefault = `https://i.ytimg.com/vi/${this.clip.key}/maxresdefault.jpg`
+    const mqdefault = `https://i.ytimg.com/vi/${this.clip.key}/mqdefault.jpg`
 
     if ((await this.checkImageExists(maxresdefault))) {
       return maxresdefault

@@ -38,7 +38,7 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
 
   public ngOnInit(): void {
     this.route.paramMap.pipe(take(1)).subscribe({
-      next: (data) => this.clipId = data.get('id')
+      next: (data) => this.clipId = data.get('key')
     })
   }
 
