@@ -22,7 +22,7 @@ export class ShareSocialComponent {
     // is used in mobile app share button, not in the browser share api
     await Share.share({
       text: this.shareMessage,
-      url: `https://www.moviese.at/movie/${this.movie.id}/${StripTitle(this.movie.title)}`,
+      url: `https://www.moviese.at/movie/${this.movie.tmdb_id}/${StripTitle(this.movie.title)}`,
     });
   }
 }
