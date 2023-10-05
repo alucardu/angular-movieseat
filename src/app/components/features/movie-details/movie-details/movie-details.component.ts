@@ -39,11 +39,10 @@ export class MovieDetailsComponent implements OnInit {
 
     this.movie$.pipe(first()).subscribe({
       next: (movie) => {
-        console.log(movie)
         this.metaTitleService.setTitle(movie.title) // for sharing popup on device
 
         this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
-        this.metaTagService.updateTag({ property: 'og:image', content: movie.poster_path })
+        this.metaTagService.updateTag({ property: 'og:image', content: `https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}` })
         this.metaTagService.updateTag({ property: 'og:title', content: movie.title })
         this.metaTagService.updateTag({ property: 'og:description', content: movie.overview })
       }
