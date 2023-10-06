@@ -21,6 +21,14 @@ export type CreateMovie = {
   createMovies: ReturnObjectMovie
 }
 
+export type AddMovieToUser = {
+  addMovieToUser: ReturnObjectMovie
+}
+
+export type RemoveMovieFromUser = {
+  removeMovieFromUser: ReturnObjectMovie
+}
+
 // QUERIES
 export type SearchMovies = {
   searchMovies: ReturnObjectMovies
@@ -28,4 +36,8 @@ export type SearchMovies = {
 
 export type GetMovie = {
   getMovie: ReturnObjectMovie
+}
+
+export type GetWatchlistUser = {
+  getWatchlistUser: ReturnObjectMovies
 }

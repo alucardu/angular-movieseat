@@ -9,11 +9,12 @@ generator client {
 }
 
 model User {
-  id                Int     @id @default(autoincrement())
-  email             String  @unique
-  username          String  @unique
+  id                Int         @id @default(autoincrement())
+  email             String      @unique
+  username          String      @unique
   password          String
   confirmation_code String?
+  movies            Movie[]     @relation(name: "MoviesToUsers")
 }
 
 model Movie {
@@ -32,6 +33,7 @@ model Movie {
   clips          Clip[]        @relation(name: "MovieToClips")
   genres         Genre[]       @relation(name: "MovieToGenres")
   persons        PersonMovie[] @relation(name: "MovieToPersons")
+  users          User[]        @relation(name: "MoviesToUsers")
 }
 
 model Person {

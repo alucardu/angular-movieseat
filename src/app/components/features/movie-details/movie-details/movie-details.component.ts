@@ -9,7 +9,7 @@ import { YoutubePlayerComponent } from 'src/app/components/shared/youtube-player
 import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewsComponent } from '../movie-reviews/movie-reviews.component';
 import { MovieRatingComponent } from '../rating-stars/movie-rating.component';
-import { SnackbBarService } from 'src/app/services/snackbBar.service';
+import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
 import { first } from 'rxjs';
 import { MovieDetailsService } from './movie-details.service';
 import { IMovie, IPerson } from 'src/app/mock/watchlist.json';
@@ -28,6 +28,7 @@ export class MovieDetailsComponent implements OnInit {
   private movieService = inject(MovieDetailsService)
 
   public movie$ = this.movieService.movie$;
+  public userHasAddedMovie$ = this.movieService.userHasAddedMovie$
 
   public ngOnInit(): void {
     this.route.paramMap.pipe(first()).subscribe({
@@ -39,6 +40,7 @@ export class MovieDetailsComponent implements OnInit {
 
     this.movie$.pipe(first()).subscribe({
       next: (movie) => {
+        this.movieService.userHasAddedMovie(movie)
         this.metaTitleService.setTitle(movie.title) // for sharing popup on device
 
         this.metaTagService.updateTag({ property: 'og:type', content: 'Movie' })
@@ -51,18 +53,30 @@ export class MovieDetailsComponent implements OnInit {
 
   private snackBarService = inject(SnackbBarService)
 
-  public movieIsAdded = false;
   public watchedMovie = false;
-  public movie!: IMovie;
 
-  public addMovie(): void {
-    this.movieIsAdded = !this.movieIsAdded
-    // this.snackBarService.openSnackBar('Moonrise Kingdom has been added to your watchlist!', SnackBarState.SUCCESS);
+  public addMovieToWatchlist(movie: IMovie): void {
+    this.movieService.addMovieToWatchlist(movie).subscribe({
+      next: ({data}) => {
+        if (data) {
+          this.movieService.updateWatchlistUser(data.addMovieToUser.data, 'add')}
+          this.movieService.userHasAddedMovie(data!.addMovieToUser.data)
+          this.snackBarService.openSnackBar(data!.addMovieToUser.response, SnackBarState.SUCCESS, data!.addMovieToUser.data);
+      },
+      error: (error) => console.log(error),
+    })
   }
 
-  public removeMovie(): void {
-    this.movieIsAdded = !this.movieIsAdded
-    // this.snackBarService.openSnackBar('Moonrise Kingdom has been removed to your watchlist!', SnackBarState.SUCCESS);
+  public removeMovieFromWatchlist(movie: IMovie): void {
+    this.movieService.removeMovieFromWatchlist(movie).subscribe({
+      next: ({data}) => {
+        if (data) {
+          this.movieService.updateWatchlistUser(data.removeMovieFromUser.data, 'remove')}
+          this.movieService.userHasAddedMovie(data!.removeMovieFromUser.data)
+          this.snackBarService.openSnackBar(data!.removeMovieFromUser.response, SnackBarState.SUCCESS, data!.removeMovieFromUser.data);
+      },
+      error: (error) => console.log(error)
+    })
   }
 
   public toggleWatchedState(): void {

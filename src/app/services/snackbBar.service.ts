@@ -27,7 +27,7 @@ export class SnackbBarService {
 
     this._snackBar.openFromComponent(SnackBarComponent, {
       panelClass: state,
-      duration: 3500,
+      duration: 1500,
       data: {
         message: message,
         state: state
@@ -52,6 +52,19 @@ export class SnackbBarService {
 
           case 'U_05':
             return 'Your account has not yet been confirmed. Check your email!'
+
+          default:
+            return '';
+        }
+
+      case 'movie':
+        data = <IMovie>data
+        switch (response.code) {
+          case 'U_08':
+            return `${data.title} has been added to your watchlist.`
+
+          case 'U_09':
+            return `${data.title} has been removed to your watchlist.`
 
           default:
             return '';

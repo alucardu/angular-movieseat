@@ -32,11 +32,13 @@ type ReturnObjectMovie {
   input PersonInput {
     job: String
     name: String
+    character: String
     person: PersonInputX
   }
 
   input PersonInputX {
     name: String
+    profile_path: String
   }
 
   type Clip {
@@ -103,10 +105,26 @@ type ReturnObjectMovie {
     ): ReturnObjectMovie
   }
 
+  type Mutation {
+    addMovieToUser(
+      movie: MovieInput
+    ): ReturnObjectMovie
+  }
+
+  type Mutation {
+    removeMovieFromUser(
+      movie: MovieInput
+    ): ReturnObjectMovie
+  }
+
   type Query {
     getMovie(
       tmdb_id: ID!
     ): ReturnObjectMovie
+  }
+
+  type Query {
+    getWatchlistUser: ReturnObjectMovies
   }
 
   type Query {

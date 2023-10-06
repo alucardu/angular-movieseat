@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma  } from '@prisma/client'
 import { filterClips, filterMovies, filterReleaseDatesAndCertifications, getMoviesCredits, getMovies, sortMoviesOnReleaseDate, getMovieCredits, getMovieDetails } from '../movieUtils.mjs'
+import { validateAccessToken } from '../jwt.mjs'
 
 const prisma = new PrismaClient()
 
@@ -88,11 +89,95 @@ const movieResolvers = {
           throw e;
         }
       }
+    },
 
-    }
+    addMovieToUser: async(_, args, {req, res}) => {
+      const userId = validateAccessToken(req.cookies.authToken).user.id
+      try {
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            movies: {
+              connect: {
+                tmdb_id: args.movie.tmdb_id
+              }
+            }
+          }
+        })
+
+        const movie = await prisma.movie.findFirst({
+          where: {tmdb_id: args.movie.tmdb_id}
+        })
+
+        return {
+          data: movie,
+          response: {
+            type: 'movie',
+            code: 'U_08'
+          }
+        }
+      } catch(e) {
+        console.log(e)
+        throw(e)
+      }
+    },
+
+    removeMovieFromUser: async(_, args, {req, res}) => {
+      const userId = validateAccessToken(req.cookies.authToken).user.id
+      try {
+        await prisma.user.update({
+          where: {id: userId},
+          data: {
+            movies: {
+              disconnect: {
+                tmdb_id: args.movie.tmdb_id
+              }
+            }
+          }
+        })
+
+        const movie = await prisma.movie.findFirst({
+          where: {tmdb_id: args.movie.tmdb_id}
+        })
+
+        return {
+          data: movie,
+          response: {
+            type: 'movie',
+            code: 'U_09'
+          }
+        }
+      } catch(e) {
+        throw(e)
+      }
+    },
   },
 
   Query: {
+    getWatchlistUser: async(_, args, {req, res}) => {
+      const userId = validateAccessToken(req.cookies.authToken).user.id
+      try {
+        const user = await prisma.user.findUniqueOrThrow({
+          where: {
+            id: userId
+          },
+          include: {
+            movies: true
+          }
+        })
+        return {
+          data: user.movies,
+          response: {
+            type: 'user',
+            code: 'U_07'
+          }
+        }
+      } catch(e) {
+        console.log(e)
+        throw(e)
+      }
+    },
+
     getMovie: async(_, args) => {
       try {
         const movie = await prisma.movie.findUniqueOrThrow({
