@@ -60,7 +60,6 @@ export class MovieDetailsComponent implements OnInit {
       next: ({data}) => {
         if (data) {
           this.movieService.updateWatchlistUser(data.addMovieToUser.data, 'add')}
-          this.movieService.userHasAddedMovie(data!.addMovieToUser.data)
           this.snackBarService.openSnackBar(data!.addMovieToUser.response, SnackBarState.SUCCESS, data!.addMovieToUser.data);
       },
       error: (error) => console.log(error),
@@ -72,7 +71,6 @@ export class MovieDetailsComponent implements OnInit {
       next: ({data}) => {
         if (data) {
           this.movieService.updateWatchlistUser(data.removeMovieFromUser.data, 'remove')}
-          this.movieService.userHasAddedMovie(data!.removeMovieFromUser.data)
           this.snackBarService.openSnackBar(data!.removeMovieFromUser.response, SnackBarState.SUCCESS, data!.removeMovieFromUser.data);
       },
       error: (error) => console.log(error)

@@ -59,7 +59,7 @@ export class MovieDetailsService {
       this.movieWatchlistSubject$.next([...this.movieWatchlistSubject$.value, movie])
     }
     if (action === 'remove') {
-      const updatedWatchlist = this.movieWatchlistSubject$.value.filter((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id)
+      const updatedWatchlist = this.movieWatchlistSubject$.value.filter((watchlistMovie) => watchlistMovie.tmdb_id !== movie.tmdb_id)
       this.movieWatchlistSubject$.next(updatedWatchlist)
     }
 

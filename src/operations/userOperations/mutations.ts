@@ -87,6 +87,7 @@ const ADD_MOVIE_TO_USER = gql`
         original_title,
         title,
         poster_path,
+        tmdb_id
       }
     }
   }
@@ -108,6 +109,7 @@ const REMOVE_MOVIE_FROM_USER = gql`
         original_title,
         title,
         poster_path,
+        tmdb_id
       }
     }
   }
