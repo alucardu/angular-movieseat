@@ -44,6 +44,7 @@ mat-card-actions {
   min-height: auto;
   padding-bottom: 16px;
   button {
+    text-wrap: nowrap;
     margin-right: 8px;
   }
 }

@@ -59,8 +59,9 @@ export class MovieDetailsComponent implements OnInit {
     this.movieService.addMovieToWatchlist(movie).subscribe({
       next: ({data}) => {
         if (data) {
-          this.movieService.updateWatchlistUser(data.addMovieToUser.data, 'add')}
-          this.snackBarService.openSnackBar(data!.addMovieToUser.response, SnackBarState.SUCCESS, data!.addMovieToUser.data);
+          this.movieService.updateWatchlistUser(data.addMovieToUser.data, 'add')
+          this.snackBarService.openSnackBar(data.addMovieToUser.response, SnackBarState.SUCCESS, data.addMovieToUser.data);
+        }
       },
       error: (error) => console.log(error),
     })
@@ -70,8 +71,9 @@ export class MovieDetailsComponent implements OnInit {
     this.movieService.removeMovieFromWatchlist(movie).subscribe({
       next: ({data}) => {
         if (data) {
-          this.movieService.updateWatchlistUser(data.removeMovieFromUser.data, 'remove')}
-          this.snackBarService.openSnackBar(data!.removeMovieFromUser.response, SnackBarState.SUCCESS, data!.removeMovieFromUser.data);
+          this.movieService.updateWatchlistUser(data.removeMovieFromUser.data, 'remove')
+          this.snackBarService.openSnackBar(data.removeMovieFromUser.response, SnackBarState.SUCCESS, data.removeMovieFromUser.data)
+        }
       },
       error: (error) => console.log(error)
     })

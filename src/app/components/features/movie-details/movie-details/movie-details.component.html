@@ -10,10 +10,10 @@
   <p class="overview">{{ movie.overview }}</p>
 
   <button *ngIf="(userHasAddedMovie$ | async) === false" class="add" mat-flat-button color="primary" (click)="addMovieToWatchlist(movie)">
-    ADD MOVIE TO WATCHLIST
+    ADD TO WATCHLIST
   </button>
   <button *ngIf="userHasAddedMovie$ | async" class="add" mat-flat-button color="primary" (click)="removeMovieFromWatchlist(movie)">
-    REMOVE MOVIE FROM WATCHLIST
+    REMOVE FROM WATCHLIST
   </button>
 
   <mat-chip-set class="genres">

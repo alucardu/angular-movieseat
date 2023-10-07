@@ -93,20 +93,101 @@ const movieResolvers = {
 
     addMovieToUser: async(_, args, {req, res}) => {
       const userId = validateAccessToken(req.cookies.authToken).user.id
+
+      const existingRelation = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+        select: {
+          movies: {
+            where: {
+              tmdb_id: args.movie.tmdb_id || args.movie.id
+            },
+          },
+        },
+      });
+
+      if (existingRelation.movies.length > 0) {
+        throw new Error('U_10')
+      }
+
+      const moviesWithDetails = await getMovieDetails(args.movie.id)
+      const releaseDatesAndCertifications = await filterReleaseDatesAndCertifications(args.movie.id)
+      const clips = filterClips(moviesWithDetails.videos.results)
+      const genres = moviesWithDetails.genres
+      const credits = await getMovieCredits(args.movie.id)
+
+      const combinedCredits = [...credits.castCredit, ...credits.crewCredit];
+
       try {
-        await prisma.user.update({
-          where: { id: userId },
-          data: {
-            movies: {
-              connect: {
-                tmdb_id: args.movie.tmdb_id
+        const movie = await prisma.$transaction(async (prisma) => {
+          await prisma.person.createMany({
+            data: credits.castPerson,
+            skipDuplicates: true,
+          });
+
+          await prisma.person.createMany({
+            data: credits.crewPerson,
+            skipDuplicates: true,
+          });
+
+          await prisma.user.update({
+            where: { id: userId },
+            data: {
+              movies: {
+                connectOrCreate: {
+                  where: {
+                    tmdb_id: args.movie.tmdb_id || args.movie.id
+                  },
+                  create: {
+                    title: args.movie.title,
+                    original_title: args.movie.original_title,
+                    tmdb_id: args.movie.tmdb_id || args.movie.id,
+                    backdrop_path: args.movie.backdrop_path,
+                    certification: releaseDatesAndCertifications.certification,
+                    overview: args.movie.overview,
+                    poster_path: args.movie.poster_path,
+                    release_date: args.movie.release_date,
+                    runtime: moviesWithDetails.runtime,
+                    tagline: moviesWithDetails.tagline,
+                    vote_average: args.movie.vote_average,
+                    clips: {
+                      create: clips,
+                    },
+                    genres: {
+                      connectOrCreate: genres.map((genre) => ({
+                        where: { name: genre.name },
+                        create: { name: genre.name },
+                      })),
+                    },
+                    persons: {
+                      connectOrCreate: combinedCredits.map((credit) => ({
+                        where: { id: credit.tmdb_id },
+                        create: {
+                          credit_id: credit.credit_id,
+                          department: credit.department,
+                          job: credit.job,
+                          cast_id: credit.cast_id,
+                          character: credit.character,
+                          order: credit.order,
+                          person: {
+                            connect: {
+                              tmdb_id: credit.tmdb_id,
+                            },
+                          },
+                        },
+                      })),
+                    },
+                  },
+                }
               }
             }
-          }
-        })
+          })
 
-        const movie = await prisma.movie.findFirst({
-          where: {tmdb_id: args.movie.tmdb_id}
+          return prisma.movie.findFirst({
+            where: {tmdb_id: args.movie.tmdb_id || args.movie.id }
+          })
+
         })
 
         return {
@@ -130,14 +211,16 @@ const movieResolvers = {
           data: {
             movies: {
               disconnect: {
-                tmdb_id: args.movie.tmdb_id
+                tmdb_id: args.movie.tmdb_id || args.movie.id
               }
             }
           }
         })
 
         const movie = await prisma.movie.findFirst({
-          where: {tmdb_id: args.movie.tmdb_id}
+          where: {
+            tmdb_id: args.movie.tmdb_id || args.movie.id
+          }
         })
 
         return {

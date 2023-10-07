@@ -64,7 +64,10 @@ export class SnackbBarService {
             return `${data.title} has been added to your watchlist.`
 
           case 'U_09':
-            return `${data.title} has been removed to your watchlist.`
+            return `${data.title} has been removed from your watchlist.`
+
+          case 'U_10':
+            return `You have already added this movie to your watchlist.`
 
           default:
             return '';
