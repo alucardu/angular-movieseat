@@ -1,5 +1,15 @@
 :host {
   display: flex;
+  flex-direction: column;
+}
+
+.follow-btn {
+  width: 100%;
+}
+
+.watchlist-container {
+  margin-top: 8px;
+  display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px
 }

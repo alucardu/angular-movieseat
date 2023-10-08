@@ -17,6 +17,9 @@ export class MovieDetailsService {
   private movieSubject$ = new Subject<IMovie>;
   public movie$ = this.movieSubject$.asObservable();
 
+  private movieWatchlistUsernameSubject$ = new Subject<string>()
+  public movieWatchlistUsername$ = this.movieWatchlistUsernameSubject$.asObservable();
+
   private movieWatchlistSubject$ = new BehaviorSubject<IMovie[]>([])
   public movieWatchlist$ = this.movieWatchlistSubject$.asObservable();
 
@@ -64,16 +67,20 @@ export class MovieDetailsService {
     }
 
     this.userHasAddedMovieSubject$.next(this.movieWatchlistSubject$.value.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id))
-
   }
 
-  public getWatchlistUser(): void {
+  public getWatchlistUser(userId: number, type?: string): void {
     this.apollo.query<GetWatchlistUser>({
       query: GET_WATCHLIST_USER,
+      variables: {
+        id: userId,
+        type: type
+      },
       fetchPolicy: 'no-cache'
     }).subscribe({
       next: ({data}) => {
-        this.movieWatchlistSubject$.next(data.getWatchlistUser.data)
+        this.movieWatchlistSubject$.next(data.getWatchlistUser.data.movies);
+        this.movieWatchlistUsernameSubject$.next(data.getWatchlistUser.data.username);
       },
       error: (error) => console.log(error)
     })

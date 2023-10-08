@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ApolloQueryResult } from '@apollo/client/core/types';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { Observable } from 'rxjs';
+import { IMovie } from 'src/app/mock/watchlist.json';
 
 import { CREATE_USER } from 'src/operations/userOperations/mutations';
 import { CONFIRM_USER } from 'src/operations/userOperations/queries';
@@ -13,6 +14,7 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
+  movies: IMovie[]
 }
 
 @Injectable({

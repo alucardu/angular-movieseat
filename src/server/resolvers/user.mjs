@@ -89,6 +89,44 @@ const userResolvers = {
   },
 
   Query: {
+    getUsers: async(_, args) => {
+      try {
+        const users = await prisma.user.findMany({
+          where: {
+            username: {
+              contains: args.query
+            }
+          }
+        });
+
+        return {
+          data: users,
+          response: {
+            type: 'user',
+            code: 'U_12'
+          }
+        }
+      } catch(e) {
+        throw new Error(e)
+      }
+    },
+
+    getAllUsers: async(_, args) => {
+      try {
+        const users = await prisma.user.findMany();
+
+        return {
+          data: users,
+          response: {
+            type: 'user',
+            code: 'U_11'
+          }
+        }
+      } catch(e) {
+        throw new Error(e)
+      }
+    },
+
     authenticateByCookie: async (_, args, {req, res}) => {
       if (!req.cookies.authToken) {
         return {

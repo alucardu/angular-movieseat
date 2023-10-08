@@ -11,6 +11,11 @@ type ReturnObjectUser = {
   response: IResponse,
 }
 
+type ReturnObjectUsers = {
+  data: [IUser],
+  response: IResponse,
+}
+
 // MUTATIONS
 export type CreateUser = {
   createUser: ReturnObjectUser
@@ -27,6 +32,15 @@ export type LoginUser = {
 export type AuthenticateByCookie = {
   authenticateByCookie: ReturnObjectUser
 }
+
+export type GetUsers = {
+  getUsers: ReturnObjectUsers
+}
+
+export type GetAllUsers = {
+  getAllUsers: ReturnObjectUsers
+}
+
 
 // QUERIES
 export type ConfirmUser = {

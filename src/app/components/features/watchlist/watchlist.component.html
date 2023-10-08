@@ -1,1 +1,4 @@
-<app-movie-display [movie]="movie" *ngFor="let movie of movieWatchlist$ | async"></app-movie-display>
+<button mat-flat-button color="primary" *ngIf="showFollowBtn" class="follow-btn" (click)="followUser()">FOLLOW {{ movieWatchlistUsername$ | async }}</button>
+<div class="watchlist-container">
+  <app-movie-display [movie]="movie" *ngFor="let movie of movieWatchlist$ | async"></app-movie-display>
+</div>

@@ -11,7 +11,7 @@ import {
 const animationTime = 225
 
 export const routeAnimations = trigger('routeAnimations', [
-  transition('watchList => slideLeft', [
+  transition('* => slideLeft', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -29,7 +29,7 @@ export const routeAnimations = trigger('routeAnimations', [
     ]),
   ]),
 
-  transition('slideLeft => watchList', [
+  transition('slideLeft => *', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({

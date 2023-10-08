@@ -7,6 +7,11 @@ const userTypeDefs = gql`
     response: Response
   }
 
+  type ReturnObjectUsers {
+    data: [User],
+    response: Response
+  }
+
   type Response {
     type: String
     code: String,
@@ -16,6 +21,7 @@ const userTypeDefs = gql`
     id: ID
     username: String
     email: String
+    movies: [Movie]
   }
 
   type Mutation {
@@ -42,9 +48,13 @@ const userTypeDefs = gql`
   }
 
   type Query {
-    getUser(
-      username: String!
-    ): User
+    getAllUsers: ReturnObjectUsers
+  }
+
+  type Query {
+    getUsers(
+      query: String!
+    ): ReturnObjectUsers
   }
 
   type Query {
