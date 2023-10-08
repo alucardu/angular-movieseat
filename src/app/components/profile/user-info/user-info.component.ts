@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
+import { AuthService } from '../../authentication/auth.service';
 
 @Component({
   selector: 'app-user-info',
@@ -11,6 +12,7 @@ import { MaterialModule } from 'src/app/material.module';
   imports: [CommonModule, MaterialModule]
 })
 export class UserInfoComponent implements OnInit {
+  private authService = inject(AuthService)
   public profileForm!: FormGroup;
 
   public constructor(private formBuilder: FormBuilder) { }
@@ -21,7 +23,7 @@ export class UserInfoComponent implements OnInit {
 
   private setProfileForm(): void {
     this.profileForm = this.formBuilder.nonNullable.group({
-      username: [{ value: 'alucardu', disabled: true }],
+      username: [{ value: this.authService.getCurrentUser().username, disabled: true }],
     });
   }
 }

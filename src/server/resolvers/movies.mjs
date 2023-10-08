@@ -245,8 +245,9 @@ const movieResolvers = {
             id: args.type === 'internal' ? userId : Number(args.id)
           },
           include: {
-            movies: true
-          }
+            movies: true,
+            friendOf: true,
+          },
         })
 
         return {

@@ -31,6 +31,20 @@ const AUTHENTICATE_BY_COOKIE = gql`
         id,
         username,
         email,
+        friends {
+          id,
+          username
+        },
+        friendOf {
+          id,
+          username
+        },
+        movies {
+            tmdb_id,
+            original_title,
+            title,
+            poster_path,
+          }
       }
     }
   }
@@ -86,6 +100,12 @@ const GET_WATCHLIST_USER = gql`
         data {
           id,
           username,
+          friends {
+            id
+          }
+          friendOf {
+            id
+          }
           movies {
             tmdb_id,
             original_title,

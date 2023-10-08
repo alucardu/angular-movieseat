@@ -11,6 +11,62 @@ const prisma = new PrismaClient()
 
 const userResolvers = {
   Mutation: {
+    addFriend: async(_, args, {req, res}) => {
+      const userId = validateAccessToken(req.cookies.authToken).user.id
+
+      if (userId === Number(args.id)) {
+        throw new Error('U_14')
+      }
+
+      const user = await prisma.user.update({
+        where: { id: userId },
+        data: {
+          friends: {
+            connect: { id: Number(args.id) },
+          },
+        },
+        include: {
+          friends: true,
+          friendOf: true,
+          movies: true
+        }
+      });
+
+      return {
+        data: user,
+        response: {
+          type: 'user',
+          code: 'U_13',
+        }
+      }
+    },
+
+    removeFriend: async(_, args, {req, res}) => {
+      const userId = validateAccessToken(req.cookies.authToken).user.id
+
+      const user = await prisma.user.update({
+        where: { id: userId },
+        data: {
+          friends: {
+            disconnect: { id: Number(args.id) },
+          },
+        },
+        include: {
+          friends: true,
+          friendOf: true,
+          movies: true
+        }
+      });
+
+      return {
+        data: user,
+        response: {
+          type: 'user',
+          code: 'U_14',
+        }
+      }
+    },
+
     loginUser: async (_, args, {req, res}) => {
       try {
         const user = await prisma.user.findFirstOrThrow({
@@ -147,6 +203,11 @@ const userResolvers = {
         const user = await prisma.user.findFirstOrThrow({
           where: {
             id: userID
+          },
+          include: {
+            friendOf: true,
+            friends: true,
+            movies: true
           }
         })
 

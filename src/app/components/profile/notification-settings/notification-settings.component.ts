@@ -17,8 +17,8 @@ export class NotificationSettingsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.notificationSettingsForm = this.formBuilder.nonNullable.group({
-      friendAddsMovie: [{value: 'Friend adds movie', disabled: true}],
-      friendAddsMovieReview: [{value: 'Friend reviews movie', disabled: true}],
+      friendAddsMovie: [{value: 'Friends adds movie', disabled: true}],
+      friendAddsMovieReview: [{value: 'Friends reviews movie', disabled: true}],
       newMovieReleaseDate: [{value: 'New movie release date', disabled: true}],
       newMovieTrailer: [{value: 'New movie trailer', disabled: true}],
     })

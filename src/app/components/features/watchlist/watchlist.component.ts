@@ -6,6 +6,10 @@ import { MovieDetailsService } from '../movie-details/movie-details/movie-detail
 import { MaterialModule } from 'src/app/material.module';
 import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs';
+import { IUser } from '../../authentication/sign-up/sign-up.service';
+import { UserService } from '../../profile/search-user/user.service';
+import { AuthService } from '../../authentication/auth.service';
+import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
 
 @Component({
   selector: 'app-watchlist',
@@ -18,11 +22,17 @@ export class WatchlistComponent implements OnInit {
   private metaTitleService = inject(Title)
   private movieDetailService = inject(MovieDetailsService)
   private route = inject(ActivatedRoute)
+  private authService = inject(AuthService)
+  private userService = inject(UserService)
+  private snackBarService = inject(SnackbBarService)
 
   public movieWatchlist$ = this.movieDetailService.movieWatchlist$
-  public movieWatchlistUsername$ = this.movieDetailService.movieWatchlistUsername$
+  public movieWatchlistUser$ = this.movieDetailService.movieWatchlistUser$
+  public currentUser$ = this.authService.currentUser$;
 
-  public showFollowBtn = false;
+  public isFriend?: boolean;
+  public notCurrentUser?: boolean;
+  public watchlistUser!: IUser
 
   public ngOnInit(): void {
     this.metaTitleService.setTitle('Movieseat Watchlist')
@@ -31,12 +41,43 @@ export class WatchlistComponent implements OnInit {
       next: (data) => {
         const id = Number(data.get('id'))
         this.movieDetailService.getWatchlistUser(id, id ? 'external' : 'internal');
-        this.showFollowBtn = id ? true : false
       }
+    })
+
+    this.movieWatchlistUser$.pipe(first()).subscribe({
+      next: (data) => {
+        this.isFriend = data.friendOf.some((friend) => friend.id === this.authService.getCurrentUser().id)
+        this.notCurrentUser = data.id !== this.authService.getCurrentUser().id
+        this.watchlistUser = data
+      }
+    })
+
+  }
+
+  private setFriendState(): void {
+    this.isFriend = !this.isFriend;
+  }
+
+  public addFriend(user: IUser): void {
+    this.userService.addFriend(user).pipe(first()).subscribe({
+      next: ({data}) => {
+        this.authService.updateCurrentUser(data!.addFriend.data)
+        this.snackBarService.openSnackBar(data!.addFriend.response, SnackBarState.SUCCESS, data?.addFriend.data)
+        this.setFriendState();
+      },
+      error: (data) => console.log(data)
     })
   }
 
-  public followUser(): void {
-    console.log('user')
+  public removeFriend(user: IUser): void {
+
+    this.userService.removeFriend(user).pipe(first()).subscribe({
+      next: ({data}) => {
+        this.authService.updateCurrentUser(data!.removeFriend.data)
+        this.snackBarService.openSnackBar(data!.removeFriend.response, SnackBarState.SUCCESS, data?.removeFriend.data)
+        this.setFriendState();
+      },
+      error: (data) => console.log(data)
+    })
   }
 }

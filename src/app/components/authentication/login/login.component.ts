@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
@@ -22,6 +22,7 @@ export class LoginComponent {
   private authService = inject(AuthService)
   private snackBarService = inject(SnackbBarService)
   private router = inject(Router)
+  private cd = inject(ChangeDetectorRef)
 
   public authForm = new FormGroup({
     username: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(18)]),
@@ -34,9 +35,9 @@ export class LoginComponent {
       next: ({data}) => {
         if (!data) return
         const { response: response, data: userData } = data.loginUser;
-        this.authService.loginUser()
         this.router.navigate(['/watchlist'])
         this.snackBarService.openSnackBar(response, SnackBarState.SUCCESS, userData)
+        this.authService.loginUser(data.loginUser.data)
       },
       error: (data) => {
         const response: IResponse = {

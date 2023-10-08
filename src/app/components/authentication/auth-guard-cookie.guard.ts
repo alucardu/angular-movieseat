@@ -28,7 +28,7 @@ export const canLoginByCookie: CanActivateFn = () => {
       }
 
       if (data?.authenticateByCookie.response.code === 'U_03') {
-        authService.loginUser();
+        authService.loginUser(data.authenticateByCookie.data);
         router.navigate(['/watchlist']);
         return false
       } else {

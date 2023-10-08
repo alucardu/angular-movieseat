@@ -22,6 +22,8 @@ const userTypeDefs = gql`
     username: String
     email: String
     movies: [Movie]
+    friends: [User]
+    friendOf: [User]
   }
 
   type Mutation {
@@ -40,6 +42,18 @@ const userTypeDefs = gql`
     loginUser(
       username: String!
       password: String!
+    ): ReturnObjectUser
+  }
+
+  type Mutation {
+    addFriend(
+      id: ID!
+    ): ReturnObjectUser
+  }
+
+  type Mutation {
+    removeFriend(
+      id: ID!
     ): ReturnObjectUser
   }
 

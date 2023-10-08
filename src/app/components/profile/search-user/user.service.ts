@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { Observable, Subject } from 'rxjs';
 import { IUser } from '../../authentication/sign-up/sign-up.service';
 import { GET_ALL_USERS, GET_USERS } from 'src/operations/userOperations/queries';
-import { GetAllUsers, GetUsers } from 'src/types/userTypes';
+import { AddFriend, GetAllUsers, GetUsers, RemoveFriend } from 'src/types/userTypes';
+import { ADD_FRIEND, REMOVE_FRIEND } from 'src/operations/userOperations/mutations';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,24 @@ export class UserService {
       query: GET_ALL_USERS,
     }).subscribe({
       next: ({data}) => this.allUsersSubject$.next(data.getAllUsers.data)
+    })
+  }
+
+  public addFriend(user: IUser): Observable<MutationResult<AddFriend>> {
+    return this.apollo.mutate<AddFriend>({
+      mutation: ADD_FRIEND,
+      variables: {
+        id: user.id
+      }
+    })
+  }
+
+  public removeFriend(user: IUser): Observable<MutationResult<RemoveFriend>> {
+    return this.apollo.mutate<RemoveFriend>({
+      mutation: REMOVE_FRIEND,
+      variables: {
+        id: user.id
+      }
     })
   }
 }

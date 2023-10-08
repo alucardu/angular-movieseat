@@ -29,6 +29,15 @@ export type LoginUser = {
   loginUser: ReturnObjectUser
 }
 
+export type AddFriend = {
+  addFriend: ReturnObjectUser
+}
+
+export type RemoveFriend = {
+  removeFriend: ReturnObjectUser
+}
+
+
 export type AuthenticateByCookie = {
   authenticateByCookie: ReturnObjectUser
 }

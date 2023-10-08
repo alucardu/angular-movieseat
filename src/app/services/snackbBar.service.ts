@@ -53,6 +53,12 @@ export class SnackbBarService {
           case 'U_05':
             return 'Your account has not yet been confirmed. Check your email!'
 
+          case 'U_13':
+            return `Added ${data?.username} to your friends!`
+
+          case 'U_14':
+            return `Removed ${data?.username} from your friends!`
+
           default:
             return '';
         }

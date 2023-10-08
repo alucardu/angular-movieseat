@@ -1,0 +1,12 @@
+<mat-card class="friendsContainer" *ngIf="(currentUser$ | async)?.friends?.length">
+  <mat-card-header>
+    <mat-card-title>Friends</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let friend of (currentUser$ | async)?.friends">
+        <a routerLink="/watchlist/{{ friend.id }}/{{ friend.username }}">{{ friend.username }}</a>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

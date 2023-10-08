@@ -6,6 +6,8 @@ import { GET_MOVIE, GET_WATCHLIST_USER } from 'src/operations/userOperations/que
 import { AddMovieToUser, GetMovie, GetWatchlistUser, RemoveMovieFromUser } from 'src/types/movieTypes';
 import { ApolloQueryResult } from '@apollo/client/core/types';
 import { ADD_MOVIE_TO_USER, REMOVE_MOVIE_FROM_USER } from 'src/operations/userOperations/mutations';
+import { IUser } from 'src/app/components/authentication/sign-up/sign-up.service';
+import { AuthService } from 'src/app/components/authentication/auth.service';
 
 
 @Injectable({
@@ -13,12 +15,13 @@ import { ADD_MOVIE_TO_USER, REMOVE_MOVIE_FROM_USER } from 'src/operations/userOp
 })
 export class MovieDetailsService {
   private apollo = inject(Apollo)
+  private authService = inject(AuthService)
 
   private movieSubject$ = new Subject<IMovie>;
   public movie$ = this.movieSubject$.asObservable();
 
-  private movieWatchlistUsernameSubject$ = new Subject<string>()
-  public movieWatchlistUsername$ = this.movieWatchlistUsernameSubject$.asObservable();
+  private movieWatchlistUserSubject$ = new Subject<IUser>()
+  public movieWatchlistUser$ = this.movieWatchlistUserSubject$.asObservable();
 
   private movieWatchlistSubject$ = new BehaviorSubject<IMovie[]>([])
   public movieWatchlist$ = this.movieWatchlistSubject$.asObservable();
@@ -80,7 +83,7 @@ export class MovieDetailsService {
     }).subscribe({
       next: ({data}) => {
         this.movieWatchlistSubject$.next(data.getWatchlistUser.data.movies);
-        this.movieWatchlistUsernameSubject$.next(data.getWatchlistUser.data.username);
+        this.movieWatchlistUserSubject$.next(data.getWatchlistUser.data);
       },
       error: (error) => console.log(error)
     })
@@ -98,6 +101,6 @@ export class MovieDetailsService {
   }
 
   public userHasAddedMovie(movie: IMovie): void {
-    this.userHasAddedMovieSubject$.next(this.movieWatchlistSubject$.value.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id || watchlistMovie.tmdb_id === movie.id))
+    this.userHasAddedMovieSubject$.next(this.authService.getCurrentUser().movies.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id || watchlistMovie.tmdb_id === movie.id))
   }
 }

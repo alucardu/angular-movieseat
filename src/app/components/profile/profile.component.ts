@@ -6,13 +6,14 @@ import { NotificationSettingsComponent } from './notification-settings/notificat
 import { MaterialModule } from 'src/app/material.module';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../authentication/auth.service';
+import { FriendsComponent } from './friends/friends.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
   standalone: true,
-  imports: [SearchUserComponent, ProfileMoviesComponent, UserInfoComponent, NotificationSettingsComponent, MaterialModule, RouterLink]
+  imports: [SearchUserComponent, ProfileMoviesComponent, UserInfoComponent, NotificationSettingsComponent, MaterialModule, RouterLink, FriendsComponent]
 })
 export class ProfileComponent {
   private authService = inject(AuthService)

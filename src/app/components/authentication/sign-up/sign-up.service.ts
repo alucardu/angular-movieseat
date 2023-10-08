@@ -15,6 +15,8 @@ export interface IUser {
   email: string;
   password: string;
   movies: IMovie[]
+  friends: IUser[]
+  friendOf: IUser[]
 }
 
 @Injectable({

@@ -22,6 +22,60 @@ const LOGIN_USER = gql`
   }
 `;
 
+const ADD_FRIEND = gql`
+  mutation addFriend(
+    $id: ID!
+  ) {
+    addFriend(
+      id: $id
+    ) {
+      response {
+        type,
+        code
+      }
+      data {
+        id,
+        username,
+        email,
+        friends {
+          id
+          username
+        },
+        friendOf {
+          id
+          username
+        }
+      }
+    }
+  }
+`;
+
+const REMOVE_FRIEND = gql`
+  mutation removeFriend(
+    $id: ID!
+  ) {
+    removeFriend(
+      id: $id
+    ) {
+      response {
+        type,
+        code
+      }
+      data {
+        id,
+        username,
+        email,
+        friends {
+          id
+        },
+        friendOf {
+          id
+        }
+      }
+    }
+  }
+`;
+
 const LOGOUT_USER = gql`
   mutation logoutUser {
     logoutUser
@@ -115,5 +169,5 @@ const REMOVE_MOVIE_FROM_USER = gql`
   }
 `
 
-export { CREATE_USER, LOGIN_USER, LOGOUT_USER, CREATE_MOVIE, ADD_MOVIE_TO_USER, REMOVE_MOVIE_FROM_USER };
+export { CREATE_USER, LOGIN_USER, LOGOUT_USER, CREATE_MOVIE, ADD_MOVIE_TO_USER, REMOVE_MOVIE_FROM_USER, ADD_FRIEND, REMOVE_FRIEND };
 

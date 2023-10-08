@@ -1,17 +1,21 @@
 import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, first, map } from 'rxjs';
 import { LOGIN_USER, LOGOUT_USER } from 'src/operations/userOperations/mutations';
 import { AUTHENTICATE_BY_COOKIE } from 'src/operations/userOperations/queries';
 import { AuthenticateByCookie, LoginUser, LogoutUser } from 'src/types/userTypes';
 import { CapacitorCookies } from '@capacitor/core';
+import { IUser } from './sign-up/sign-up.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apollo = inject(Apollo)
+
+  private currentUserSubject$ = new ReplaySubject<IUser>();
+  public currentUser$ = this.currentUserSubject$.asObservable();
 
   private userLoggedInStatusSubject$ = new BehaviorSubject<boolean>(false);
   public userLoggedInStatus$ = this.userLoggedInStatusSubject$.asObservable();
@@ -34,7 +38,8 @@ export class AuthService {
     })
   }
 
-  public loginUser(): void {
+  public loginUser(user: IUser): void {
+    this.currentUserSubject$.next(user)
     this.userLoggedInStatusSubject$.next(true);
 
     CapacitorCookies.setCookie({
@@ -56,6 +61,20 @@ export class AuthService {
       mutation: LOGOUT_USER,
       fetchPolicy: 'no-cache'
     })
+  }
+
+  public updateCurrentUser(user: IUser): void {
+    this.currentUserSubject$.next(user)
+  }
+
+  public getCurrentUser(): IUser {
+    let currentUser!: IUser
+
+    this.currentUserSubject$.pipe(first()).subscribe({
+      next: (user) => currentUser = user
+    })
+
+    return currentUser;
   }
 
   public checkLoginState(): Observable<void | boolean> {
