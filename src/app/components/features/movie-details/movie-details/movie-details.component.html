@@ -9,8 +9,12 @@
 
   <p class="overview">{{ movie.overview }}</p>
 
-  <button *ngIf="!movieIsAdded" class="add" mat-flat-button color="primary" (click)="addMovie()">ADD MOVIE TO WATCHLIST</button>
-  <button *ngIf="movieIsAdded" class="add" mat-flat-button color="primary" (click)="removeMovie()">REMOVE MOVIE FROM WATCHLIST</button>
+  <button *ngIf="(userHasAddedMovie$ | async) === false" class="add" mat-flat-button color="primary" (click)="addMovieToWatchlist(movie)">
+    ADD TO WATCHLIST
+  </button>
+  <button *ngIf="userHasAddedMovie$ | async" class="add" mat-flat-button color="primary" (click)="removeMovieFromWatchlist(movie)">
+    REMOVE FROM WATCHLIST
+  </button>
 
   <mat-chip-set class="genres">
     <mat-chip *ngFor="let genre of movie.genres">{{ genre.name }}</mat-chip>

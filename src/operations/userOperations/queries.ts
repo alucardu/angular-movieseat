@@ -52,6 +52,29 @@ const CONFIRM_USER = gql`
   }
 `
 
+const GET_WATCHLIST_USER = gql`
+  query {
+    getWatchlistUser {
+        data {
+          tmdb_id,
+          original_title,
+          overview,
+          tagline,
+          certification,
+          runtime,
+          poster_path,
+          release_date,
+          title,
+          vote_average,
+        }
+        response {
+          type,
+          code
+        }
+      }
+    }
+`
+
 const GET_MOVIE = gql`
   query GetMovie(
     $tmdb_id: ID!
@@ -129,4 +152,4 @@ const SEARCH_MOVIES = gql`
   }
 `
 
-export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES, GET_MOVIE  };
+export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES, GET_MOVIE, GET_WATCHLIST_USER  };

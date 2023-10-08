@@ -15,4 +15,4 @@
     </mat-list-item>
   </mat-list>
 </div>
-<img [src]="movie.poster_path" [routerLink]="['/movie/', movie.tmdb_id, stripTitle(movie.title)]" />
+<img [src]="'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/' + movie.poster_path" [routerLink]="['/movie/', movie.tmdb_id, stripTitle(movie.title)]" />

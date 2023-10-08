@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
-import { IMovie, watchlist } from 'src/app/mock/watchlist.json';
-import { GET_MOVIE } from 'src/operations/userOperations/queries';
-import { GetMovie } from 'src/types/movieTypes';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { IMovie } from 'src/app/mock/watchlist.json';
+import { GET_MOVIE, GET_WATCHLIST_USER } from 'src/operations/userOperations/queries';
+import { AddMovieToUser, GetMovie, GetWatchlistUser, RemoveMovieFromUser } from 'src/types/movieTypes';
 import { ApolloQueryResult } from '@apollo/client/core/types';
+import { ADD_MOVIE_TO_USER, REMOVE_MOVIE_FROM_USER } from 'src/operations/userOperations/mutations';
 
 
 @Injectable({
@@ -12,10 +13,15 @@ import { ApolloQueryResult } from '@apollo/client/core/types';
 })
 export class MovieDetailsService {
   private apollo = inject(Apollo)
-  private movies$ = watchlist;
 
   private movieSubject$ = new Subject<IMovie>;
   public movie$ = this.movieSubject$.asObservable();
+
+  private movieWatchlistSubject$ = new BehaviorSubject<IMovie[]>([])
+  public movieWatchlist$ = this.movieWatchlistSubject$.asObservable();
+
+  private userHasAddedMovieSubject$ = new BehaviorSubject<boolean>(false)
+  public userHasAddedMovie$ = this.userHasAddedMovieSubject$.asObservable();
 
   public setMovie(movie: IMovie): void {
     this.movieSubject$.next(movie);
@@ -30,6 +36,49 @@ export class MovieDetailsService {
     })
   }
 
+  public removeMovieFromWatchlist(movie: IMovie): Observable<MutationResult<RemoveMovieFromUser>> {
+    return this.apollo.mutate<RemoveMovieFromUser>({
+      mutation: REMOVE_MOVIE_FROM_USER,
+      variables: {
+        movie: movie
+      }
+    })
+  }
+
+  public addMovieToWatchlist(movie: IMovie): Observable<MutationResult<AddMovieToUser>> {
+    return this.apollo.mutate<AddMovieToUser>({
+      mutation: ADD_MOVIE_TO_USER,
+      variables: {
+        movie: movie
+      }
+    })
+  }
+
+  public updateWatchlistUser(movie: IMovie, action: string): void {
+    if (action === 'add') {
+      this.movieWatchlistSubject$.next([...this.movieWatchlistSubject$.value, movie])
+    }
+    if (action === 'remove') {
+      const updatedWatchlist = this.movieWatchlistSubject$.value.filter((watchlistMovie) => watchlistMovie.tmdb_id !== movie.tmdb_id)
+      this.movieWatchlistSubject$.next(updatedWatchlist)
+    }
+
+    this.userHasAddedMovieSubject$.next(this.movieWatchlistSubject$.value.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id))
+
+  }
+
+  public getWatchlistUser(): void {
+    this.apollo.query<GetWatchlistUser>({
+      query: GET_WATCHLIST_USER,
+      fetchPolicy: 'no-cache'
+    }).subscribe({
+      next: ({data}) => {
+        this.movieWatchlistSubject$.next(data.getWatchlistUser.data)
+      },
+      error: (error) => console.log(error)
+    })
+  }
+
   public getMovie(tmdb_id: number): void {
     this.apollo.query<GetMovie>({
       query: GET_MOVIE,
@@ -39,6 +88,9 @@ export class MovieDetailsService {
     }).subscribe({
       next: ({data}) => this.setMovie(data.getMovie.data)
     })
+  }
 
+  public userHasAddedMovie(movie: IMovie): void {
+    this.userHasAddedMovieSubject$.next(this.movieWatchlistSubject$.value.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id || watchlistMovie.tmdb_id === movie.id))
   }
 }

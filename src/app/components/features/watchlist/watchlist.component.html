@@ -1,1 +1,1 @@
-<app-movie-display [movie]="movie" *ngFor="let movie of watchlist"></app-movie-display>
+<app-movie-display [movie]="movie" *ngFor="let movie of movieWatchlist$ | async"></app-movie-display>
