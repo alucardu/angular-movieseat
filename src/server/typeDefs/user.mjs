@@ -7,6 +7,11 @@ const userTypeDefs = gql`
     response: Response
   }
 
+  type ReturnObjectUsers {
+    data: [User],
+    response: Response
+  }
+
   type Response {
     type: String
     code: String,
@@ -16,6 +21,9 @@ const userTypeDefs = gql`
     id: ID
     username: String
     email: String
+    movies: [Movie]
+    friends: [User]
+    friendOf: [User]
   }
 
   type Mutation {
@@ -37,14 +45,30 @@ const userTypeDefs = gql`
     ): ReturnObjectUser
   }
 
+  type Mutation {
+    addFriend(
+      id: ID!
+    ): ReturnObjectUser
+  }
+
+  type Mutation {
+    removeFriend(
+      id: ID!
+    ): ReturnObjectUser
+  }
+
   type Query {
     authenticateByCookie: ReturnObjectUser
   }
 
   type Query {
-    getUser(
-      username: String!
-    ): User
+    getAllUsers: ReturnObjectUsers
+  }
+
+  type Query {
+    getUsers(
+      query: String!
+    ): ReturnObjectUsers
   }
 
   type Query {

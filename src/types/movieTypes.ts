@@ -1,3 +1,4 @@
+import { IUser } from "src/app/components/authentication/sign-up/sign-up.service"
 import { IMovie } from "src/app/mock/watchlist.json"
 
 export interface IResponse {
@@ -14,6 +15,10 @@ type ReturnObjectMovie = {
 type ReturnObjectMovies = {
   data: [IMovie],
   response: IResponse,
+}
+
+type User = {
+  data: IUser
 }
 
 // MUTATIONS
@@ -39,5 +44,5 @@ export type GetMovie = {
 }
 
 export type GetWatchlistUser = {
-  getWatchlistUser: ReturnObjectMovies
+  getWatchlistUser: User
 }

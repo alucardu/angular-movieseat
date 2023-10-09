@@ -40,7 +40,7 @@ const routes: Routes = [
   {
     path: 'watchlist',
     canActivate: [canActivate],
-    loadComponent: () => import('./components/features/movie-dashboard/movie-dashboard/movie-dashboard.component').then(c => c.MovieDashboardComponent),
+    loadComponent: () => import('./components/features/watchlist/watchlist.component').then(c => c.WatchlistComponent),
     data: {
       animation: 'watchList'
     },
@@ -73,6 +73,11 @@ const routes: Routes = [
     data: {
       animation: 'slideRight'
     }
+  },
+  {
+    path: 'watchlist/:id/:username',
+    canActivate: [canActivate],
+    loadComponent: () => import('./components/features/watchlist/watchlist.component').then(c => c.WatchlistComponent)
   }
 ];
 

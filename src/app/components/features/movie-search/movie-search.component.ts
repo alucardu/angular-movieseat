@@ -35,6 +35,7 @@ export class MovieSearchComponent {
           this.searchQuery.markAsPristine()
           this.movieSearchService.setMovieSearchResults([])
           this.noResults = false;
+          return;
         }
 
         this.movieSearchService.getMovieSearchResults(query)?.subscribe({

@@ -1,14 +1,21 @@
 import { gql } from 'apollo-angular';
 
-const GET_USER = gql`
-  query GetUser(
-    $id: ID!
+const GET_USERS = gql`
+  query GetUsers(
+    $query: String!
   ) {
-    getUser(
-      id: $id
+    getUsers(
+      query: $query
     ) {
-      id
-      name
+      response {
+        type,
+        code
+      }
+      data {
+        id,
+        username,
+        email,
+      }
     }
   }
 `;
@@ -24,11 +31,40 @@ const AUTHENTICATE_BY_COOKIE = gql`
         id,
         username,
         email,
+        friends {
+          id,
+          username
+        },
+        friendOf {
+          id,
+          username
+        },
+        movies {
+            tmdb_id,
+            original_title,
+            title,
+            poster_path,
+          }
       }
     }
   }
 `;
 
+const GET_ALL_USERS = gql`
+  query {
+    getAllUsers {
+      response {
+        type,
+        code
+      }
+      data {
+        id,
+        username,
+        email,
+      }
+    }
+  }
+`;
 
 const CONFIRM_USER = gql`
   query ConfirmUser(
@@ -53,19 +89,29 @@ const CONFIRM_USER = gql`
 `
 
 const GET_WATCHLIST_USER = gql`
-  query {
-    getWatchlistUser {
+  query GetWatchlistUser(
+    $id: ID!
+    $type: String!
+  ) {
+    getWatchlistUser(
+      id: $id
+      type: $type
+    ) {
         data {
-          tmdb_id,
-          original_title,
-          overview,
-          tagline,
-          certification,
-          runtime,
-          poster_path,
-          release_date,
-          title,
-          vote_average,
+          id,
+          username,
+          friends {
+            id
+          }
+          friendOf {
+            id
+          }
+          movies {
+            tmdb_id,
+            original_title,
+            title,
+            poster_path,
+          }
         }
         response {
           type,
@@ -152,4 +198,4 @@ const SEARCH_MOVIES = gql`
   }
 `
 
-export { GET_USER, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES, GET_MOVIE, GET_WATCHLIST_USER  };
+export { GET_ALL_USERS, GET_USERS, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES, GET_MOVIE, GET_WATCHLIST_USER  };

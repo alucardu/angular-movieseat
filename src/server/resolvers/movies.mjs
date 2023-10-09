@@ -242,22 +242,28 @@ const movieResolvers = {
       try {
         const user = await prisma.user.findUniqueOrThrow({
           where: {
-            id: userId
+            id: args.type === 'internal' ? userId : Number(args.id)
           },
           include: {
-            movies: true
-          }
+            movies: true,
+            friendOf: true,
+          },
         })
+
         return {
-          data: user.movies,
+          data: user,
           response: {
             type: 'user',
             code: 'U_07'
           }
         }
       } catch(e) {
-        console.log(e)
-        throw(e)
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          throw new Error(e.code)
+        } else {
+          console.log(e)
+          throw e
+        }
       }
     },
 

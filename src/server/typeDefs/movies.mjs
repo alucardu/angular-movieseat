@@ -12,6 +12,11 @@ type ReturnObjectMovie {
     response: Response
   }
 
+  type ReturnUserObject {
+    data: User,
+    response: Response
+  }
+
   type Response {
     type: String
     code: String,
@@ -124,7 +129,10 @@ type ReturnObjectMovie {
   }
 
   type Query {
-    getWatchlistUser: ReturnObjectMovies
+    getWatchlistUser(
+      id: ID!
+      type: String
+    ): ReturnObjectUser
   }
 
   type Query {

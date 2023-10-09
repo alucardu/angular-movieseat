@@ -1,1 +1,11 @@
-<app-movie-display [movie]="movie" *ngFor="let movie of movieWatchlist$ | async"></app-movie-display>
+<div *ngIf="notCurrentUser">
+  <button mat-flat-button color="primary" *ngIf="!isFriend" class="follow-btn" (click)="addFriend(watchlistUser)">FOLLOW {{ watchlistUser.username }}</button>
+
+  <button mat-flat-button color="primary" *ngIf="isFriend" class="follow-btn" (click)="removeFriend(watchlistUser)">
+    UNFOLLOW {{ watchlistUser.username }}
+  </button>
+</div>
+
+<div class="watchlist-container">
+  <app-movie-display [movie]="movie" *ngFor="let movie of movieWatchlist$ | async"></app-movie-display>
+</div>
