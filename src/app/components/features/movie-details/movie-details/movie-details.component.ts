@@ -13,6 +13,8 @@ import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.serv
 import { first } from 'rxjs';
 import { MovieDetailsService } from './movie-details.service';
 import { IMovie, IPerson } from 'src/app/mock/watchlist.json';
+import { NotificationService } from 'src/app/components/notifications/notification.service';
+import { AuthService } from 'src/app/components/authentication/auth.service';
 
 @Component({
   templateUrl: './movie-details.component.html',
@@ -26,6 +28,8 @@ export class MovieDetailsComponent implements OnInit {
   private metaTitleService = inject(Title)
   private route = inject(ActivatedRoute)
   private movieService = inject(MovieDetailsService)
+  private notificationService = inject(NotificationService)
+  private authService = inject(AuthService)
 
   public movie$ = this.movieService.movie$;
   public userHasAddedMovie$ = this.movieService.userHasAddedMovie$
@@ -61,6 +65,7 @@ export class MovieDetailsComponent implements OnInit {
         if (data) {
           this.movieService.updateWatchlistUser(data.addMovieToUser.data, 'add')
           this.snackBarService.openSnackBar(data.addMovieToUser.response, SnackBarState.SUCCESS, data.addMovieToUser.data);
+          this.notificationService.createNotification('movie', 'N_01', data.addMovieToUser.data, this.authService.getCurrentUser() )
         }
       },
       error: (error) => console.log(error),

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
 import { NotificationComponent } from './notification/notification.component';
 import { NotificationService } from './notification.service';
@@ -11,10 +11,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, MaterialModule, NotificationComponent],
 })
-export class NotificationsComponent {
+export class NotificationsComponent implements OnInit {
   private notificationService = inject(NotificationService)
 
   public notifications$ = this.notificationService.notifications$
+
+  public ngOnInit(): void {
+    this.notificationService.getAllNotifications();
+  }
 
   public markAllNotificationsRead(): void {
     this.notificationService.markNotificationsAsRead()

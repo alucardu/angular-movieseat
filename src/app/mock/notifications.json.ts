@@ -1,23 +1,57 @@
-interface INotification {
-  title: string,
-  content: string,
+import { IUser } from "../components/authentication/sign-up/sign-up.service"
+import { IMovie } from "./watchlist.json"
+
+export interface INotification {
   read: boolean,
+  code: string,
+  type: string,
+  receiver?: IUser,
+  performer: IUser,
+  movie?: IMovie
 }
 
 export const notifications: INotification[] = [
   {
-    title: 'Alucardu added Oppenheimer(2023) to their watchlist',
-    content: 'Check out the move details here',
-    read: false
+    code: 'N_01',
+    read: false,
+    type: '',
+    movie: {
+      backdrop_path: '',
+      certification: '',
+      clips: [],
+      directors: [],
+      genres: [],
+      id: 1,
+      original_title: '',
+      overview: '',
+      persons: [],
+      poster_path: '',
+      release_date: '',
+      release_year: '',
+      runtime: '0',
+      tagline: '',
+      title: '',
+      tmdb_id: 1,
+      vote_average: 1,
+      writers: []
+    },
+    receiver: {
+      email: '',
+      friendOf: [],
+      friends: [],
+      id: '1',
+      movies: [],
+      password: '',
+      username: '',
+    },
+    performer: {
+      email: '',
+      friendOf: [],
+      friends: [],
+      id: '1',
+      movies: [],
+      password: '',
+      username: '',
+    }
   },
-  {
-    title: 'Alucardu reviewed Oppenheimer(2023)',
-    content: 'Read the review here',
-    read: false
-  },
-  {
-    title: 'Oppenheimer(2023) has a new release date',
-    content: 'Oppenheimer will be release in theater on 23 november 2023',
-    read: false
-  }
 ]
