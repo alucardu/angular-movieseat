@@ -193,9 +193,10 @@ const userResolvers = {
         }
       }
 
-      console.log(req.cookies.authToken)
 
       const oldToken = validateAccessToken(req.cookies.authToken)
+
+      console.log(oldToken)
 
       const tokens = setTokens({ id: oldToken.user.id})
       res.cookie('authToken', tokens.accessToken, { maxAge: 24 * 60 * 60 * 1000 * 7, httpOnly: true, secure: true, sameSite: 'none' });
