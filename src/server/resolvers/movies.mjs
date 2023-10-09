@@ -239,6 +239,15 @@ const movieResolvers = {
 
   Query: {
     getWatchlistUser: async(_, args, {req, res}) => {
+      if (!req.cookies.authToken) {
+        return {
+          response: {
+            type: 'user',
+            code: 'U_05',
+          }
+        }
+      }
+
       const userId = validateAccessToken(req.cookies.authToken).user.id
       try {
         const user = await prisma.user.findUniqueOrThrow({
