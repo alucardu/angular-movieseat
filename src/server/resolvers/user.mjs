@@ -193,6 +193,8 @@ const userResolvers = {
         }
       }
 
+      console.log(req.cookies.authToken)
+
       const oldToken = validateAccessToken(req.cookies.authToken)
 
       const tokens = setTokens({ id: oldToken.user.id})
