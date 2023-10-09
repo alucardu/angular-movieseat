@@ -248,8 +248,6 @@ const movieResolvers = {
         }
       }
 
-      console.log(1)
-
       const userId = validateAccessToken(req.cookies.authToken).user.id
 
       try {

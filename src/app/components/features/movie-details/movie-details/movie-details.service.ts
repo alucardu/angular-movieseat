@@ -88,8 +88,8 @@ export class MovieDetailsService {
       fetchPolicy: 'no-cache'
     }).subscribe({
       next: ({data}) => {
-        this.movieWatchlistSubject$.next(data.getWatchlistUser.data.movies);
-        this.movieWatchlistUserSubject$.next(data.getWatchlistUser.data);
+        this.movieWatchlistSubject$.next(data.getWatchlistUser.data?.movies);
+        this.movieWatchlistUserSubject$.next(data.getWatchlistUser?.data);
       },
       error: (error) => console.log(error)
     })
