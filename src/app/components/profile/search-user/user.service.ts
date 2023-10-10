@@ -15,7 +15,7 @@ export class UserService {
   private allUsersSubject$ = new Subject<IUser[]>()
   public allUsers$ = this.allUsersSubject$.asObservable();
 
-  private userSearchResultsSubject$ = new Subject<IUser[]>();
+  private userSearchResultsSubject$ = new Subject<IUser[] | null>();
   public userSearchResults$ = this.userSearchResultsSubject$.asObservable();
 
   public getUser(query: string): void {
@@ -26,8 +26,10 @@ export class UserService {
       }
     }).subscribe({
       next: ({data}) => {
-        if (data) {
+        if (data.getUsers.data.length > 0) {
           this.userSearchResultsSubject$.next(data.getUsers.data)
+        } else {
+          this.userSearchResultsSubject$.next(null)
         }
       },
       error: (data) => console.log(data)
@@ -58,5 +60,9 @@ export class UserService {
         id: user.id
       }
     })
+  }
+
+  public clearSearchResults(): void {
+    this.userSearchResultsSubject$.next(null)
   }
 }
