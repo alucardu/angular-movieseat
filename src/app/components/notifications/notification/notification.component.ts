@@ -27,7 +27,7 @@ export class NotificationComponent {
 
   public toggleOpened(index: number, notification: INotification): void {
     this.notificationService.setOpenedNotificationIndex(index)
-    this.notificationService.markNotificationAsRead(index, notification);
+    if (!notification.read) this.notificationService.markNotificationAsRead(index, notification);
   }
 
   public stripTitle(title: string): string {
