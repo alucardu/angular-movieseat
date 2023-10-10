@@ -15,6 +15,7 @@ export class NotificationsComponent {
   private notificationService = inject(NotificationService)
 
   public notifications$ = this.notificationService.notifications$
+  public notificationAmount$ = this.notificationService.notificationAmount$
 
   public markAllNotificationsRead(): void {
     this.notificationService.markNotificationsAsRead()

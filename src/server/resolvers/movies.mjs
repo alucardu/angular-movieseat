@@ -256,7 +256,11 @@ const movieResolvers = {
             id: args.type === 'internal' ? userId : Number(args.id)
           },
           include: {
-            movies: true,
+            movies: {
+              orderBy: {
+                release_date: 'asc'
+              }
+            },
             friendOf: true,
           },
         })
