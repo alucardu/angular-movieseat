@@ -9,6 +9,8 @@ import { IMovie } from 'src/app/mock/watchlist.json';
 import { MovieDetailsService } from '../../movie-details/movie-details/movie-details.service';
 import { first } from 'rxjs';
 import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
+import { NotificationService } from 'src/app/components/notifications/notification.service';
+import { AuthService } from 'src/app/components/authentication/auth.service';
 
 @Component({
   selector: 'app-movie-search-result',
@@ -23,6 +25,8 @@ export class MovieSearchResultComponent {
   private movieDetailService = inject(MovieDetailsService)
   private snackBarService = inject(SnackbBarService)
   private router = inject(Router)
+  private notificationService = inject(NotificationService)
+  private authService = inject(AuthService)
 
   @Input() public searchResult!: IMovie
   @Input() public index!: number
@@ -75,6 +79,7 @@ export class MovieSearchResultComponent {
         if (data) {
           this.movieDetailService.updateWatchlistUser(data.addMovieToUser.data, 'add')
           this.snackBarService.openSnackBar(data.addMovieToUser.response, SnackBarState.SUCCESS, data.addMovieToUser.data);
+          this.notificationService.createNotification('movie', 'N_01', data.addMovieToUser.data, this.authService.getCurrentUser() )
         }
       },
       error: (error) => this.snackBarService.openSnackBar({code: error.message, type: 'movie'}, SnackBarState.ERROR)

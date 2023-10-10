@@ -111,11 +111,12 @@ const movieResolvers = {
         throw new Error('U_10')
       }
 
-      const moviesWithDetails = await getMovieDetails(args.movie.id)
-      const releaseDatesAndCertifications = await filterReleaseDatesAndCertifications(args.movie.id)
+      const movieId = args.movie.tmdb_id || args.movie.id
+      const moviesWithDetails = await getMovieDetails(movieId)
+      const releaseDatesAndCertifications = await filterReleaseDatesAndCertifications(movieId)
       const clips = filterClips(moviesWithDetails.videos.results)
       const genres = moviesWithDetails.genres
-      const credits = await getMovieCredits(args.movie.id)
+      const credits = await getMovieCredits(movieId)
 
       const combinedCredits = [...credits.castCredit, ...credits.crewCredit];
 
@@ -238,7 +239,17 @@ const movieResolvers = {
 
   Query: {
     getWatchlistUser: async(_, args, {req, res}) => {
+      if (!req.cookies.authToken) {
+        return {
+          response: {
+            type: 'user',
+            code: 'U_05',
+          }
+        }
+      }
+
       const userId = validateAccessToken(req.cookies.authToken).user.id
+
       try {
         const user = await prisma.user.findUniqueOrThrow({
           where: {

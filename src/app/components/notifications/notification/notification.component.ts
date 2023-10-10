@@ -4,12 +4,10 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { NotificationService } from '../notification.service';
 import { toggleContent } from 'src/app/animations';
+import { INotification } from 'src/app/mock/notifications.json';
+import { StripTitle } from 'src/app/utils/string-utils';
 
-export interface INotification {
-  title: string,
-  content: string,
-  read: boolean,
-}
+
 
 @Component({
   selector: 'app-notification',
@@ -20,15 +18,19 @@ export interface INotification {
   animations: [toggleContent]
 })
 export class NotificationComponent {
+  private notificationService = inject(NotificationService)
+
   @Input() public notification!: INotification
   @Input() public index!: number;
-
-  private notificationService = inject(NotificationService)
 
   public notificationOpenedIndex$ = this.notificationService.notificationOpenedIndex$
 
   public toggleOpened(index: number): void {
     this.notificationService.setOpenedNotificationIndex(index)
     this.notificationService.markNotificationAsRead(index);
+  }
+
+  public stripTitle(title: string): string {
+    return StripTitle(title)
   }
 }

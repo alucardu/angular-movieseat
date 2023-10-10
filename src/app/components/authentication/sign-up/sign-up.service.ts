@@ -13,7 +13,7 @@ export interface IUser {
   id: string;
   username: string;
   email: string;
-  password: string;
+  password?: string;
   movies: IMovie[]
   friends: IUser[]
   friendOf: IUser[]

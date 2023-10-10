@@ -1,12 +1,19 @@
 <mat-card [ngClass]="{ read: notification.read }">
-  <mat-card-header (click)="toggleOpened(index)">
-    <mat-card-title>
-      {{ notification.title }}
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content
-    [ngClass]="{ opened: (notificationOpenedIndex$ | async) === index }"
-    [@toggleContent]="(notificationOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
-    <a [routerLink]="['/movie/1/moonrise-kingdom']">{{ notification.content }}</a>
-  </mat-card-content>
+  <ng-container [ngSwitch]="notification.code">
+    <div *ngSwitchCase="'N_01'">
+      <mat-card-header (click)="toggleOpened(index)">
+        <mat-card-title>
+          <span *ngIf="notification.movie">
+            {{ notification.performer.username }} added {{ notification.movie.title }} ({{ notification.movie.release_date | date : 'yyyy' }}) to their
+            watchlist.
+          </span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content
+        [ngClass]="{ opened: (notificationOpenedIndex$ | async) === index }"
+        [@toggleContent]="(notificationOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
+        <a [routerLink]="['/movie', notification.movie?.tmdb_id, this.stripTitle(notification.movie!.title)]">Check out the movie details</a>
+      </mat-card-content>
+    </div>
+  </ng-container>
 </mat-card>

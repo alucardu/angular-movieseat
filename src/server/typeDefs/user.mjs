@@ -26,6 +26,15 @@ const userTypeDefs = gql`
     friendOf: [User]
   }
 
+  input UserInput {
+    id: ID
+    username: String
+    email: String
+    movies: [MovieInput]
+    friends: [UserInput]
+    friendOf: [UserInput]
+  }
+
   type Mutation {
     createUser(
       username: String!,
