@@ -106,9 +106,6 @@ const notificationResolvers = {
           }
         })
 
-        console.log(user.notifications)
-
-
         return {
           data: user.notifications,
           response: {
