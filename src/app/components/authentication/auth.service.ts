@@ -7,12 +7,14 @@ import { AUTHENTICATE_BY_COOKIE } from 'src/operations/userOperations/queries';
 import { AuthenticateByCookie, LoginUser, LogoutUser } from 'src/types/userTypes';
 import { CapacitorCookies } from '@capacitor/core';
 import { IUser } from './sign-up/sign-up.service';
+import { NotificationService } from '../notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apollo = inject(Apollo)
+  private notificationService = inject(NotificationService)
 
   private currentUserSubject$ = new BehaviorSubject<IUser | null>(null);
   public currentUser$ = this.currentUserSubject$.asObservable();
@@ -41,6 +43,7 @@ export class AuthService {
   public loginUser(user: IUser): void {
     this.currentUserSubject$.next(user)
     this.userLoggedInStatusSubject$.next(true);
+    this.notificationService.getAllNotifications();
 
     CapacitorCookies.setCookie({
       url: 'https://moviese.at',

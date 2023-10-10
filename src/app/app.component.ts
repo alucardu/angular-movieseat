@@ -3,7 +3,6 @@ import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { DeviceService } from './services/device.service';
-import { NotificationService } from './components/notifications/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +15,6 @@ export class AppComponent implements OnInit {
   private zone = inject(NgZone)
   private metaTagService = inject(Meta)
   private metaTitleService = inject(Title)
-  private notificationService = inject(NotificationService)
 
   public ngOnInit(): void {
     this.deviceService.detectDevice();
@@ -24,8 +22,6 @@ export class AppComponent implements OnInit {
 
     this.metaTitleService.setTitle('Movieseat')
     this.metaTagService.addTag({name: 'keywords', content: 'Movieseat, Watchlist, Movies'})
-
-    this.notificationService.getAllNotifications();
   }
 
   private initializeApp():void {
