@@ -17,6 +17,14 @@ const LOGIN_USER = gql`
         id,
         username,
         email,
+        friends {
+          id,
+          username
+        },
+        friendOf {
+          id,
+          username
+        },
       }
     }
   }
