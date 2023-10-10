@@ -73,6 +73,11 @@ const userResolvers = {
           where: {
             username: String(args.username),
           },
+          include: {
+            friendOf: true,
+            friends: true,
+            movies: true
+          }
         });
 
         if (user.confirmation_code.length > 0) throw new Error('U_05')
