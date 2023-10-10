@@ -30,7 +30,7 @@ export class MovieSearchComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.movieSearchService.setMovieSearchResults([])
-        this.movieSearchService.setMovieSearchOpenedIndex(0)
+        this.movieSearchService.setMovieSearchOpenedIndex(-1)
       }
     });
 
