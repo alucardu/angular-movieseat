@@ -46,6 +46,7 @@ export class WatchlistComponent implements OnInit {
 
     this.movieWatchlistUser$.pipe(first()).subscribe({
       next: (data) => {
+        if (!data) return
         this.isFriend = data.friendOf.some((friend) => friend.id === this.authService.getCurrentUser().id)
         this.notCurrentUser = data.id !== this.authService.getCurrentUser().id
         this.watchlistUser = data
