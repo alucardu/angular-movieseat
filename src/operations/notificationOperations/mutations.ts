@@ -15,6 +15,36 @@ const CREATE_NOTIFICATION = gql`
   }
 `;
 
+const MARK_NOTIFICATION_AS_READ = gql`
+  mutation markNotificationAsRead(
+    $notification: NotificationInput
+  ) {
+    markNotificationAsRead(
+      notification: $notification
+    ) {
+      response {
+        type,
+        code
+      }
+    }
+  }
+`;
+
+const MARK_ALL_NOTIFICATION_AS_READ = gql`
+  mutation markAllNotificationsAsRead(
+    $notification: NotificationInput
+  ) {
+    markAllNotificationsAsRead(
+      notification: $notification
+    ) {
+      response {
+        type,
+        code
+      }
+    }
+  }
+`;
+
 const GET_ALL_NOTIFICATIONS = gql`
   query {
     getAllNotifications {
@@ -23,9 +53,11 @@ const GET_ALL_NOTIFICATIONS = gql`
         code
       }
       data {
+        id
         code
         read
         type
+        createdAt
         movie {
           id
           title
@@ -43,5 +75,5 @@ const GET_ALL_NOTIFICATIONS = gql`
 
 
 
-export {CREATE_NOTIFICATION, GET_ALL_NOTIFICATIONS };
+export {CREATE_NOTIFICATION, GET_ALL_NOTIFICATIONS, MARK_NOTIFICATION_AS_READ, MARK_ALL_NOTIFICATION_AS_READ };
 

@@ -17,6 +17,12 @@ const LOGIN_USER = gql`
         id,
         username,
         email,
+        movies {
+          tmdb_id,
+          original_title,
+          title,
+          poster_path,
+        }
         friends {
           id,
           username

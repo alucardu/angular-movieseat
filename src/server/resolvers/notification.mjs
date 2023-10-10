@@ -1,7 +1,6 @@
 import { PrismaClient, Prisma  } from '@prisma/client'
 import { validateAccessToken } from '../jwt.mjs'
 
-
 const prisma = new PrismaClient()
 
 const notificationResolvers = {
@@ -38,6 +37,49 @@ const notificationResolvers = {
       } catch(e) {
         console.log(e)
       }
+    },
+
+    markAllNotificationsAsRead: async(_, args, {req, res}) => {
+      const userId = validateAccessToken(req.cookies.authToken).user.id
+
+      try {
+        const user = await prisma.user.update({
+          where: {
+            id: userId
+          },
+          data: {
+            notifications: {
+              updateMany: {
+                where: {
+                  read: false
+                },
+                data: {
+                  read: true
+                },
+              },
+            },
+          },
+          include: {
+            notifications: true,
+          },
+        })
+
+      } catch(e) {
+        console.log(e)
+      }
+    },
+
+    markNotificationAsRead: async(_, args) => {
+      try {
+        await prisma.notification.update({
+          where: {
+            id: Number(args.notification.id)
+          },
+          data: { read: true },
+        })
+      } catch(e) {
+        console.log(e)
+      }
     }
   },
 
@@ -57,8 +99,12 @@ const notificationResolvers = {
           include: {
             movie: true,
             performer: true
+          },
+          orderBy: {
+            createdAt: 'desc'
           }
         })
+
 
         return {
           data: notifications,

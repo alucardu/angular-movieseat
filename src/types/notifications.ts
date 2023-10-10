@@ -22,5 +22,13 @@ export type GetAllNotifications = {
 
 // MUTATIONS
 export type CreateNotification = {
-  createMovies: ReturnObjectNotification
+  createNotification: ReturnObjectNotification
+}
+
+export type MarkNotificationAsRead = {
+  markNotificationAsRead: ReturnObjectNotification
+}
+
+export type markAllNotificationsAsRead = {
+  markAllNotificationsAsRead: ReturnObjectNotifications
 }

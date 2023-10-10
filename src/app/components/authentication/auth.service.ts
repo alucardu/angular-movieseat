@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { BehaviorSubject, Observable, ReplaySubject, first, map } from 'rxjs';
+import { BehaviorSubject, Observable, first, map } from 'rxjs';
 import { LOGIN_USER, LOGOUT_USER } from 'src/operations/userOperations/mutations';
 import { AUTHENTICATE_BY_COOKIE } from 'src/operations/userOperations/queries';
 import { AuthenticateByCookie, LoginUser, LogoutUser } from 'src/types/userTypes';
@@ -14,7 +14,7 @@ import { IUser } from './sign-up/sign-up.service';
 export class AuthService {
   private apollo = inject(Apollo)
 
-  private currentUserSubject$ = new ReplaySubject<IUser>();
+  private currentUserSubject$ = new BehaviorSubject<IUser | null>(null);
   public currentUser$ = this.currentUserSubject$.asObservable();
 
   private userLoggedInStatusSubject$ = new BehaviorSubject<boolean>(false);
@@ -51,6 +51,7 @@ export class AuthService {
 
   public logoutUser(): Observable<MutationResult<LogoutUser>> {
     this.userLoggedInStatusSubject$.next(false);
+    this.currentUserSubject$.next(null)
 
     CapacitorCookies.deleteCookie({
       url: 'https://moviese.at',
@@ -71,7 +72,9 @@ export class AuthService {
     let currentUser!: IUser
 
     this.currentUserSubject$.pipe(first()).subscribe({
-      next: (user) => currentUser = user
+      next: (user) => {
+        if(user) currentUser = user
+      }
     })
 
     return currentUser;

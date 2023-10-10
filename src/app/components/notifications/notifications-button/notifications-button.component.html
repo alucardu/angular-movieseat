@@ -1,6 +1,6 @@
 <button mat-mini-fab color="primary" [routerLink]="['/notifications']" routerLinkActive="router-link-active">
   <div *ngIf="notificationAmount$ | async as amount; else noAmount">
-    <mat-icon [matBadge]="notificationAmount$ | async" matBadgeColor="warn" [matBadgeHidden]="amount === 0">notifications</mat-icon>
+    <mat-icon [matBadge]="amount" matBadgeColor="warn" [matBadgeHidden]="amount === 0">notifications</mat-icon>
   </div>
 </button>
 

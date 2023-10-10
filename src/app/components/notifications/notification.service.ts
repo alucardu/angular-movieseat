@@ -4,8 +4,8 @@ import { INotification, notifications } from 'src/app/mock/notifications.json';
 import { IMovie } from 'src/app/mock/watchlist.json';
 import { IUser } from '../authentication/sign-up/sign-up.service';
 import { Apollo } from 'apollo-angular';
-import { CreateNotification, GetAllNotifications } from 'src/types/notifications';
-import { CREATE_NOTIFICATION, GET_ALL_NOTIFICATIONS } from 'src/operations/notificationOperations/mutations';
+import { CreateNotification, GetAllNotifications, markAllNotificationsAsRead, MarkNotificationAsRead } from 'src/types/notifications';
+import { CREATE_NOTIFICATION, GET_ALL_NOTIFICATIONS, MARK_ALL_NOTIFICATION_AS_READ, MARK_NOTIFICATION_AS_READ } from 'src/operations/notificationOperations/mutations';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ import { CREATE_NOTIFICATION, GET_ALL_NOTIFICATIONS } from 'src/operations/notif
 export class NotificationService {
   private apollo = inject(Apollo)
 
-  private notificationAmountSubject$ = new BehaviorSubject<number>(3)
+  private notificationAmountSubject$ = new BehaviorSubject<number>(0)
   public notificationAmount$ = this.notificationAmountSubject$.asObservable()
 
   private notificationsSubject$ = new BehaviorSubject<INotification[]>(notifications)
@@ -27,12 +27,15 @@ export class NotificationService {
       query: GET_ALL_NOTIFICATIONS,
       fetchPolicy: 'no-cache'
     }).subscribe({
-      next: ({data}) => this.notificationsSubject$.next(data.getAllNotifications.data),
+      next: ({data}) => {
+        this.notificationsSubject$.next(data.getAllNotifications.data)
+        this.notificationAmountSubject$.next(data.getAllNotifications.data.filter((notification) => !notification.read).length)
+      },
       error: (data) => console.log(data)
     })
   }
 
-  public markNotificationAsRead(index: number): void {
+  public markNotificationAsRead(index: number, notification: INotification): void {
     const notifications = this.notificationsSubject$.value.slice();
     const updatedNotification = notifications.find((_notification, i) => index === i)
 
@@ -41,15 +44,23 @@ export class NotificationService {
       this.notificationAmountSubject$.next(this.notificationAmountSubject$.value - 1)
       this.notificationsSubject$.next(notifications)
     }
+
+    this.apollo.mutate<MarkNotificationAsRead>({
+      mutation: MARK_NOTIFICATION_AS_READ,
+      variables: {
+        notification: notification
+      }
+    }).subscribe()
   }
 
   public markNotificationsAsRead(): void {
-    const updatedNotifications = this.notificationsSubject$.value.map((notification) => {
-      return {...notification, read: true}
+    this.apollo.mutate<markAllNotificationsAsRead>({
+      mutation: MARK_ALL_NOTIFICATION_AS_READ
+    }).subscribe({
+      next: () => {
+        this.notificationAmountSubject$.next(0)
+      }
     })
-
-    this.notificationsSubject$.next(updatedNotifications)
-    this.notificationAmountSubject$.next(0)
   }
 
   public setOpenedNotificationIndex(index: number): void {
@@ -58,7 +69,7 @@ export class NotificationService {
 
   public createNotification(type: string, code: string, data: IMovie, performer: IUser): void {
     const notification: INotification = {
-      read: false, code: '', type: '',
+      id: 1, read: false, code: '', type: '', createdAt: new Date,
       performer: { id: '', username: '', email: '', movies: [], friends: [], friendOf: [] }
     }
 
@@ -88,12 +99,6 @@ export class NotificationService {
       variables: {
         notification: notification
       }
-    }).subscribe({
-      next: (data) => console.log(data),
-      error: (data) => console.log(data),
-    })
-
-
-    // send notification to server
+    }).subscribe()
   }
 }

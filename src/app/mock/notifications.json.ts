@@ -2,9 +2,11 @@ import { IUser } from "../components/authentication/sign-up/sign-up.service"
 import { IMovie } from "./watchlist.json"
 
 export interface INotification {
+  id: number,
   read: boolean,
   code: string,
   type: string,
+  createdAt: Date,
   receiver?: IUser,
   performer: IUser,
   movie?: IMovie
@@ -12,9 +14,11 @@ export interface INotification {
 
 export const notifications: INotification[] = [
   {
+    id: 1,
     code: 'N_01',
     read: false,
     type: '',
+    createdAt: new Date,
     movie: {
       backdrop_path: '',
       certification: '',
