@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
 import { MovieSearchResultComponent } from './movie-search-result/movie-search-result.component';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MovieSearchService } from './movie-search.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -19,6 +19,7 @@ import { fadeAnimation } from 'src/app/animations';
 })
 export class MovieSearchComponent {
   private movieSearchService = inject(MovieSearchService)
+  private router = inject(Router)
 
   public noResults = false;
   public showSearch = false;
@@ -26,8 +27,15 @@ export class MovieSearchComponent {
   public searchQuery = new FormControl('', { nonNullable: true })
 
   public constructor() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.movieSearchService.setMovieSearchResults([])
+        this.movieSearchService.setMovieSearchOpenedIndex(0)
+      }
+    });
+
     this.searchQuery.valueChanges.pipe(
-      debounceTime(300),
+      debounceTime(600),
       distinctUntilChanged()
     ).subscribe({
       next: (query) => {
