@@ -25,12 +25,31 @@ export class NotificationComponent {
 
   public notificationOpenedIndex$ = this.notificationService.notificationOpenedIndex$
 
-  public toggleOpened(index: number): void {
+  public toggleOpened(index: number, notification: INotification): void {
     this.notificationService.setOpenedNotificationIndex(index)
-    this.notificationService.markNotificationAsRead(index);
+    this.notificationService.markNotificationAsRead(index, notification);
   }
 
   public stripTitle(title: string): string {
     return StripTitle(title)
   }
+
+  public returnDaysAgo(notification: INotification): string {
+    const createdAtDate = new Date(Number(notification.createdAt));
+    const currentDate = new Date();
+    const timeDifference = currentDate.getTime() - createdAtDate.getTime();
+    const daysAgo = Math.floor(timeDifference / (1000 * 3600 * 24));
+    const hoursAgo = Math.floor(timeDifference / (1000 * 3600))
+    const minutesAgo = Math.floor(timeDifference / (1000 * 60));
+
+    switch (true) {
+      case minutesAgo < 60:
+        return `${minutesAgo} minute${minutesAgo !== 1 ? 's' : ''} ago`;
+      case hoursAgo < 24:
+        return `${hoursAgo} hour${hoursAgo !== 1 ? 's' : ''} ago`;
+      default:
+        return `${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago`;
+    }
+  }
+
 }

@@ -40,11 +40,11 @@ const AUTHENTICATE_BY_COOKIE = gql`
           username
         },
         movies {
-            tmdb_id,
-            original_title,
-            title,
-            poster_path,
-          }
+          tmdb_id,
+          original_title,
+          title,
+          poster_path,
+        }
       }
     }
   }

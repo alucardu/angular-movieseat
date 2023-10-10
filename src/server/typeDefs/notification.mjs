@@ -17,18 +17,22 @@ const notificationDefs = gql`
   }
 
   type Notification {
+    id: ID,
     code: String
     read: Boolean
     type: String,
+    createdAt: String,
     movie: Movie
     receiver: [User]
     performer: User
   }
 
   input NotificationInput {
+    id: ID,
     code: String
     read: Boolean
     type: String,
+    createdAt: String,
     movie: MovieInput
     receiver: [UserInput]
     performer: UserInput
@@ -43,6 +47,20 @@ const notificationDefs = gql`
       notification: NotificationInput
     ): ReturnObjectNotification
   }
+
+  type Mutation {
+    markNotificationAsRead(
+      notification: NotificationInput
+    ): ReturnObjectNotification
+  }
+
+  type Mutation {
+    markAllNotificationsAsRead(
+      notification: NotificationInput
+    ): ReturnObjectNotifications
+  }
+
+
 
 `
 

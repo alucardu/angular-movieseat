@@ -93,6 +93,7 @@ model Notification {
   type            String
   code            String
   read            Boolean
+  createdAt       DateTime @default(now())
 
   receiver        User[]  @relation(name: "NotificationToUser")
 
