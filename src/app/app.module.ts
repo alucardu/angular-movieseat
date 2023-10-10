@@ -12,6 +12,7 @@ import { ContainerComponent } from './components/UI/container/container.componen
 import { GraphQLModule } from './graphql.module';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from './utils/CustomRouteReuseStrategy';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CustomRouteReuseStrategy } from './utils/CustomRouteReuseStrategy';
     {
       provide: RouteReuseStrategy,
       useClass: CustomRouteReuseStrategy,
-    }
+    },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {verticalPosition: 'top'}}
   ],
   bootstrap: [AppComponent],
 })
