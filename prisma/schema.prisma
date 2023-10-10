@@ -25,15 +25,15 @@ model Movie {
   id             Int           @id @default(autoincrement())
   tmdb_id        String        @unique
   title          String
-  original_title String
-  poster_path    String
-  backdrop_path  String
-  release_date   String
-  overview       String
-  certification  String
-  tagline        String
-  runtime        Int
-  vote_average   Int
+  original_title String?
+  poster_path    String?
+  backdrop_path  String?
+  release_date   String?
+  overview       String?
+  certification  String?
+  tagline        String?
+  runtime        Int?
+  vote_average   Int?
   clips          Clip[]         @relation(name: "MovieToClips")
   genres         Genre[]        @relation(name: "MovieToGenres")
   persons        PersonMovie[]  @relation(name: "MovieToPersons")
