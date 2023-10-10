@@ -62,10 +62,11 @@ model PersonMovie {
   cast_id         Int?
   character       String?
   order           Int?
+
   movie           Movie   @relation(name: "MovieToPersons", fields: [movieId], references: [id], onDelete: Cascade)
   movieId         Int
-  person          Person  @relation(name: "PersonToMovie", fields: [personId], references: [id], onDelete: Cascade)
 
+  person          Person  @relation(name: "PersonToMovie", fields: [personId], references: [id], onDelete: Cascade)
   personId        Int
 }
 
@@ -95,9 +96,9 @@ model Notification {
 
   receiver        User[]  @relation(name: "NotificationToUser")
 
-  performer       User    @relation(name: "ActionsPerformed", fields: [performerId], references: [id])
+  performer       User    @relation(name: "ActionsPerformed", fields: [performerId], references: [id], onDelete: Cascade)
   performerId     Int
 
-  movie           Movie?  @relation(name: "NotificationToMovie", fields: [movieId], references: [id])
+  movie           Movie?  @relation(name: "NotificationToMovie", fields: [movieId], references: [id], onDelete: Cascade)
   movieId         Int
 }
