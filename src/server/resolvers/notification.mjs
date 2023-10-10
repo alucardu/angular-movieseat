@@ -88,26 +88,29 @@ const notificationResolvers = {
       const userId = validateAccessToken(req.cookies.authToken).user.id
 
       try {
-        const notifications = await prisma.notification.findMany({
+        const user = await prisma.user.findUniqueOrThrow({
           where: {
-            receiver: {
-              every: {
-                id: userId
-              }
-            }
+            id: userId
           },
           include: {
-            movie: true,
-            performer: true
-          },
-          orderBy: {
-            createdAt: 'desc'
+            notifications: {
+              include: {
+                movie: true,
+                performer: true
+              },
+              orderBy: {
+                createdAt: 'desc'
+              },
+            }
+
           }
         })
 
+        console.log(user.notifications)
+
 
         return {
-          data: notifications,
+          data: user.notifications,
           response: {
             type: 'notification',
             code: 'N_03'
