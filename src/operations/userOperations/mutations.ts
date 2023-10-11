@@ -59,6 +59,12 @@ const ADD_FRIEND = gql`
           friendOf {
             id
             username
+          },
+            movies {
+            tmdb_id,
+            original_title,
+            title,
+            poster_path,
           }
         },
         friend {
@@ -102,6 +108,12 @@ const REMOVE_FRIEND = gql`
           friendOf {
             id
             username
+          },
+            movies {
+            tmdb_id,
+            original_title,
+            title,
+            poster_path,
           }
         },
         friend {
