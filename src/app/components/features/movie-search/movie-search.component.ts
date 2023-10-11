@@ -48,6 +48,7 @@ export class MovieSearchComponent {
 
         this.movieSearchService.getMovieSearchResults(query)?.subscribe({
           next: (movies) => {
+            this.movieSearchService.setMovieSearchOpenedIndex(-1)
             if (movies.data.searchMovies.response.code === 'M_01') {
               this.noResults = false;
               this.movieSearchService.setMovieSearchResults(movies.data.searchMovies.data)
