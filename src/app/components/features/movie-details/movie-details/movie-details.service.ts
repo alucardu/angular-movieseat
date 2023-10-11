@@ -107,6 +107,6 @@ export class MovieDetailsService {
   }
 
   public userHasAddedMovie(movie: IMovie): void {
-    this.userHasAddedMovieSubject$.next(this.authService.getCurrentUser().movies.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id || watchlistMovie.tmdb_id === movie.id))
+    this.userHasAddedMovieSubject$.next(this.authService.getCurrentUser()?.movies.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id || watchlistMovie.tmdb_id === movie.id))
   }
 }
