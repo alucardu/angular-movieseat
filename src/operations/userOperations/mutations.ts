@@ -48,16 +48,31 @@ const ADD_FRIEND = gql`
         code
       }
       data {
-        id,
-        username,
-        email,
-        friends {
-          id
-          username
+        user {
+          id,
+          username,
+          email,
+          friends {
+            id
+            username
+          },
+          friendOf {
+            id
+            username
+          }
         },
-        friendOf {
-          id
-          username
+        friend {
+          id,
+          username,
+          email,
+          friends {
+            id
+            username
+          },
+          friendOf {
+            id
+            username
+          }
         }
       }
     }
@@ -76,14 +91,31 @@ const REMOVE_FRIEND = gql`
         code
       }
       data {
-        id,
-        username,
-        email,
-        friends {
-          id
+        user {
+          id,
+          username,
+          email,
+          friends {
+            id
+            username
+          },
+          friendOf {
+            id
+            username
+          }
         },
-        friendOf {
-          id
+        friend {
+          id,
+          username,
+          email,
+          friends {
+            id
+            username
+          },
+          friendOf {
+            id
+            username
+          }
         }
       }
     }

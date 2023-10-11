@@ -37,7 +37,10 @@ const userResolvers = {
       });
 
       return {
-        data: friend,
+        data: {
+          user: user,
+          friend: friend,
+        },
         response: {
           type: 'user',
           code: 'U_13',
@@ -67,7 +70,10 @@ const userResolvers = {
       });
 
       return {
-        data: friend,
+        data: {
+          user: user,
+          friend: friend
+        },
         response: {
           type: 'user',
           code: 'U_14',

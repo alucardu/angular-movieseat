@@ -6,6 +6,16 @@ export interface IResponse {
 }
 
 // TYPES
+type ReturnObjectFriendAndUserObject = {
+  friend: IUser,
+  user: IUser
+}
+
+type ReturnObjectFriendAndUser = {
+  data: ReturnObjectFriendAndUserObject,
+  response: IResponse,
+}
+
 type ReturnObjectUser = {
   data: IUser,
   response: IResponse,
@@ -30,11 +40,11 @@ export type LoginUser = {
 }
 
 export type AddFriend = {
-  addFriend: ReturnObjectUser
+  addFriend: ReturnObjectFriendAndUser
 }
 
 export type RemoveFriend = {
-  removeFriend: ReturnObjectUser
+  removeFriend: ReturnObjectFriendAndUser
 }
 
 

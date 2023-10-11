@@ -12,6 +12,16 @@ const userTypeDefs = gql`
     response: Response
   }
 
+  type ReturnObjectFriendAndUserObject {
+    friend: User,
+    user: User
+  }
+
+  type ReturnObjectFriendAndUser {
+    data: ReturnObjectFriendAndUserObject
+    response: Response
+  }
+
   type Response {
     type: String
     code: String,
@@ -57,13 +67,13 @@ const userTypeDefs = gql`
   type Mutation {
     addFriend(
       id: ID!
-    ): ReturnObjectUser
+    ): ReturnObjectFriendAndUser
   }
 
   type Mutation {
     removeFriend(
       id: ID!
-    ): ReturnObjectUser
+    ): ReturnObjectFriendAndUser
   }
 
   type Query {

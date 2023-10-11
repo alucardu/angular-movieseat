@@ -62,8 +62,9 @@ export class WatchlistComponent implements OnInit {
   public addFriend(user: IUser): void {
     this.userService.addFriend(user).pipe(first()).subscribe({
       next: ({data}) => {
-        this.authService.updateCurrentUser(data!.addFriend.data)
-        this.snackBarService.openSnackBar(data!.addFriend.response, SnackBarState.SUCCESS, data?.addFriend.data)
+        if (!data) return
+        this.authService.updateCurrentUser(data.addFriend.data.user)
+        this.snackBarService.openSnackBar(data.addFriend.response, SnackBarState.SUCCESS, data?.addFriend.data.friend)
         this.setFriendState();
       },
       error: (data) => console.log(data)
@@ -71,11 +72,11 @@ export class WatchlistComponent implements OnInit {
   }
 
   public removeFriend(user: IUser): void {
-
     this.userService.removeFriend(user).pipe(first()).subscribe({
       next: ({data}) => {
-        this.authService.updateCurrentUser(data!.removeFriend.data)
-        this.snackBarService.openSnackBar(data!.removeFriend.response, SnackBarState.SUCCESS, data?.removeFriend.data)
+        if (!data) return
+        this.authService.updateCurrentUser(data.removeFriend.data.user)
+        this.snackBarService.openSnackBar(data.removeFriend.response, SnackBarState.SUCCESS, data?.removeFriend.data.friend)
         this.setFriendState();
       },
       error: (data) => console.log(data)
