@@ -154,7 +154,7 @@ export const filterByTitleCheck = (movie, query) => {
 
   for (const movieTitleWord of movieTitleWords) {
     for (const queryWord of queryWords) {
-      if (movieTitleWord.includes(queryWord) || queryWord.includes(movieTitleWord)) {
+      if (removeSpecialCharacters(movieTitleWord).includes(queryWord) || queryWord.includes(removeSpecialCharacters(movieTitleWord))) {
         return movie
       }
     }
@@ -170,4 +170,13 @@ export const sortMoviesOnReleaseDate = (movies) => {
   });
 
   return sortedMovies
+}
+
+function removeSpecialCharacters(str) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
