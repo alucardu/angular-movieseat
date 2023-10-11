@@ -18,6 +18,10 @@ const userResolvers = {
         throw new Error('U_14')
       }
 
+      const friend = await prisma.user.findUniqueOrThrow({
+        where: { id: Number(args.id) }
+      })
+
       const user = await prisma.user.update({
         where: { id: userId },
         data: {
@@ -33,7 +37,7 @@ const userResolvers = {
       });
 
       return {
-        data: user,
+        data: friend,
         response: {
           type: 'user',
           code: 'U_13',
@@ -43,6 +47,10 @@ const userResolvers = {
 
     removeFriend: async(_, args, {req, res}) => {
       const userId = validateAccessToken(req.cookies.authToken).user.id
+
+      const friend = await prisma.user.findUniqueOrThrow({
+        where: { id: Number(args.id) }
+      })
 
       const user = await prisma.user.update({
         where: { id: userId },
@@ -59,7 +67,7 @@ const userResolvers = {
       });
 
       return {
-        data: user,
+        data: friend,
         response: {
           type: 'user',
           code: 'U_14',
