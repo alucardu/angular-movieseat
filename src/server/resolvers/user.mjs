@@ -163,7 +163,8 @@ const userResolvers = {
         const users = await prisma.user.findMany({
           where: {
             username: {
-              contains: args.query.toLowerCase()
+              contains: args.query,
+              mode: 'insensitive'
             }
           }
         });
