@@ -62,20 +62,20 @@ export class MovieDetailsService {
 
   public updateWatchlistUser(movie: IMovie, action: string): void {
     if (action === 'add') {
-      this.movieWatchlistSubject$.next([...this.movieWatchlistSubject$.value, movie])
+      this.movieWatchlistSubject$.next([...this.authService.getCurrentUser().movies, movie])
       const currentUser = this.authService.getCurrentUser()
       currentUser.movies = [...this.movieWatchlistSubject$.value, movie]
       this.authService.updateCurrentUser(currentUser)
     }
     if (action === 'remove') {
-      const updatedWatchlist = this.movieWatchlistSubject$.value.filter((watchlistMovie) => watchlistMovie.tmdb_id !== movie.tmdb_id)
+      const updatedWatchlist = this.authService.getCurrentUser().movies.filter((watchlistMovie) => watchlistMovie.tmdb_id !== movie.tmdb_id)
       this.movieWatchlistSubject$.next(updatedWatchlist)
       const currentUser = this.authService.getCurrentUser()
       currentUser.movies = updatedWatchlist
       this.authService.updateCurrentUser(currentUser)
     }
 
-    this.userHasAddedMovieSubject$.next(this.movieWatchlistSubject$.value.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id))
+    this.userHasAddedMovieSubject$.next(this.authService.getCurrentUser().movies.some((watchlistMovie) => watchlistMovie.tmdb_id === movie.tmdb_id || watchlistMovie.tmdb_id === movie.id))
   }
 
   public getWatchlistUser(userId: number, type?: string): void {
