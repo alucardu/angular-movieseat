@@ -55,7 +55,6 @@ const routes: Routes = [
   },
   {
     path: 'movie',
-    canActivate: [canActivate],
     loadChildren: () => import('./components/features/movie-dashboard/movie-dashboard.module').then(m => m.MovieDashboardModule),
   },
   {
