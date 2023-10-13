@@ -60,10 +60,25 @@ const notificationResolvers = {
             },
           },
           include: {
-            notifications: true,
-          },
+            notifications: {
+              include: {
+                movie: true,
+                performer: true
+              },
+              orderBy: {
+                createdAt: 'desc'
+              },
+            }
+          }
         })
 
+        return {
+          response: {
+            type: 'notification',
+            code: 'N_04'
+          },
+          data: user.notifications
+        }
       } catch(e) {
         console.log(e)
       }
@@ -102,7 +117,6 @@ const notificationResolvers = {
                 createdAt: 'desc'
               },
             }
-
           }
         })
 

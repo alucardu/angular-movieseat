@@ -57,7 +57,9 @@ export class NotificationService {
     this.apollo.mutate<markAllNotificationsAsRead>({
       mutation: MARK_ALL_NOTIFICATION_AS_READ
     }).subscribe({
-      next: () => {
+      next: ({data}) => {
+        if (!data) return
+        this.notificationsSubject$.next(data.markAllNotificationsAsRead.data)
         this.notificationAmountSubject$.next(0)
       }
     })
