@@ -84,6 +84,9 @@ export class SnackbBarService {
           case 'U_04':
             return 'Incorrect username and or password.'
 
+          case 'U_05':
+            return 'Your account has not yet been confirmed. Check your email!'
+
           case 'U_06':
             return 'Cookiemonster ate your cookie!'
 
