@@ -1,5 +1,5 @@
 import { PrismaClient, Prisma  } from '@prisma/client'
-import { filterClips, filterMovies, filterReleaseDatesAndCertifications, getMoviesCredits, getMovies, sortMoviesOnReleaseDate, getMovieCredits, getMovieDetails } from '../movieUtils.mjs'
+import { sortMoviesOnAddedDate, filterClips, filterMovies, filterReleaseDatesAndCertifications, getMoviesCredits, getMovies, sortMoviesOnReleaseDate, getMovieCredits, getMovieDetails, getDiscoveredMovies } from '../movieUtils.mjs'
 import { validateAccessToken } from '../jwt.mjs'
 
 const prisma = new PrismaClient()
@@ -345,6 +345,52 @@ const movieResolvers = {
         }
       }
     },
+
+    getDiscoverMovies: async(_, args) => {
+      let movies = await getDiscoveredMovies(args.type);
+
+      return {
+        data: movies,
+        response: {
+          type: 'movie',
+          code: 'M_15'
+        }
+      }
+    },
+
+    getPopularAmongFriends: async (_, args, {req, res}) => {
+      if (!req.cookies.authToken) {
+        return {
+          response: {
+            type: 'movie',
+            code: 'U_05',
+          }
+        }
+      }
+
+      const userId = validateAccessToken(req.cookies.authToken).user.id
+
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: {
+          friends: {
+            include: {
+              movies: true,
+            },
+          },
+        },
+      });
+
+      const movies = sortMoviesOnAddedDate(user.friends.map((friend) => friend.movies).flat()).slice(0, 30)
+
+      return {
+        data: movies,
+        response: {
+          type: 'movie',
+          code: 'U_06'
+        }
+      }
+    }
   }
 }
 

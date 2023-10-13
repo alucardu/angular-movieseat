@@ -11,38 +11,26 @@
 
 <ng-container *ngIf="type === 'theatre'">
   <div #comingSoon class="container" [@fadeToggle]="returnSelectedState('comingSoon')" (@fadeToggle.done)="resetScrollPosition()">
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/p7I17l9jRI146JvNb4oo3STOTmV.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r4yCgWjAbh13X5EFiXPpbnnBYhP.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/p7I17l9jRI146JvNb4oo3STOTmV.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r4yCgWjAbh13X5EFiXPpbnnBYhP.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/p7I17l9jRI146JvNb4oo3STOTmV.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r4yCgWjAbh13X5EFiXPpbnnBYhP.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/p7I17l9jRI146JvNb4oo3STOTmV.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r4yCgWjAbh13X5EFiXPpbnnBYhP.jpg" [routerLink]="['/movie/2/oppenheimer']" />
+    <img
+      *ngFor="let movie of movieDiscoverUpcoming$ | async"
+      [src]="'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/' + movie.poster_path"
+      (click)="navigateToMovie(movie)" />
   </div>
 
   <div #playingNow class="container playingNow" [@fadeToggle]="returnSelectedState('playingNow')" (@fadeToggle.done)="resetScrollPosition()">
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
+    <img
+      *ngFor="let movie of movieDiscoverPlaying$ | async"
+      [src]="'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/' + movie.poster_path"
+      (click)="navigateToMovie(movie)" />
   </div>
 </ng-container>
 
 <ng-template #amongFriends>
   <h3 class="type">Popular with friends</h3>
   <div class="container">
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xrziXRHRQ7c7YLIehgSJY8GQBsx.jpg" [routerLink]="['/movie/1/moonrise-kingdom']" />
-    <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" [routerLink]="['/movie/2/oppenheimer']" />
+    <img
+      *ngFor="let movie of moviePopularAmongFriends$ | async"
+      [src]="'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/' + movie.poster_path"
+      (click)="navigateToMovie(movie, 'popularAmongFriends')" />
   </div>
 </ng-template>

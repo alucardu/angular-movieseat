@@ -8,6 +8,27 @@ const options = {
   }
 };
 
+export const getDiscoveredMovies = async (type) => {
+  if (type === 'theatre') {
+    const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&region=NL&sort_by=popularity.desc'
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    return data.results;
+  }
+
+  if (type === 'upcoming') {
+    const url = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&region=NL'
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    return data.results;
+  }
+
+}
+
 export const getMovies = async (query) => {
   const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
 
@@ -159,6 +180,17 @@ export const filterByTitleCheck = (movie, query) => {
       }
     }
   }
+}
+
+export const sortMoviesOnAddedDate = movies => {
+  const sortedMovies = movies.sort((a, b) => {
+    const dateA = new Date(a.added_at)
+    const dateB = new Date(b.added_at)
+
+    return dateB - dateA
+  });
+
+  return sortedMovies
 }
 
 export const sortMoviesOnReleaseDate = (movies) => {

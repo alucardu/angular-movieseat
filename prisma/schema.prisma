@@ -34,6 +34,7 @@ model Movie {
   tagline        String?
   runtime        Int?
   vote_average   Int?
+  added_at        DateTime       @default(now())
   clips          Clip[]         @relation(name: "MovieToClips")
   genres         Genre[]        @relation(name: "MovieToGenres")
   persons        PersonMovie[]  @relation(name: "MovieToPersons")

@@ -46,3 +46,11 @@ export type GetMovie = {
 export type GetWatchlistUser = {
   getWatchlistUser: User
 }
+
+export type GetDiscoverMovies = {
+  getDiscoverMovies: ReturnObjectMovies
+}
+
+export type GetPopularAmondFriends = {
+  getPopularAmongFriends: ReturnObjectMovies
+}

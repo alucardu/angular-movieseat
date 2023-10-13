@@ -199,4 +199,64 @@ const SEARCH_MOVIES = gql`
   }
 `
 
-export { GET_ALL_USERS, GET_USERS, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES, GET_MOVIE, GET_WATCHLIST_USER  };
+const DISCOVER_MOVIES = gql`
+  query GetDiscoverMovies(
+    $type: String!
+  ) {
+    getDiscoverMovies(
+      type: $type
+    ) {
+      data {
+        id,
+        original_title,
+        overview,
+        runtime,
+        poster_path,
+        release_date,
+        title,
+        vote_average,
+        backdrop_path,
+        persons {
+          name
+        }
+        directors {
+          name
+        }
+      }
+      response {
+        type,
+        code
+      }
+    }
+  }
+`
+const POPULAR_AMONG_FRIENDS = gql`
+  query {
+    getPopularAmongFriends {
+      data {
+        id,
+        tmdb_id,
+        original_title,
+        overview,
+        runtime,
+        poster_path,
+        release_date,
+        title,
+        vote_average,
+        backdrop_path,
+        persons {
+          name
+        }
+        directors {
+          name
+        }
+      }
+      response {
+        type,
+        code
+      }
+    }
+  }
+`
+
+export { GET_ALL_USERS, GET_USERS, CONFIRM_USER, AUTHENTICATE_BY_COOKIE, SEARCH_MOVIES, GET_MOVIE, GET_WATCHLIST_USER, DISCOVER_MOVIES, POPULAR_AMONG_FRIENDS  };

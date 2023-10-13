@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { INotification, notifications } from 'src/app/mock/notifications.json';
+import { INotification } from 'src/app/mock/notifications.json';
 import { IMovie } from 'src/app/mock/watchlist.json';
 import { IUser } from '../authentication/sign-up/sign-up.service';
 import { Apollo } from 'apollo-angular';
@@ -16,7 +16,7 @@ export class NotificationService {
   private notificationAmountSubject$ = new BehaviorSubject<number>(0)
   public notificationAmount$ = this.notificationAmountSubject$.asObservable()
 
-  private notificationsSubject$ = new BehaviorSubject<INotification[]>(notifications)
+  private notificationsSubject$ = new BehaviorSubject<INotification[] | null>(null)
   public notifications$ = this.notificationsSubject$.asObservable();
 
   private notificationOpenedIndexSubject$ = new BehaviorSubject<number>(-1)
@@ -36,7 +36,7 @@ export class NotificationService {
   }
 
   public markNotificationAsRead(index: number, notification: INotification): void {
-    const notifications = this.notificationsSubject$.value.slice();
+    const notifications = this.notificationsSubject$.value!.slice();
     const updatedNotification = notifications.find((_notification, i) => index === i)
 
     if (updatedNotification && !updatedNotification.read) {
