@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { CreateMovie, SearchMovies } from 'src/types/movieTypes';
-import { SEARCH_MOVIES } from 'src/operations/userOperations/queries';
+import { CreateMovie, GetDiscoverMovies, GetPopularAmondFriends, SearchMovies } from 'src/types/movieTypes';
+import { DISCOVER_MOVIES, POPULAR_AMONG_FRIENDS, SEARCH_MOVIES } from 'src/operations/userOperations/queries';
 import { ApolloQueryResult } from '@apollo/client/core/types';
 import { IMovie } from 'src/app/mock/watchlist.json';
 import { CREATE_MOVIE } from 'src/operations/userOperations/mutations';
@@ -19,6 +19,15 @@ export class MovieSearchService {
 
   private movieSearchResultsSubject$ = new BehaviorSubject<IMovie[]>([])
   public movieSearchResults$ = this.movieSearchResultsSubject$.asObservable();
+
+  private movieDiscoverPlayingNowSubject$ = new BehaviorSubject<IMovie[]>([])
+  public movieDiscoverPlaying$ = this.movieDiscoverPlayingNowSubject$.asObservable();
+
+  private movieDiscoverUpcomingNowSubject$ = new BehaviorSubject<IMovie[]>([])
+  public movieDiscoverUpcoming$ = this.movieDiscoverUpcomingNowSubject$.asObservable();
+
+  private moviePopularAmongFriendsSubject$ = new BehaviorSubject<IMovie[]>([])
+  public moviePopularAmongFriends$ = this.moviePopularAmongFriendsSubject$.asObservable();
 
   private movieSearchOpenedIndexSubject$ = new BehaviorSubject<number>(-1);
   public movieSearchOpenedIndex$ = this.movieSearchOpenedIndexSubject$.asObservable();
@@ -38,6 +47,36 @@ export class MovieSearchService {
     } else {
       return null
     }
+  }
+
+  public getPopularAmongFriends(): void {
+    this.apollo.query<GetPopularAmondFriends>({
+      query: POPULAR_AMONG_FRIENDS,
+      fetchPolicy: 'no-cache'
+    }).subscribe({
+      next: ({data}) => this.moviePopularAmongFriendsSubject$.next(data.getPopularAmongFriends.data),
+      error: (data) => console.log(data),
+    })
+  }
+
+  public getDiscoveredMovies(type: string): void {
+    this.apollo.query<GetDiscoverMovies>({
+      query: DISCOVER_MOVIES,
+      variables: {
+        type: type
+      }
+    }).subscribe({
+      next: ({data}) => {
+        if (type === 'theatre') {
+          this.movieDiscoverPlayingNowSubject$.next(data.getDiscoverMovies.data)
+        }
+
+        if (type === 'upcoming') {
+          this.movieDiscoverUpcomingNowSubject$.next(data.getDiscoverMovies.data)
+        }
+      },
+      error: (error) => console.log(error)
+    })
   }
 
   public setMovieSearchResults(movies: Array<IMovie>): void {

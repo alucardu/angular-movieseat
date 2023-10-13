@@ -11,6 +11,8 @@ import { first } from 'rxjs';
 import { SnackBarState, SnackbBarService } from 'src/app/services/snackbBar.service';
 import { NotificationService } from 'src/app/components/notifications/notification.service';
 import { AuthService } from 'src/app/components/authentication/auth.service';
+import { ReplaceSpaces } from 'src/app/utils/string-utils';
+
 
 @Component({
   selector: 'app-movie-search-result',
@@ -45,18 +47,14 @@ export class MovieSearchResultComponent {
 
   public navigateToMovie(movie: IMovie): void {
     this.movieDetailService.test(movie.id).pipe(first()).subscribe({
-      next: () => this.router.navigate([`/movie/${movie.id}/${this.replaceSpaces(movie.title)}`]),
+      next: () => this.router.navigate([`/movie/${movie.id}/${ReplaceSpaces(movie.title)}`]),
       error: () => this.createMovie(movie)
     })
   }
 
-  private replaceSpaces(title: string): string {
-    return title.replace(/\s/g, '-')
-  }
-
   public createMovie(movie: IMovie): void {
     this.movieSearchService.createMovie(movie).subscribe({
-      next: () => this.router.navigate([`/movie/${movie.id}/${this.replaceSpaces(movie.title)}`]),
+      next: () => this.router.navigate([`/movie/${movie.id}/${ReplaceSpaces(movie.title)}`]),
       error: (error) => console.log(error)
     })
   }

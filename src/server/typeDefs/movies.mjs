@@ -73,6 +73,7 @@ type ReturnObjectMovie {
     overview: String,
     tagline: String,
     certification: String,
+    added_at: String,
     runtime: Int,
     poster_path: String,
     release_date: String,
@@ -92,6 +93,7 @@ type ReturnObjectMovie {
     overview: String,
     tagline: String,
     certification: String,
+    added_at: String,
     runtime: Int,
     poster_path: String,
     release_date: String,
@@ -139,6 +141,16 @@ type ReturnObjectMovie {
     searchMovies(
       query: String!
     ): ReturnObjectMovies
+  }
+
+  type Query {
+    getDiscoverMovies(
+      type: String!
+    ): ReturnObjectMovies
+  }
+
+  type Query {
+    getPopularAmongFriends: ReturnObjectMovies
   }
 `
 
