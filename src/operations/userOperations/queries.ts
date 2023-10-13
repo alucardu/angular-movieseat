@@ -111,6 +111,7 @@ const GET_WATCHLIST_USER = gql`
             original_title,
             title,
             poster_path,
+            release_date
           }
         }
         response {
