@@ -37,6 +37,23 @@ const MARK_ALL_NOTIFICATION_AS_READ = gql`
     markAllNotificationsAsRead(
       notification: $notification
     ) {
+      data {
+        id
+        code
+        read
+        type
+        createdAt
+        movie {
+          id
+          title
+          release_date
+          tmdb_id
+        }
+        performer {
+          id
+          username
+        }
+      }
       response {
         type,
         code
