@@ -19,14 +19,37 @@ export const getDiscoveredMovies = async (type) => {
   }
 
   if (type === 'upcoming') {
-    const url = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1&region=NL'
+    const dateStringFrom = returnDate('from')
+    const dateStringTill = returnDate('till')
 
-    const response = await fetch(url, options);
-    const data = await response.json();
+    const urlPageOne = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=${dateStringFrom}&primary_release_date.lte=${dateStringTill}&sort_by=popularity.desc&with_release_type=3`
+    const urlPageTwo = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=2&primary_release_date.gte=${dateStringFrom}&primary_release_date.lte=${dateStringTill}&sort_by=popularity.desc&with_release_type=3`
 
-    return data.results;
+    const responsePageOne = await fetch(urlPageOne, options);
+    const dataPageOne = await responsePageOne.json();
+
+    const responsePageTwo = await fetch(urlPageTwo, options);
+    const dataPageTwo = await responsePageTwo.json();
+
+    const results = [...dataPageOne.results, ...dataPageTwo.results]
+
+    return results
   }
+}
 
+const returnDate = (type) => {
+  const amountOfDays = type === "from" ? 14 : 180
+  const currentDate = new Date();
+  const futureDate = new Date(currentDate);
+
+  futureDate.setDate(currentDate.getDate() + amountOfDays);
+
+  const year = futureDate.getFullYear();
+  const month = String(futureDate.getMonth() + 1).padStart(2, '0');
+  const day = String(futureDate.getDate()).padStart(2, '0');
+  const dateString = `${year}-${month}-${day}`;
+
+  return dateString;
 }
 
 export const getMovies = async (query) => {
