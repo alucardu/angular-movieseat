@@ -77,7 +77,8 @@ export class MovieSearchResultComponent {
         if (data) {
           this.movieDetailService.updateWatchlistUser(data.addMovieToUser.data, 'add')
           this.snackBarService.openSnackBar(data.addMovieToUser.response, SnackBarState.SUCCESS, data.addMovieToUser.data);
-          this.notificationService.createNotification('movie', 'N_01', data.addMovieToUser.data, this.authService.getCurrentUser() )
+          this.notificationService.createNotification('movie', 'N_01', data.addMovieToUser.data, this.authService.getCurrentUser())
+          this.router.navigate([`/movie/${movie.id}/${ReplaceSpaces(movie.title)}`])
         }
       },
       error: (error) => this.snackBarService.openSnackBar({code: error.message, type: 'movie'}, SnackBarState.ERROR)
