@@ -42,7 +42,7 @@ const routes: Routes = [
     canActivate: [canActivate],
     loadComponent: () => import('./components/features/watchlist/watchlist.component').then(c => c.WatchlistComponent),
     data: {
-      animation: 'watchList'
+      animation: 'fade'
     },
   },
   {
