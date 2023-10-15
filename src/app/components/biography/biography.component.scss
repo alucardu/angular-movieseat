@@ -12,6 +12,7 @@
 }
 
 mat-card {
+  width: 100%;
   margin-bottom: 0px;
   &:not(:last-child) {
     margin-bottom: 8px;
@@ -27,13 +28,18 @@ mat-card-header {
 }
 
 .overview {
+  height: 110px;;
+  img {
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    float: right;
+    border-radius: 100%;
+    margin-left: 16px;
+  }
   p {
     text-align: justify;
-    img {
-      float: right;
-      border-radius: 100%;
-      margin-left: 16px;
-    }
+
   }
 }
 
@@ -44,3 +50,8 @@ mat-card-title {
     color: #69f0ae;
   }
 }
+
+.hide {
+  opacity: 0;
+}
+

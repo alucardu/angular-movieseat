@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { CreateMovie, GetDiscoverMovies, GetPopularAmondFriends, SearchMovies } from 'src/types/movieTypes';
-import { DISCOVER_MOVIES, POPULAR_AMONG_FRIENDS, SEARCH_MOVIES } from 'src/operations/userOperations/queries';
+import { CreateMovie, GetDiscoverMovies, GetPopularAmondFriends, SearchMovies, SearchPersons } from 'src/types/movieTypes';
 import { ApolloQueryResult } from '@apollo/client/core/types';
-import { IMovie } from 'src/app/mock/watchlist.json';
-import { CREATE_MOVIE } from 'src/operations/userOperations/mutations';
+import { IMovie, IPerson } from 'src/app/mock/watchlist.json';
+import { DISCOVER_MOVIES, POPULAR_AMONG_FRIENDS, SEARCH_MOVIES, SEARCH_PERSONS } from 'src/operations/movieOperations/queries';
+import { CREATE_MOVIE } from 'src/operations/movieOperations/mutations';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,14 @@ import { CREATE_MOVIE } from 'src/operations/userOperations/mutations';
 export class MovieSearchService {
   private apollo = inject(Apollo)
 
-
   private movieSearchQuerySubject$ = new Subject<string>
   public movieSearchQuery$ = this.movieSearchQuerySubject$.asObservable();
 
   private movieSearchResultsSubject$ = new BehaviorSubject<IMovie[]>([])
   public movieSearchResults$ = this.movieSearchResultsSubject$.asObservable();
+
+  private moviePersonResultsSubject$ = new BehaviorSubject<IPerson[]>([])
+  public moviePersonResults$ = this.moviePersonResultsSubject$.asObservable();
 
   private movieDiscoverPlayingNowSubject$ = new BehaviorSubject<IMovie[]>([])
   public movieDiscoverPlaying$ = this.movieDiscoverPlayingNowSubject$.asObservable();
@@ -32,8 +34,28 @@ export class MovieSearchService {
   private movieSearchOpenedIndexSubject$ = new BehaviorSubject<number>(-1);
   public movieSearchOpenedIndex$ = this.movieSearchOpenedIndexSubject$.asObservable();
 
+  private moviePersonOpenedIndexSubject$ = new BehaviorSubject<number>(-1);
+  public moviePersonOpenedIndex$ = this.moviePersonOpenedIndexSubject$.asObservable();
+
   public setMovieSearchOpenedIndex(index: number): void {
     this.movieSearchOpenedIndexSubject$.value === index ? this.movieSearchOpenedIndexSubject$.next(-1) : this.movieSearchOpenedIndexSubject$.next(index)
+  }
+
+  public setMoviePersonOpenedIndex(index: number): void {
+    this.moviePersonOpenedIndexSubject$.value === index ? this.moviePersonOpenedIndexSubject$.next(-1) : this.moviePersonOpenedIndexSubject$.next(index)
+  }
+
+  public getPersonSearchResults(query: string): Observable<ApolloQueryResult<SearchPersons>> | null {
+    if (query.length > 0) {
+      return this.apollo.query<SearchPersons>({
+        query: SEARCH_PERSONS,
+        variables: {
+          query: query
+        }
+      })
+    } else {
+      return null
+    }
   }
 
   public getMovieSearchResults(query: string): Observable<ApolloQueryResult<SearchMovies>> | null {
@@ -81,6 +103,10 @@ export class MovieSearchService {
 
   public setMovieSearchResults(movies: Array<IMovie>): void {
     this.movieSearchResultsSubject$.next(movies)
+  }
+
+  public setPersonSearchResults(persons: Array<IPerson>): void {
+    this.moviePersonResultsSubject$.next(persons)
   }
 
   public createMovie(movie: IMovie): Observable<MutationResult<CreateMovie>> {

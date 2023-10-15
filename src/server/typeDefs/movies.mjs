@@ -12,6 +12,16 @@ type ReturnObjectMovie {
     response: Response
   }
 
+  type ReturnObjectPersons {
+    data: [Person],
+    response: Response
+  }
+
+  type ReturnObjectPerson {
+    data: Person,
+    response: Response
+  }
+
   type ReturnUserObject {
     data: User,
     response: Response
@@ -26,6 +36,13 @@ type ReturnObjectMovie {
     job: String
     character: String
     name: String
+    id: ID
+    birthday: String,
+    deathday: String,
+    biography: String,
+    profile_path: String
+    movies: [Movie]
+    movie_credits: [Movie]
     person: PersonX
   }
 
@@ -83,7 +100,9 @@ type ReturnObjectMovie {
     genres: [Genre]
     clips: [Clip]
     directors: [Person],
-    persons: [Person]
+    persons: [Person],
+    department: String,
+    job: String
   }
 
   input MovieInput {
@@ -103,7 +122,9 @@ type ReturnObjectMovie {
     genres: [GenreInput]
     clips: [ClipInput]
     directors: [PersonInput],
-    persons: [PersonInput]
+    persons: [PersonInput],
+    department: String,
+    job: String
   }
 
   type Mutation {
@@ -141,6 +162,18 @@ type ReturnObjectMovie {
     searchMovies(
       query: String!
     ): ReturnObjectMovies
+  }
+
+  type Query {
+    searchPerson(
+      id: ID!
+    ): ReturnObjectPerson
+  }
+
+  type Query {
+    searchPersons(
+      query: String!
+    ): ReturnObjectPersons
   }
 
   type Query {

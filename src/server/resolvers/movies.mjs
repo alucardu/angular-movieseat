@@ -317,7 +317,7 @@ const movieResolvers = {
     },
 
     searchMovies: async(_, args) => {
-      let movies = await getMovies(args.query)
+      let movies = await getMovies(args.query, 'movieSearch')
 
       const filteredMovies = filterMovies(movies.results, args.query)
       const sortedMovies = sortMoviesOnReleaseDate(filteredMovies)
@@ -344,6 +344,34 @@ const movieResolvers = {
           }
         }
       }
+    },
+
+    searchPerson: async(_, args) => {
+      let person = await getMovies(args.id, 'personSearch')
+
+      person.movies = sortMoviesOnReleaseDate(person.movie_credits.crew).reverse()
+      console.log(person.movies)
+
+      return {
+        data: person,
+        response: {
+          type: 'movie',
+          code: 'M_06'
+        }
+      }
+    },
+
+    searchPersons: async(_, args) => {
+      let movies = await getMovies(args.query, 'personsSearch')
+
+      return {
+        data: movies,
+        response: {
+          type: 'movie',
+          code: 'M_05'
+        }
+      }
+
     },
 
     getDiscoverMovies: async(_, args) => {

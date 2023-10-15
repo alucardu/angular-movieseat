@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToggleDirective } from 'src/app/directives/toggle-content/toggle-content.directive';
 import { MaterialModule } from 'src/app/material.module';
+import { BiographyService } from './biography.service';
+import { first } from 'rxjs';
+import { IMovie, IPerson } from 'src/app/mock/watchlist.json';
+import { MovieDetailsService } from '../features/movie-details/movie-details/movie-details.service';
+import { MovieSearchService } from '../features/movie-search/movie-search.service';
+import { ReplaceSpaces } from 'src/app/utils/string-utils';
 
 @Component({
   selector: 'app-biography',
@@ -11,7 +17,68 @@ import { MaterialModule } from 'src/app/material.module';
   standalone: true,
   imports: [CommonModule, MaterialModule, RouterLink, ToggleDirective],
 })
-export class BiographyComponent {
-  public biography = 'American actor, filmmaker and activist Edward Harrison Norton was born on August 18, 1969, in Boston, Massachusetts, and was raised in Columbia, Maryland. His mother, Lydia Robinson "Robin" (Rouse), was a foundation executive and teacher of English, and a daughter of famed real estate developer James Rouse, who developed Columbia, MD; she passed away of brain cancer on March 6, 1997. His father, Edward Mower Norton, was an environmental lawyer and conservationist, who works for the National Trust for Historic Preservation. Edward has two younger siblings, James and Molly.'
+export class BiographyComponent implements OnInit {
+  private biographyService = inject(BiographyService)
+  private route = inject(ActivatedRoute)
+  private movieDetailService = inject(MovieDetailsService)
+  private router = inject(Router)
+  private movieSearchService = inject(MovieSearchService)
+
+  public biography = ''
+  public name = ''
+  public profile_path = ''
   public showBiography = false;
+
+  public directorMovies: IMovie[] = [];
+  public writerMovies: IMovie[] = [];
+  public editorMovies: IMovie[] = [];
+  public directorOfPhotography: IMovie[] = [];
+  public executiveProducer: IMovie[] = [];
+  public soundEditor: IMovie[] = [];
+  public visualEffects: IMovie[] = [];
+
+  public ngOnInit(): void {
+    this.route.paramMap.pipe(first()).subscribe({
+      next: (data) => {
+        const id = Number(data.get('id'))
+        this.biographyService.getPersonData(id).subscribe({
+          next: ({data}) => {
+            this.setPersonData(data.searchPerson.data)
+            this.setMovieData(data.searchPerson.data.movies!)
+          },
+          error: (data) => console.log(data)
+        })
+      }
+    })
+  }
+
+  private setPersonData(person: IPerson): void {
+    this.biography = person.biography
+    this.name = person.name!
+    this.profile_path = person.profile_path
+  }
+
+  private setMovieData(movies: IMovie[]): void {
+    this.directorMovies = movies.filter((movie) => { return movie.job === 'Director'})
+    this.writerMovies = movies.filter((movie) => { return movie.job === 'Screenplay'})
+    this.editorMovies = movies.filter((movie) => { return movie.job === 'Editor'})
+    this.directorOfPhotography = movies.filter((movie) => { return movie.job === 'Director of Photography'})
+    this.soundEditor = movies.filter((movie) => { return movie.job === 'Sound'})
+    this.executiveProducer = movies.filter((movie) => { return movie.job === 'Executive Producer' || movie.job === 'Producer'})
+    this.visualEffects = movies.filter((movie) => { return movie.job === 'Visual Effects'})
+  }
+
+  public navigateToMovie(movie: IMovie): void {
+    this.movieDetailService.test(movie.id).pipe(first()).subscribe({
+      next: () => this.router.navigate([`/movie/${movie.id}/${ReplaceSpaces(movie.title)}`]),
+      error: () => this.createMovie(movie)
+    })
+  }
+
+  public createMovie(movie: IMovie): void {
+    this.movieSearchService.createMovie(movie).subscribe({
+      next: () => this.router.navigate([`/movie/${movie.id}/${ReplaceSpaces(movie.title)}`]),
+      error: (error) => console.log(error)
+    })
+  }
 }

@@ -1,33 +1,23 @@
 <h2 class="titleContainer">
-  <span class="title">Edward norton</span>
-  <span class="releaseDate">(1986)</span>
+  <span class="title">{{ name }}</span>
 </h2>
 
 <div class="overview">
-  <p appToggleContent [initialHeight]="160" [hasEllipsis]="true">
-    <img src="https://www.themoviedb.org/t/p/w120_and_h133_face/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg" alt="some guy" />
-    {{ biography }}
-  </p>
+  <img [src]="'https://www.themoviedb.org/t/p/w120_and_h133_face/' + profile_path" alt="some guy" />
 </div>
 
-<mat-chip-set class="genres">
-  <mat-chip>Actor</mat-chip>
-  <mat-chip>Producer</mat-chip>
-  <mat-chip>Writer</mat-chip>
-</mat-chip-set>
-
 <mat-card appToggleContent [initialHeight]="64">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
-      Actor (56 movies)
+      Director ({{ directorMovies.length }})
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-list>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of directorMovies"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
     </mat-list>
   </mat-card-content>
 </mat-card>
@@ -36,14 +26,14 @@
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
-      Directed (56 movies)
+      Writer ({{ writerMovies.length }})
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-list>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of writerMovies"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
     </mat-list>
   </mat-card-content>
 </mat-card>
@@ -52,14 +42,14 @@
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
-      Written (56 movies)
+      Editor ({{ editorMovies.length }})
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-list>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of editorMovies"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
     </mat-list>
   </mat-card-content>
 </mat-card>
@@ -68,14 +58,62 @@
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
-      Produced (56 movies)
+      Director of photography ({{ directorOfPhotography.length }})
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-list>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
-      <mat-list-item><a [routerLink]="['/movie/1/moonrise-kingdom']"> Fight Club (1988) </a></mat-list-item>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of directorOfPhotography"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card appToggleContent [initialHeight]="64">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon #chevron> chevron_right </mat-icon>
+      Executive producer ({{ executiveProducer.length }})
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of executiveProducer"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card appToggleContent [initialHeight]="64">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon #chevron> chevron_right </mat-icon>
+      Sound editor ({{ soundEditor.length }})
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of soundEditor"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card appToggleContent [initialHeight]="64">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon #chevron> chevron_right </mat-icon>
+      Visual effects ({{ visualEffects.length }})
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of visualEffects"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
     </mat-list>
   </mat-card-content>
 </mat-card>

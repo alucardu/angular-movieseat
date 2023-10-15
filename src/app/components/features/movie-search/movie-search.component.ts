@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MovieSearchSuggestionComponent } from './movie-search-suggestion/movie-search-suggestion.component';
 import { fadeAnimation } from 'src/app/animations';
+import { MoviePersonResultComponent } from './movie-person-result/movie-person-result.component';
 
 @Component({
   selector: 'app-movie-search',
@@ -15,7 +16,7 @@ import { fadeAnimation } from 'src/app/animations';
   styleUrls: ['./movie-search.component.scss'],
   standalone: true,
   animations: [fadeAnimation],
-  imports: [CommonModule, RouterModule, MaterialModule, MovieSearchResultComponent, MovieSearchSuggestionComponent]
+  imports: [CommonModule, RouterModule, MaterialModule, MovieSearchResultComponent, MoviePersonResultComponent, MovieSearchSuggestionComponent]
 })
 export class MovieSearchComponent {
   private movieSearchService = inject(MovieSearchService)
@@ -24,6 +25,7 @@ export class MovieSearchComponent {
   public noResults = false;
   public showSearch = false;
   public movieSearchResults$ = this.movieSearchService.movieSearchResults$
+  public moviePersonResults$ = this.movieSearchService.moviePersonResults$
   public searchQuery = new FormControl('', { nonNullable: true })
 
   public constructor() {
@@ -31,6 +33,9 @@ export class MovieSearchComponent {
       if (event instanceof NavigationEnd) {
         this.movieSearchService.setMovieSearchResults([])
         this.movieSearchService.setMovieSearchOpenedIndex(-1)
+
+        this.movieSearchService.setPersonSearchResults([])
+        this.movieSearchService.setMoviePersonOpenedIndex(-1)
       }
     });
 
@@ -42,9 +47,23 @@ export class MovieSearchComponent {
         if (query.trim().length === 0) {
           this.searchQuery.markAsPristine()
           this.movieSearchService.setMovieSearchResults([])
+          this.movieSearchService.setPersonSearchResults([])
           this.noResults = false;
           return;
         }
+
+        this.movieSearchService.getPersonSearchResults(query)?.subscribe({
+          next: (movies) => {
+            this.movieSearchService.setMovieSearchOpenedIndex(-1)
+            if (movies.data.searchPersons.response.code === 'M_05') {
+              this.noResults = false;
+              this.movieSearchService.setPersonSearchResults(movies.data.searchPersons.data)
+            } else {
+              this.noResults = true;
+              this.movieSearchService.setMovieSearchResults([])
+            }
+          },
+        })
 
         this.movieSearchService.getMovieSearchResults(query)?.subscribe({
           next: (movies) => {

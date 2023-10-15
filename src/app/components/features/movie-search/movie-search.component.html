@@ -17,6 +17,13 @@
   *ngFor="let searchResult of movieSearchResults$ | async; let index = index">
 </app-movie-search-result>
 
+<app-movie-person-result
+  @fadeAnimation
+  [searchResult]="searchResult"
+  [index]="index"
+  *ngFor="let searchResult of moviePersonResults$ | async; let index = index">
+</app-movie-person-result>
+
 <ng-container *ngIf="!noResults && !((movieSearchResults$ | async)!.length > 0)">
   <app-movie-search-suggestion @fadeAnimation type="theatre"></app-movie-search-suggestion>
   <app-movie-search-suggestion @fadeAnimation type="friends"></app-movie-search-suggestion>

@@ -12,6 +12,8 @@ export interface IMovie {
   vote_average: number,
   certification: string,
   tagline: string
+  department?: string,
+  job?: string,
   clips: IClip[]
   genres: IGenre[]
   writers: string[]
@@ -20,10 +22,17 @@ export interface IMovie {
 }
 
 export interface IPerson {
+  id: number,
+  tmdb_id: number,
   job: string,
   name?: string
   profile_path: string
   character: string
+  birthday?: string,
+  deathday?: string,
+  movies?: IMovie[],
+  biography: string,
+  movie_credits?: IMovie[],
   person: {
     name: string
     profile_path: string
