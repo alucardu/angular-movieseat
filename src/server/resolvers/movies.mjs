@@ -381,7 +381,14 @@ const movieResolvers = {
         },
       });
 
-      const movies = sortMoviesOnAddedDate(user.friends.map((friend) => friend.movies).flat()).slice(0, 30)
+      let movies = sortMoviesOnAddedDate(user.friends).map((friend) => friend.movies).flat().slice(0, 30)
+
+      movies = sortMoviesOnAddedDate(Array.from(
+        movies.reduce((map, obj) => {
+          map.set(obj.tmdb_id, obj);
+          return map;
+        }, new Map()).values()
+      ));
 
       return {
         data: movies,
