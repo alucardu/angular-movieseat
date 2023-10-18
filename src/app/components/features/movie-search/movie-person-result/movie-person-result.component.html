@@ -1,0 +1,10 @@
+<mat-card class="example-card">
+  <mat-card-header [routerLink]="['/biography/', searchResult.id]">
+    <div class="img-container">
+      <img src="https://www.themoviedb.org/t/p/w138_and_h175_face{{ searchResult.profile_path }}" alt="" />
+    </div>
+    <mat-card-title>{{ searchResult.name }}</mat-card-title>
+    <mat-card-subtitle> {{ searchResult.birthday | date : 'dd-MM-yyyy' }} </mat-card-subtitle>
+    <mat-card-subtitle> {{ searchResult.deathday | date : 'dd-MM-yyyy' }} </mat-card-subtitle>
+  </mat-card-header>
+</mat-card>

@@ -2,12 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IMovie } from 'src/app/mock/watchlist.json';
-import { GET_MOVIE, GET_WATCHLIST_USER } from 'src/operations/userOperations/queries';
+import { GET_WATCHLIST_USER } from 'src/operations/userOperations/queries';
 import { AddMovieToUser, GetMovie, GetWatchlistUser, RemoveMovieFromUser } from 'src/types/movieTypes';
 import { ApolloQueryResult } from '@apollo/client/core/types';
-import { ADD_MOVIE_TO_USER, REMOVE_MOVIE_FROM_USER } from 'src/operations/userOperations/mutations';
 import { IUser } from 'src/app/components/authentication/sign-up/sign-up.service';
 import { AuthService } from 'src/app/components/authentication/auth.service';
+import { GET_MOVIE } from 'src/operations/movieOperations/queries';
+import { REMOVE_MOVIE_FROM_USER, ADD_MOVIE_TO_USER } from 'src/operations/movieOperations/mutations';
 
 
 @Injectable({

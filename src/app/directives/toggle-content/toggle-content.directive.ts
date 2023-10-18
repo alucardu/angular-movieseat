@@ -14,6 +14,7 @@ export class ToggleDirective implements OnInit, AfterViewInit {
   @Input() public hasEllipsis = false;
 
   @ContentChild('chevron', { read: ElementRef }) private chevronElement?: ElementRef<HTMLElement>
+  @ContentChild('list', { read: ElementRef }) private listElement?: ElementRef<HTMLElement>
 
   private elHeight?: number;
   public collapsed = true;
@@ -32,7 +33,7 @@ export class ToggleDirective implements OnInit, AfterViewInit {
         'height',
         this.initialHeight + 'px' ?? '10px'
       );
-    }, 50)
+    }, 250)
   }
 
   @HostListener('click') public click(): void {
@@ -40,6 +41,7 @@ export class ToggleDirective implements OnInit, AfterViewInit {
       this.collapsed ? this.getExpandedAnimation() : this.getCollapseAnimation()
     );
     this.collapsed = !this.collapsed;
+    this.toggleExpandedState();
     this.toggleEllipsis();
 
     if (this.chevronElement) {
@@ -70,6 +72,10 @@ export class ToggleDirective implements OnInit, AfterViewInit {
   private toggleEllipsis(): void {
     if (!this.hasEllipsis) return
     this.collapsed ? this.renderer.addClass(this.el.nativeElement, ('ellipsis')) : this.renderer.removeClass(this.el.nativeElement, ('ellipsis'));
+  }
+
+  private toggleExpandedState(): void {
+    if (this.listElement) this.renderer.removeClass(this.listElement?.nativeElement, ('hide'))
   }
 
   private toggleChevronState(): void {

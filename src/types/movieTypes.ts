@@ -1,5 +1,5 @@
 import { IUser } from "src/app/components/authentication/sign-up/sign-up.service"
-import { IMovie } from "src/app/mock/watchlist.json"
+import { IMovie, IPerson } from "src/app/mock/watchlist.json"
 
 export interface IResponse {
   type: string,
@@ -15,6 +15,16 @@ type ReturnObjectMovie = {
 type ReturnObjectMovies = {
   data: [IMovie],
   response: IResponse,
+}
+
+type ReturnObjectPerson = {
+  data: IPerson,
+  response: IResponse
+}
+
+type ReturnObjectPersons = {
+  data: [IPerson],
+  response: IResponse
 }
 
 type User = {
@@ -37,6 +47,15 @@ export type RemoveMovieFromUser = {
 // QUERIES
 export type SearchMovies = {
   searchMovies: ReturnObjectMovies
+}
+
+export type SearchPerson = {
+  searchPerson: ReturnObjectPerson
+}
+
+
+export type SearchPersons = {
+  searchPersons: ReturnObjectPersons
 }
 
 export type GetMovie = {

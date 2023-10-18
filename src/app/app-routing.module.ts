@@ -67,7 +67,6 @@ const routes: Routes = [
   },
   {
     path: 'biography/:id',
-    canActivate: [canActivate],
     loadComponent: () => import('./components/biography/biography.component').then(c => c.BiographyComponent),
     data: {
       animation: 'slideRight'

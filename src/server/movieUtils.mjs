@@ -52,13 +52,83 @@ const returnDate = (type) => {
   return dateString;
 }
 
-export const getMovies = async (query) => {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
+export const getMovies = async (query, type) => {
+  if (type === 'movieSearch') {
+    const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
 
-  const response = await fetch(url, options);
-  const data = await response.json();
+    const response = await fetch(url, options);
+    const data = await response.json();
 
-  return data;
+    return data;
+  }
+
+  if (type === 'personSearch') {
+    const url = `https://api.themoviedb.org/3/person/${query}?append_to_response=movie_credits&language=en-US`;
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data
+  }
+
+  if (type == 'personsSearch') {
+    const url = `https://api.themoviedb.org/3/search/person?query=${query}&include_adult=false&language=en-US&page=1`;
+
+    const response = await fetch(url, options);
+    const personsResults = await response.json();
+
+    const persons = personsResults.results.slice(0, 2)
+    const ids = personsResults.results.slice(0, 2).map((person) => person.id)
+
+    const movies = ids.map(async (id) => {
+      const url = `https://api.themoviedb.org/3/person/${id}?append_to_response=movie_credits&language=en-US`;
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return data
+    })
+
+    // also check cast (Brad Pitt)
+
+    const firstResults = Promise.all(movies)
+      .then((movieData) => {
+        return movieData[0]?.movie_credits.crew.filter((crew) => crew.job === 'Director')
+      })
+
+    const secondResults = Promise.all(movies)
+      .then((movieData) => {
+        return movieData[1]?.movie_credits.crew.filter((crew) => crew.job === 'Director')
+      })
+
+    const firstPersonData = Promise.all(movies)
+      .then((movieData) => {
+        return movieData[0]
+      })
+
+    const secondPersonData = Promise.all(movies)
+      .then((movieData) => {
+        return movieData[1]
+      })
+
+
+    const firstPerson = {
+      ...returnFirstPersonData(await firstPersonData),
+      movies: sortMoviesOnReleaseDate(await firstResults)
+    }
+
+    const secondPerson = {
+      ...returnSecondPersonData(await secondPersonData),
+      movies: sortMoviesOnReleaseDate(await secondResults)
+    }
+
+    return [firstPerson, secondPerson];
+
+  }
+}
+
+function returnFirstPersonData(person) {
+  return person
+}
+
+function returnSecondPersonData(person) {
+  return person
 }
 
 export const getMoviesCredits = async (movies) => {
@@ -206,7 +276,7 @@ export const filterByTitleCheck = (movie, query) => {
 }
 
 export const sortMoviesOnAddedDate = movies => {
-  const sortedMovies = movies.sort((a, b) => {
+  const sortedMovies = movies?.sort((a, b) => {
     const dateA = new Date(a.added_at)
     const dateB = new Date(b.added_at)
 
@@ -217,7 +287,7 @@ export const sortMoviesOnAddedDate = movies => {
 }
 
 export const sortMoviesOnReleaseDate = (movies) => {
-  const sortedMovies = movies.sort((a, b) => {
+  const sortedMovies = movies?.sort((a, b) => {
     const dateA = new Date(a.release_date)
     const dateB = new Date(b.release_date)
 
