@@ -103,6 +103,7 @@ type ReturnObjectMovie {
     persons: [Person],
     department: String,
     job: String
+    character: String
   }
 
   input MovieInput {
@@ -125,6 +126,7 @@ type ReturnObjectMovie {
     persons: [PersonInput],
     department: String,
     job: String
+    character: String
   }
 
   type Mutation {

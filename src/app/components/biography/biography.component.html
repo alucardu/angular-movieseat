@@ -6,7 +6,23 @@
   <img [src]="'https://www.themoviedb.org/t/p/w120_and_h133_face/' + profile_path" alt="some guy" />
 </div>
 
-<mat-card appToggleContent [initialHeight]="64">
+<mat-card appToggleContent [initialHeight]="64" *ngIf="actorMovies.length > 0">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon #chevron> chevron_right </mat-icon>
+      Actor ({{ actorMovies.length }})
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list #list class="hide">
+      <mat-list-item *ngFor="let movie of actorMovies"
+        ><a (click)="navigateToMovie(movie)"> {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }}) </a></mat-list-item
+      >
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card appToggleContent [initialHeight]="64" *ngIf="directorMovies.length > 0">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
@@ -22,7 +38,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card appToggleContent [initialHeight]="64">
+<mat-card appToggleContent [initialHeight]="64" *ngIf="writerMovies.length > 0">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
@@ -38,7 +54,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card appToggleContent [initialHeight]="64">
+<mat-card appToggleContent [initialHeight]="64" *ngIf="editorMovies.length > 0">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
@@ -54,7 +70,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card appToggleContent [initialHeight]="64">
+<mat-card appToggleContent [initialHeight]="64" *ngIf="directorOfPhotography.length > 0">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
@@ -70,7 +86,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card appToggleContent [initialHeight]="64">
+<mat-card appToggleContent [initialHeight]="64" *ngIf="executiveProducer.length > 0">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
@@ -86,7 +102,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card appToggleContent [initialHeight]="64">
+<mat-card appToggleContent [initialHeight]="64" *ngIf="soundEditor.length > 0">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>
@@ -102,7 +118,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card appToggleContent [initialHeight]="64">
+<mat-card appToggleContent [initialHeight]="64" *ngIf="visualEffects.length > 0">
   <mat-card-header>
     <mat-card-title>
       <mat-icon #chevron> chevron_right </mat-icon>

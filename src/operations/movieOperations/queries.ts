@@ -136,7 +136,8 @@ const SEARCH_PERSON = gql`
           vote_average,
           backdrop_path,
           department,
-          job
+          job,
+          character
         }
       }
       response {

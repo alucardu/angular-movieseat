@@ -350,7 +350,7 @@ const movieResolvers = {
       let person = await getMovies(args.id, 'personSearch')
 
       person.movies = sortMoviesOnReleaseDate(person.movie_credits.crew).reverse()
-      console.log(person.movies)
+      person.movies = [...person.movies, ...sortMoviesOnReleaseDate(person.movie_credits.cast).reverse()]
 
       return {
         data: person,

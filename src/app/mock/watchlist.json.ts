@@ -9,6 +9,7 @@ export interface IMovie {
   release_year: string,
   overview: string,
   runtime: string,
+  character?: string,
   vote_average: number,
   certification: string,
   tagline: string

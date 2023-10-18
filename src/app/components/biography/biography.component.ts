@@ -36,6 +36,7 @@ export class BiographyComponent implements OnInit {
   public executiveProducer: IMovie[] = [];
   public soundEditor: IMovie[] = [];
   public visualEffects: IMovie[] = [];
+  public actorMovies: IMovie[] = [];
 
   public ngOnInit(): void {
     this.route.paramMap.pipe(first()).subscribe({
@@ -66,6 +67,7 @@ export class BiographyComponent implements OnInit {
     this.soundEditor = movies.filter((movie) => { return movie.job === 'Sound'})
     this.executiveProducer = movies.filter((movie) => { return movie.job === 'Executive Producer' || movie.job === 'Producer'})
     this.visualEffects = movies.filter((movie) => { return movie.job === 'Visual Effects'})
+    this.actorMovies = movies.filter((movie) => { return movie.character !== null})
   }
 
   public navigateToMovie(movie: IMovie): void {
