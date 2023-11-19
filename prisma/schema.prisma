@@ -9,21 +9,22 @@ generator client {
 }
 
 model User {
-  id                Int     @id @default(autoincrement())
-  email             String  @unique
-  username          String  @unique
+  id                Int            @id @default(autoincrement())
+  email             String         @unique
+  username          String         @unique
   password          String
   confirmation_code String?
-  movies            Movie[] @relation(name: "MoviesToUsers")
-  friends           User[]  @relation(name: "UserFriends")
-  friendOf          User[]  @relation(name: "UserFriends")
+  movies            Movie[]        @relation(name: "MoviesToUsers")
+  friends           User[]         @relation(name: "UserFriends")
+  friendOf          User[]         @relation(name: "UserFriends")
   notifications     Notification[] @relation(name: "NotificationToUser")
   actionsPerformed  Notification[] @relation(name: "ActionsPerformed")
+  reviews           Review[]       @relation(name: "ReviewToUser")
 }
 
 model Movie {
-  id             Int           @id @default(autoincrement())
-  tmdb_id        String        @unique
+  id             Int            @id @default(autoincrement())
+  tmdb_id        String         @unique
   title          String
   original_title String?
   poster_path    String?
@@ -34,12 +35,13 @@ model Movie {
   tagline        String?
   runtime        Int?
   vote_average   Int?
-  added_at        DateTime       @default(now())
+  added_at       DateTime       @default(now())
   clips          Clip[]         @relation(name: "MovieToClips")
   genres         Genre[]        @relation(name: "MovieToGenres")
   persons        PersonMovie[]  @relation(name: "MovieToPersons")
   users          User[]         @relation(name: "MoviesToUsers")
   notifications  Notification[] @relation(name: "NotificationToMovie")
+  reviews        Review[]       @relation(name: "ReviewToMovie")
 }
 
 model Person {
@@ -56,51 +58,61 @@ model Person {
 }
 
 model PersonMovie {
-  id              Int     @id @default(autoincrement())
-  credit_id       String
-  department      String?
-  job             String?
-  cast_id         Int?
-  character       String?
-  order           Int?
-
-  movie           Movie   @relation(name: "MovieToPersons", fields: [movieId], references: [id], onDelete: Cascade)
-  movieId         Int
-
-  person          Person  @relation(name: "PersonToMovie", fields: [personId], references: [id], onDelete: Cascade)
-  personId        Int
+  id         Int     @id @default(autoincrement())
+  credit_id  String
+  department String?
+  job        String?
+  cast_id    Int?
+  character  String?
+  order      Int?
+  movie      Movie   @relation(name: "MovieToPersons", fields: [movieId], references: [id], onDelete: Cascade)
+  movieId    Int
+  person     Person  @relation(name: "PersonToMovie", fields: [personId], references: [id], onDelete: Cascade)
+  personId   Int
 }
 
 model Clip {
-  id              Int     @id @default(autoincrement())
-  name            String
-  key             String
-  site            String
-  type            String
-  official        Boolean
-  published_at    String
-  movie           Movie   @relation(name: "MovieToClips", fields: [movieId], references: [id], onDelete: Cascade)
-  movieId         Int
+  id           Int     @id @default(autoincrement())
+  name         String
+  key          String
+  site         String
+  type         String
+  official     Boolean
+  published_at String
+  movie        Movie   @relation(name: "MovieToClips", fields: [movieId], references: [id], onDelete: Cascade)
+  movieId      Int
 }
 
 model Genre {
-  id              Int     @id @default(autoincrement())
-  name            String? @unique
-  movies          Movie[] @relation(name: "MovieToGenres")
+  id     Int     @id @default(autoincrement())
+  name   String? @unique
+  movies Movie[] @relation(name: "MovieToGenres")
 }
 
 model Notification {
-  id              Int     @id @default(autoincrement())
-  type            String
-  code            String
-  read            Boolean
-  createdAt       DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  type        String
+  code        String
+  read        Boolean
+  createdAt   DateTime @default(now())
+  receiver    User[]   @relation(name: "NotificationToUser")
+  performer   User     @relation(name: "ActionsPerformed", fields: [performerId], references: [id], onDelete: Cascade)
+  performerId Int
+  movie       Movie?   @relation(name: "NotificationToMovie", fields: [movieId], references: [id], onDelete: Cascade)
+  movieId     Int
+  review      Review?  @relation(name: "NotificationToReview", fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewId    Int @unique
+}
 
-  receiver        User[]  @relation(name: "NotificationToUser")
+model Review {
+  id          Int     @id @default(autoincrement())
+  content     String
+  createdAt   DateTime @default(now())
+  user        User    @relation(name: "ReviewToUser", fields: [userId], references: [id])
+  userId      Int
+  movie       Movie   @relation(name: "ReviewToMovie", fields: [movieId], references: [id])
+  movieId     Int
+  notification Notification? @relation(name: "NotificationToReview")
 
-  performer       User    @relation(name: "ActionsPerformed", fields: [performerId], references: [id], onDelete: Cascade)
-  performerId     Int
-
-  movie           Movie?  @relation(name: "NotificationToMovie", fields: [movieId], references: [id], onDelete: Cascade)
-  movieId         Int
+  @@unique([userId, movieId])
 }

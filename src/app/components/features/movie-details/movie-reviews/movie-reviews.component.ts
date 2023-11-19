@@ -5,7 +5,8 @@ import { MaterialModule } from 'src/app/material.module';
 import { MovieReviewComponent } from './movie-review/movie-review.component';
 import { CommonModule } from '@angular/common';
 import { MovieReviewsService } from './movie-reviews.service';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { take } from 'rxjs';
 
 
 @Component({
@@ -17,11 +18,13 @@ import { RouterModule } from '@angular/router';
 })
 export class MovieReviewsComponent implements AfterViewInit {
   private movieReviewsService = inject(MovieReviewsService)
+  private route = inject(ActivatedRoute)
 
   @ViewChild('reviewsContainer', {static: false}) private reviewsContainer!: ElementRef<HTMLElement>
 
   public reviewSorting = new FormControl('oldest');
 
+  private movieId!: string | null;
   private reviewContainerWidth = 0;
   private isScrollingTimeout = setTimeout(() => {
     //
@@ -29,6 +32,16 @@ export class MovieReviewsComponent implements AfterViewInit {
 
   public currentReview = 1;
   public movieReviews$ = this.movieReviewsService.reviews$;
+
+  public ngOnInit(): void {
+    this.route.paramMap.pipe(take(1)).subscribe({
+      next: (data) => {
+        this.movieId = data.get('id')
+      }
+    })
+
+    this.movieReviewsService.getMovieReviews(this.movieId!);
+  }
 
   public ngAfterViewInit(): void {
     this.setPosition();

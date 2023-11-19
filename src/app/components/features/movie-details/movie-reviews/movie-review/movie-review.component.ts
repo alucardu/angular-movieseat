@@ -4,9 +4,9 @@ import { fadeAnimation } from 'src/app/animations';
 import { MaterialModule } from 'src/app/material.module';
 import { MovieRatingComponent } from '../../rating-stars/movie-rating.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { IMovieReview } from 'src/app/mock/movie-reviews.json';
-import { MovieReviewsService } from '../movie-reviews.service';
-import { first, map, take } from 'rxjs';
+import { IMovieReview, MovieReviewsService } from '../movie-reviews.service';
+import { take } from 'rxjs';
+import { StripTitle } from 'src/app/utils/string-utils';
 
 @Component({
   selector: 'app-movie-review',
@@ -37,11 +37,19 @@ export class MovieReviewComponent implements OnInit {
       })
     }
 
-    this.movieReviewsService.reviews$.pipe(
-      map((movieReviews) => movieReviews.find((movieReview) => movieReview.id === this.reviewId)),
-      first(),
-    ).subscribe((data) => this.review = data)
+    this.movieReviewsService.getMovieReview(this.reviewId!).subscribe({
+      next: ({data}) => this.review = data.getMovieReview.data,
+      error: (err) => console.log(err)
+    })
   }
 
   public showEntireReview = false;
+
+  public stripTitle(title?: string): string | null {
+    if (title) {
+      return StripTitle(title)
+    } else {
+      return null
+    }
+  }
 }

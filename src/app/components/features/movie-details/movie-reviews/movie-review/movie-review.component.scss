@@ -32,6 +32,7 @@
 }
 
 .author {
+  font-weight: 500;
   margin-top: 12px;
   display: flex;
   app-movie-rating {
@@ -89,3 +90,25 @@
   }
 }
 
+.titleContainer {
+  font-size: 1.8rem;
+  margin: 8px 0 0 0;
+  font-weight: 500;
+  display: flex;
+}
+
+.title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.releaseDate {
+  font-size: 1rem;
+  font-weight: 100;
+  white-space:nowrap;
+  vertical-align: middle;
+  margin-left: 4px;
+}

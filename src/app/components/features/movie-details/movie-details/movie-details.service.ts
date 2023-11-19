@@ -9,6 +9,7 @@ import { IUser } from 'src/app/components/authentication/sign-up/sign-up.service
 import { AuthService } from 'src/app/components/authentication/auth.service';
 import { GET_MOVIE } from 'src/operations/movieOperations/queries';
 import { REMOVE_MOVIE_FROM_USER, ADD_MOVIE_TO_USER } from 'src/operations/movieOperations/mutations';
+import { MovieReviewsService } from '../movie-reviews/movie-reviews.service';
 
 
 @Injectable({
@@ -17,6 +18,7 @@ import { REMOVE_MOVIE_FROM_USER, ADD_MOVIE_TO_USER } from 'src/operations/movieO
 export class MovieDetailsService {
   private apollo = inject(Apollo)
   private authService = inject(AuthService)
+  private movieReviewService = inject(MovieReviewsService)
 
   private movieSubject$ = new Subject<IMovie>;
   public movie$ = this.movieSubject$.asObservable();

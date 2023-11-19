@@ -1,4 +1,5 @@
 import { IUser } from "../components/authentication/sign-up/sign-up.service"
+import { IMovieReview } from "../components/features/movie-details/movie-reviews/movie-reviews.service"
 import { IMovie } from "./watchlist.json"
 
 export interface INotification {
@@ -10,4 +11,5 @@ export interface INotification {
   receiver?: IUser,
   performer: IUser,
   movie?: IMovie
+  review?: IMovieReview
 }

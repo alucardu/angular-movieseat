@@ -17,6 +17,11 @@ const notificationResolvers = {
                 tmdb_id: args.notification.movie.tmdb_id
               }
             },
+            review: {
+              connect: {
+                id: Number(args.notification.review.id)
+              }
+            },
             performer: {
               connect: {
                 id: Number(args.notification.performer.id)
@@ -111,7 +116,8 @@ const notificationResolvers = {
             notifications: {
               include: {
                 movie: true,
-                performer: true
+                performer: true,
+                review: true
               },
               orderBy: {
                 createdAt: 'desc'

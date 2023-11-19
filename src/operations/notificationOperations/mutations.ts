@@ -62,35 +62,6 @@ const MARK_ALL_NOTIFICATION_AS_READ = gql`
   }
 `;
 
-const GET_ALL_NOTIFICATIONS = gql`
-  query {
-    getAllNotifications {
-      response {
-        type,
-        code
-      }
-      data {
-        id
-        code
-        read
-        type
-        createdAt
-        movie {
-          id
-          title
-          release_date
-          tmdb_id
-        }
-        performer {
-          id
-          username
-        }
-      }
-    }
-  }
-`;
 
-
-
-export {CREATE_NOTIFICATION, GET_ALL_NOTIFICATIONS, MARK_NOTIFICATION_AS_READ, MARK_ALL_NOTIFICATION_AS_READ };
+export {CREATE_NOTIFICATION, MARK_NOTIFICATION_AS_READ, MARK_ALL_NOTIFICATION_AS_READ };
 

@@ -1,9 +1,10 @@
 <mat-dialog-content>
   <mat-form-field appearance="fill" class="reviewInput">
-    <textarea placeholder="Your review..." matInput [formControl]="reviewInput"></textarea>
+    <textarea placeholder="Your review..." matInput [formControl]="review"></textarea>
+    <mat-error>Your review needs to be at least 6 characters long</mat-error>
   </mat-form-field>
   <div class="footer">
-    <button mat-flat-button color="primary">Submit</button>
+    <button mat-flat-button color="primary" (click)="addReviewToMovie()">Submit</button>
     <app-movie-rating></app-movie-rating>
   </div>
 </mat-dialog-content>

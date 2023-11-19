@@ -44,7 +44,8 @@ export class LoginComponent {
           type: 'sign_in',
           code: data.message
         }
-        this.snackBarService.openSnackBar(response, SnackBarState.ERROR)}
+        this.snackBarService.openSnackBar(response, SnackBarState.ERROR)
+      }
     })
   }
 

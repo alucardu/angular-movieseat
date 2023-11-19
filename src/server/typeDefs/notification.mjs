@@ -23,6 +23,7 @@ const notificationDefs = gql`
     type: String,
     createdAt: String,
     movie: Movie
+    review: Review
     receiver: [User]
     performer: User
   }
@@ -34,6 +35,7 @@ const notificationDefs = gql`
     type: String,
     createdAt: String,
     movie: MovieInput
+    review: ReviewInput
     receiver: [UserInput]
     performer: UserInput
   }

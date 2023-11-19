@@ -1,16 +1,28 @@
 <mat-card class="reviewsContainer">
   <mat-card-content>
-    <span class="reviewRating">
+    <!-- <span class="reviewRating">
       <div class="likesSorting">
         <mat-icon>thumb_up</mat-icon>
         <p>(126)</p>
       </div>
-    </span>
+    </span> -->
 
-    <p class="author">{{ review!.user_name }} <app-movie-rating></app-movie-rating></p>
+    <h2 class="titleContainer" *ngIf="fullReview">
+      <span class="title"
+        ><a class="title" [routerLink]="['/movie', review?.movie?.tmdb_id, this.stripTitle(review?.movie?.title)]">{{ review?.movie?.title }}</a>
+      </span>
+      <span class="releaseDate">({{ review?.movie?.release_date | date : 'yyyy' }})</span>
+    </h2>
+    <p class="author">
+      Author: {{ review?.user?.username }}<br />
+      Reviewed on: {{ review?.createdAt | date : 'longDate' }}
+    </p>
 
-    <p class="review" [ngClass]="!fullReview && review!.content.length > 380 ? 'ellipsis' : ''" [routerLink]="fullReview ? null : ['review', review!.id]">
-      {{ review!.content }}
+    <p
+      class="review"
+      [ngClass]="!fullReview && review && review.content.length > 380 ? 'ellipsis' : ''"
+      [routerLink]="fullReview ? null : ['review', review?.id]">
+      {{ review?.content }}
     </p>
   </mat-card-content>
 </mat-card>

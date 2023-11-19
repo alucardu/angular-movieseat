@@ -17,10 +17,12 @@ import movieResolvers from './resolvers/movies.mjs';
 import movieTypeDefs from './typeDefs/movies.mjs';
 import notificationResolvers from './resolvers/notification.mjs';
 import notificationDefs from './typeDefs/notification.mjs';
+import reviewTypeDefs from './typeDefs/reviews.mjs'
+import reviewResolvers from './resolvers/review.mjs';
 
 const schema = makeExecutableSchema({
-  typeDefs: [userTypeDefs, movieTypeDefs, notificationDefs],
-  resolvers: [userResolvers, movieResolvers, notificationResolvers],
+  typeDefs: [userTypeDefs, movieTypeDefs, notificationDefs, reviewTypeDefs],
+  resolvers: [userResolvers, movieResolvers, notificationResolvers, reviewResolvers],
 })
 
 let httpServer;

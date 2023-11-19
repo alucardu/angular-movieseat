@@ -5,7 +5,9 @@ import { IMovie } from 'src/app/mock/watchlist.json';
 import { IUser } from '../authentication/sign-up/sign-up.service';
 import { Apollo } from 'apollo-angular';
 import { CreateNotification, GetAllNotifications, markAllNotificationsAsRead, MarkNotificationAsRead } from 'src/types/notifications';
-import { CREATE_NOTIFICATION, GET_ALL_NOTIFICATIONS, MARK_ALL_NOTIFICATION_AS_READ, MARK_NOTIFICATION_AS_READ } from 'src/operations/notificationOperations/mutations';
+import { CREATE_NOTIFICATION, MARK_ALL_NOTIFICATION_AS_READ, MARK_NOTIFICATION_AS_READ } from 'src/operations/notificationOperations/mutations';
+import { IMovieReview } from '../features/movie-details/movie-reviews/movie-reviews.service';
+import { GET_ALL_NOTIFICATIONS } from 'src/operations/notificationOperations/queries';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +71,7 @@ export class NotificationService {
     this.notificationOpenedIndexSubject$.value === index ? this.notificationOpenedIndexSubject$.next(-1) : this.notificationOpenedIndexSubject$.next(index)
   }
 
-  public createNotification(type: string, code: string, data: IMovie, performer: IUser): void {
+  public createNotification(type: string, code: string, data: IMovie | IMovieReview, performer: IUser): void {
     const notification: INotification = {
       id: 1, read: false, code: '', type: '', createdAt: new Date,
       performer: { id: '', username: '', email: '', movies: [], friends: [], friendOf: [] }
@@ -77,6 +79,7 @@ export class NotificationService {
 
     switch (type) {
       case 'movie':
+        data = <IMovie>data
 
         switch (code) {
           case 'N_01':
@@ -84,7 +87,6 @@ export class NotificationService {
             notification.type = type
             notification.performer = performer
             notification.movie = data
-
             break;
 
           default:
@@ -94,6 +96,22 @@ export class NotificationService {
 
       default:
         break;
+
+      case 'movie_review':
+        data = <IMovieReview>data
+
+        switch (code) {
+          case 'N_01':
+            notification.code = code
+            notification.type = type
+            notification.performer = performer
+            notification.movie = data.movie
+            notification.review = data
+            break;
+
+          default:
+            break;
+        }
     }
 
     this.apollo.mutate<CreateNotification>({

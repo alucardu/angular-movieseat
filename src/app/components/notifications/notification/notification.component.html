@@ -1,6 +1,6 @@
 <mat-card [ngClass]="{ read: notification.read }">
-  <ng-container [ngSwitch]="notification.code">
-    <div *ngSwitchCase="'N_01'">
+  <ng-container [ngSwitch]="notification.type">
+    <div *ngSwitchCase="'movie'">
       <mat-card-header (click)="toggleOpened(index, notification)">
         <mat-card-title>
           <span *ngIf="notification.movie">
@@ -14,6 +14,24 @@
         [ngClass]="{ opened: (notificationOpenedIndex$ | async) === index }"
         [@toggleContent]="(notificationOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
         <a [routerLink]="['/movie', notification.movie?.tmdb_id, this.stripTitle(notification.movie!.title)]">Check out {{ notification.movie?.title }} </a>
+      </mat-card-content>
+    </div>
+
+    <div *ngSwitchCase="'movie_review'">
+      <mat-card-header (click)="toggleOpened(index, notification)">
+        <mat-card-title>
+          <span *ngIf="notification.movie">
+            {{ notification.performer.username }} has reviewed {{ notification.movie.title }} ({{ notification.movie.release_date | date : 'yyyy' }})
+          </span>
+          <span class="timeAgo">{{ returnDaysAgo(notification) }}</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content
+        [ngClass]="{ opened: (notificationOpenedIndex$ | async) === index }"
+        [@toggleContent]="(notificationOpenedIndex$ | async) === index ? 'expanded' : 'collapsed'">
+        <a [routerLink]="['/movie', notification.movie?.tmdb_id, this.stripTitle(notification.movie!.title), 'review', notification.review!.id]"
+          >Check out their review of {{ notification.movie?.title }} ({{ notification.movie?.release_date | date : 'yyyy' }})
+        </a>
       </mat-card-content>
     </div>
   </ng-container>

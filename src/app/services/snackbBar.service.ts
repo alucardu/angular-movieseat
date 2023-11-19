@@ -4,6 +4,7 @@ import { SnackBarComponent } from '../components/UI/snackBar/snackBar.component'
 import { IResponse } from 'src/types/userTypes';
 import { IUser } from '../components/authentication/sign-up/sign-up.service';
 import { IMovie } from '../mock/watchlist.json';
+import { IMovieReview } from '../components/features/movie-details/movie-reviews/movie-reviews.service';
 
 export enum SnackBarState {
   SUCCESS = 'success',
@@ -22,7 +23,7 @@ export interface SnackBarData {
 export class SnackbBarService {
   private _snackBar = inject(MatSnackBar)
 
-  public openSnackBar(response: IResponse, state: SnackBarState, data?: IUser | IMovie): void {
+  public openSnackBar(response: IResponse, state: SnackBarState, data?: IUser | IMovie | IMovieReview): void {
     const message = this.setMessageText(response, data);
 
     this._snackBar.openFromComponent(SnackBarComponent, {
@@ -35,7 +36,7 @@ export class SnackbBarService {
     })
   }
 
-  private setMessageText(response: IResponse, data?: IUser | IMovie): string {
+  private setMessageText(response: IResponse, data?: IUser | IMovie | IMovieReview): string {
     switch (response.type) {
 
       case 'user':
@@ -74,6 +75,19 @@ export class SnackbBarService {
 
           case 'U_10':
             return `You have already added this movie to your watchlist.`
+
+          default:
+            return '';
+        }
+
+      case 'review':
+        data = <IMovieReview>data
+        switch (response.code) {
+          case 'R_01':
+            return `Your review has been added!`
+
+          case 'P2002':
+            return `You've already added a review for this movie.`
 
           default:
             return '';
