@@ -7,39 +7,53 @@ const notificationResolvers = {
   Mutation: {
     createNotification: async(_,args) => {
       try {
-        await prisma.notification.create({
-          data: {
-            code: args.notification.code,
-            read: args.notification.read,
-            type: args.notification.type,
-            movie: {
-              connect: {
-                tmdb_id: args.notification.movie.tmdb_id
-              }
-            },
-            review: {
-              connect: {
-                id: Number(args.notification.review.id)
-              }
-            },
-            performer: {
-              connect: {
-                id: Number(args.notification.performer.id)
-              }
-            },
-            receiver: {
-              connect: args.notification.performer.friends.map((friend) => ({ id: Number(friend.id) })),
+          await prisma.notification.create({
+            data: {
+              code: args.notification.code,
+              read: args.notification.read,
+              type: args.notification.type,
+              performer: {
+                connect: {
+                  id: Number(args.notification.performer.id)
+                }
+              },
+              receiver: {
+                connect: args.notification.performer.friends.map((friend) => ({ id: Number(friend.id) })),
+              },
+
+              ...(args.notification.type === 'movie' ? {
+                movie: {
+                  connect: {
+                    tmdb_id: args.notification.movie.tmdb_id
+                  }
+                },
+              } : {}),
+
+              ...(args.notification.type === 'movie_review' ? {
+                movie: {
+                  connect: {
+                    tmdb_id: args.notification.movie.tmdb_id
+                  }
+                },
+
+                review: {
+                  connect: {
+                    id: Number(args.notification.review?.id),
+                  },
+                },
+              } : {}),
+            }
+          })
+
+          return {
+            response: {
+              type: 'notification',
+              code: 'N_02'
             }
           }
-        })
-
-        return {
-          response: {
-            type: 'notification',
-            code: 'N_02'
-          }
         }
-      } catch(e) {
+
+       catch(e) {
         console.log(e)
       }
     },

@@ -99,9 +99,9 @@ model Notification {
   performer   User     @relation(name: "ActionsPerformed", fields: [performerId], references: [id], onDelete: Cascade)
   performerId Int
   movie       Movie?   @relation(name: "NotificationToMovie", fields: [movieId], references: [id], onDelete: Cascade)
-  movieId     Int
+  movieId     Int?
   review      Review?  @relation(name: "NotificationToReview", fields: [reviewId], references: [id], onDelete: Cascade)
-  reviewId    Int @unique
+  reviewId    Int? @unique
 }
 
 model Review {
