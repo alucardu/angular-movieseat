@@ -33,6 +33,19 @@ const reviewTypeDefs = gql`
     ): ReturnObjectReview
   }
 
+  type Mutation {
+    removeReviewFromMovie(
+      reviewId: String
+    ): ReturnObjectReview
+  }
+
+  type Mutation {
+    editMovieReview(
+      content: String,
+      reviewId: String
+    ): ReturnObjectReview
+  }
+
   type Query {
     getMovieReview(
       reviewId: String

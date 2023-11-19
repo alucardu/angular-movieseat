@@ -38,6 +38,7 @@ const GET_MOVIE_REVIEW = gql`
         content,
         createdAt
         user {
+          id
           username
         },
         movie {

@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { IUser } from 'src/app/components/authentication/sign-up/sign-up.service';
 import { IMovie } from 'src/app/mock/watchlist.json';
-import { ADD_REVIEW_TO_MOVIE } from 'src/operations/reviewOperations/mutations';
+import { ADD_REVIEW_TO_MOVIE, EDIT_MOVIE_REVIEW, REMOVE_REVIEW_FROM_MOVIE } from 'src/operations/reviewOperations/mutations';
 import { GET_MOVIE_REVIEW, GET_MOVIE_REVIEWS } from 'src/operations/reviewOperations/queries';
-import { AddReviewToMovie, GetMovieReview, GetMovieReviews } from 'src/types/reviewTypes';
+import { AddReviewToMovie, EditMovieReview, GetMovieReview, GetMovieReviews, RemoveReviewFromMovie } from 'src/types/reviewTypes';
 
 export interface IMovieReview {
   id: string,
@@ -37,6 +37,25 @@ export class MovieReviewsService {
     })
   }
 
+  public removeReviewFromMovie(reviewId: string): Observable<MutationResult<RemoveReviewFromMovie>> {
+    return this.apollo.mutate<RemoveReviewFromMovie>({
+      mutation: REMOVE_REVIEW_FROM_MOVIE,
+      variables: {
+        reviewId: reviewId
+      }
+    })
+  }
+
+  public editMovieReview(reviewControl: FormControl, reviewId: string): Observable<MutationResult<EditMovieReview>> {
+    return this.apollo.mutate<EditMovieReview>({
+      mutation: EDIT_MOVIE_REVIEW,
+      variables: {
+        content: reviewControl.value,
+        reviewId: reviewId
+      }
+    })
+  }
+
   public getMovieReviews(movieId: string): void {
     this.apollo.query<GetMovieReviews>({
       query: GET_MOVIE_REVIEWS,
@@ -45,7 +64,8 @@ export class MovieReviewsService {
       },
       fetchPolicy: 'no-cache'
     }).subscribe({
-      next: ({data}) => this.reviewsSubject$.next(data.getMovieReviews.data)
+      next: ({data}) => {
+        this.reviewsSubject$.next(data.getMovieReviews.data)}
     })
   }
 
@@ -54,7 +74,8 @@ export class MovieReviewsService {
       query: GET_MOVIE_REVIEW,
       variables: {
         reviewId: reviewId
-      }
+      },
+      fetchPolicy: 'no-cache'
     })
   }
 }

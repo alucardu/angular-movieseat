@@ -42,8 +42,49 @@ const reviewResolvers = {
           throw e;
         }
       }
-    }
+    },
+
+    removeReviewFromMovie: async(_, args) => {
+      try {
+        const review = await prisma.review.delete({
+          where: {
+            id: Number(args.reviewId)
+          }
+        })
+
+        return {
+          data: review,
+          response: {
+            type: 'review',
+              code: 'R_05'
+          }
+        }
+      } catch(e) {
+        console.log(e)
+      }
+    },
+
+    editMovieReview: async(_, args) => {
+      console.log(args)
+      try {
+        const review = await prisma.review.update({
+          where: { id: Number(args.reviewId) },
+          data: { content: args.content },
+        })
+
+        return {
+          data: review,
+          response: {
+            type: 'review',
+              code: 'R_06'
+          }
+        }
+      } catch(e) {
+        console.log(e)
+      }
+    },
   },
+
 
   Query: {
     getMovieReviews: async(_, args) => {

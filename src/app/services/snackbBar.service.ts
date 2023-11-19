@@ -86,6 +86,12 @@ export class SnackbBarService {
           case 'R_01':
             return `Your review has been added!`
 
+          case 'R_05':
+            return `Your review has been removed.`
+
+          case 'R_06':
+            return `Your review has been editted.`
+
           case 'P2002':
             return `You've already added a review for this movie.`
 

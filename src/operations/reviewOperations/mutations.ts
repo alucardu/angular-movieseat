@@ -24,4 +24,46 @@ const ADD_REVIEW_TO_MOVIE = gql`
   }
 `
 
-export { ADD_REVIEW_TO_MOVIE };
+const EDIT_MOVIE_REVIEW = gql`
+  mutation editMovieReview(
+    $content: String
+    $reviewId: String
+  ) {
+    editMovieReview(
+      content: $content
+      reviewId: $reviewId
+    ) {
+      response {
+        type,
+        code
+      }
+      data {
+        id,
+        movie {
+          id,
+          tmdb_id
+        }
+      }
+    }
+  }
+`
+
+const REMOVE_REVIEW_FROM_MOVIE = gql`
+  mutation removeReviewFromMovie(
+    $reviewId: String
+  ) {
+    removeReviewFromMovie(
+      reviewId: $reviewId
+    ) {
+      response {
+        type,
+        code
+      }
+      data {
+        id,
+      }
+    }
+  }
+`
+
+export { ADD_REVIEW_TO_MOVIE, EDIT_MOVIE_REVIEW, REMOVE_REVIEW_FROM_MOVIE };

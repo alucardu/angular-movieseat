@@ -3,6 +3,13 @@
   min-height: 254px;
   mat-card-content {
     padding: 16px;
+    mat-card-footer {
+      margin-top: 16px;
+      display: inline-block;
+      button {
+        margin-right: 8px;
+      }
+    }
   }
 }
 

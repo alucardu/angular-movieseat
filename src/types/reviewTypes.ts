@@ -21,6 +21,14 @@ export type AddReviewToMovie = {
   addReviewToMovie: ReturnObjectReview
 }
 
+export type EditMovieReview = {
+  editMovieReview: ReturnObjectReview
+}
+
+export type RemoveReviewFromMovie = {
+  removeReviewFromMovie: ReturnObjectReview
+}
+
 // QUERIES
 export type GetMovieReviews = {
   getMovieReviews: ReturnObjectReviews

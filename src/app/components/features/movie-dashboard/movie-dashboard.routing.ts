@@ -3,6 +3,7 @@ import { MovieDetailsComponent } from '../movie-details/movie-details/movie-deta
 import { YoutubePlayerComponent } from '../../shared/youtube-player/youtube-player.component';
 import { MovieReviewComponent } from '../movie-details/movie-reviews/movie-review/movie-review.component';
 import { CreateMovieReviewComponent } from '../movie-details/movie-reviews/create-movie-review/create-movie-review.component';
+import { EditMovieReviewComponent } from '../movie-details/movie-reviews/edit-movie-review/edit-movie-review.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,14 @@ const routes: Routes = [
           animation: 'fade'
         }
       },
-
+      {
+        path: ':id/:title/review/:id/edit',
+        component: EditMovieReviewComponent,
+        data: {
+          title: 'Review #1',
+          animation: 'fade'
+        }
+      },
     ],
   },
 ];
