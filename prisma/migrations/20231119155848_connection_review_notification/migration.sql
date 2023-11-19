@@ -6,7 +6,7 @@
 
 */
 -- AlterTable
-ALTER TABLE "Notification" ADD COLUMN     "reviewId" INTEGER NOT NULL;
+ALTER TABLE "Notification" ADD COLUMN     "reviewId" INTEGER;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Notification_reviewId_key" ON "Notification"("reviewId");
