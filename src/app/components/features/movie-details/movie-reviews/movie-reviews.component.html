@@ -1,4 +1,4 @@
-<div class="reviewOptionsContainer">
+<div class="reviewOptionsContainer" *ngIf="(movieReviews$ | async)!.length > 0">
   <span>{{ currentReview }}/{{ (movieReviews$ | async)!.length }}</span>
   <mat-form-field appearance="outline" class="reviewSort" subscriptSizing="dynamic" color="accent" *ngIf="true">
     <mat-select [formControl]="reviewSorting">
@@ -19,5 +19,10 @@
 </div>
 
 <div class="reviewContainer" #reviewsContainer>
+  <div *ngIf="(movieReviews$ | async)!.length === 0">
+    <mat-card class="reviewsContainer">
+      <mat-card-content><a [routerLink]="['review/create']">Be the first to add a review for this movie!</a></mat-card-content>
+    </mat-card>
+  </div>
   <app-movie-review [reviewId]="review.id" *ngFor="let review of movieReviews$ | async"></app-movie-review>
 </div>
