@@ -296,7 +296,7 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^15.0.0 || ^16.0.0", "@angular/common@^17.0.0", "@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^17.3.12", "@angular/common@>=14.0.0", "@angular/common@17.3.12":
+"@angular/common@^17.0.0", "@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^17.3.12", "@angular/common@^18.0.0 || ^19.0.0", "@angular/common@>=14.0.0", "@angular/common@17.3.12":
   version "17.3.12"
   resolved "https://registry.npmjs.org/@angular/common/-/common-17.3.12.tgz"
   integrity sha512-vabJzvrx76XXFrm1RJZ6o/CyG32piTB/1sfFfKHdlH1QrmArb8It4gyk9oEjZ1IkAD0HvBWlfWmn+T6Vx3pdUw==
@@ -324,7 +324,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^14.0.0 || ^15.0.0 || ^16.0.0", "@angular/core@^15.0.0 || ^16.0.0", "@angular/core@^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.12", "@angular/core@>=14.0.0", "@angular/core@17.3.12":
+"@angular/core@^14.0.0 || ^15.0.0 || ^16.0.0", "@angular/core@^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.12", "@angular/core@^18.0.0 || ^19.0.0", "@angular/core@>=14.0.0", "@angular/core@17.3.12":
   version "17.3.12"
   resolved "https://registry.npmjs.org/@angular/core/-/core-17.3.12.tgz"
   integrity sha512-MuFt5yKi161JmauUta4Dh0m8ofwoq6Ino+KoOtkYMBGsSx+A7dSm+DUxxNwdj7+DNyg3LjVGCFgBFnq4g8z06A==
@@ -429,12 +429,12 @@
     critters "0.0.22"
     tslib "^2.3.0"
 
-"@angular/youtube-player@^15.2.6":
-  version "15.2.9"
-  resolved "https://registry.npmjs.org/@angular/youtube-player/-/youtube-player-15.2.9.tgz"
-  integrity sha512-1zsQbe1cpM4rUEer5m3zXU1VISzG3Mo3eeseXoZGRI00n1LhOgxTqCKO12mQSnh7LhMKLe3etnQmQ1YZSSfSXA==
+"@angular/youtube-player@^18.2.8":
+  version "18.2.8"
+  resolved "https://registry.npmjs.org/@angular/youtube-player/-/youtube-player-18.2.8.tgz"
+  integrity sha512-BKP/dTExCB4XN33nKBosNleRE23NaJayzKZ8YY6lyBWJB6A/9qmyyKPI7MrUn7PRmYuNG0u0xRHO4wm3Ozd+jg==
   dependencies:
-    "@types/youtube" "^0.0.42"
+    "@types/youtube" "^0.0.50"
     tslib "^2.3.0"
 
 "@apollo/cache-control-types@^1.0.3":
@@ -3909,10 +3909,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/youtube@^0.0.42":
-  version "0.0.42"
-  resolved "https://registry.npmjs.org/@types/youtube/-/youtube-0.0.42.tgz"
-  integrity sha512-Nqo3HMPFPcNyZ7HNFZJjpH+N4yXqpxBItG+41e7nL9zednovMRZMXWj36CctSznbBcbj6ucvkJDo5iZ8SKqLIw==
+"@types/youtube@^0.0.50":
+  version "0.0.50"
+  resolved "https://registry.npmjs.org/@types/youtube/-/youtube-0.0.50.tgz"
+  integrity sha512-d4GpH4uPYp9W07kc487tiq6V/EUHl18vZWFMbQoe4Sk9LXEWzFi/BMf9x7TI4m7/j7gU3KeX8H6M8aPBgykeLw==
 
 "@typescript-eslint/eslint-plugin@5.48.2":
   version "5.48.2"

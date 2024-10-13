@@ -35,7 +35,7 @@
     "@angular/platform-server": "^17.3.12",
     "@angular/router": "^17.3.12",
     "@angular/ssr": "^17.3.10",
-    "@angular/youtube-player": "^15.2.6",
+    "@angular/youtube-player": "^18.2.8",
     "@apollo/client": "^3.8.3",
     "@apollo/server": "^4.9.3",
     "@capacitor/android": "^5.0.0",
