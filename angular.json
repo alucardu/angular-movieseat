@@ -34,7 +34,10 @@
               "src/app/components/UI/snackBar/snackBar.scss",
               "node_modules/normalize.css/normalize.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "email-validator"
+            ]
           },
           "configurations": {
             "production": {
