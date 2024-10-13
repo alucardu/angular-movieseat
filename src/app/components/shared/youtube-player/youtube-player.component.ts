@@ -91,9 +91,6 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
       // error
     });
 
-    window.screen.orientation.lock('landscape-primary').catch(() => {
-      // error
-    });
 
     this.initializeBackButtonListener();
 
@@ -104,9 +101,6 @@ export class YoutubePlayerComponent implements OnInit, AfterViewInit, OnDestroy 
   private async initializeBackButtonListener(): Promise<void> {
     this.backButtonListener = await CapacitorApp.addListener('backButton', () => {
       this.playerIsLoaded = true;
-      window.screen.orientation.lock('portrait-primary').catch(() => {
-        // error
-      })
       StatusBar.show().catch(() => {
         // error
       })

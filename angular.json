@@ -34,7 +34,10 @@
               "src/app/components/UI/snackBar/snackBar.scss",
               "node_modules/normalize.css/normalize.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "email-validator"
+            ]
           },
           "configurations": {
             "production": {
@@ -73,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-movieseat:build:production"
+              "buildTarget": "angular-movieseat:build:production"
             },
             "development": {
-              "browserTarget": "angular-movieseat:build:development"
+              "buildTarget": "angular-movieseat:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-movieseat:build"
+            "buildTarget": "angular-movieseat:build"
           }
         },
         "test": {
@@ -130,7 +133,7 @@
           "defaultConfiguration": "production"
         },
         "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "development": {
               "browserTarget": "angular-movieseat:build:development",
@@ -144,7 +147,7 @@
           "defaultConfiguration": "development"
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "options": {
             "routes": [
               "/"
